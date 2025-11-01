@@ -15,15 +15,12 @@ export default function Index() {
       const hasViewedOnboarding = await AsyncStorage.getItem('@viewedOnboarding');
       
       if (hasViewedOnboarding === 'true') {
-        // Đã xem onboarding, chuyển thẳng đến login
         router.replace('/login');
       } else {
-        // Chưa xem onboarding, chuyển đến onboarding
         router.replace('/onboarding');
       }
     } catch (error) {
       console.error('Error checking onboarding status:', error);
-      // Mặc định chuyển đến onboarding nếu có lỗi
       router.replace('/onboarding');
     }
   };
