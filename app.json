@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "cloneJira",
-    "slug": "cloneJira",
+    "slug": "clonejira",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -43,6 +43,19 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "8b35a3db-104a-41ac-9078-741b6c7b7007"
+      }
+    },
+    "owner": "hannd2308",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/8b35a3db-104a-41ac-9078-741b6c7b7007"
     }
   }
 }
