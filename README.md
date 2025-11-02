@@ -48,3 +48,15 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+3. Publish your app
+
+   ```bash
+   npm install --global eas-cli
+   npx expo login
+   eas init --id <your-project-id>
+   npx expo publish
+   eas update:configure
+   eas update --branch main --message ""
+   ```
+   
