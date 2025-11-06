@@ -52,7 +52,6 @@ Join our community of developers creating universal apps.
 3. Publish your app
 
    ```bash
-   npm install --global eas-cli
    npx expo login
    eas init --id <your-project-id>
    npx expo publish
