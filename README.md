@@ -53,9 +53,6 @@ Join our community of developers creating universal apps.
 
    ```bash
    npx expo login
-   eas init --id <your-project-id>
    npx expo publish
-   eas update:configure
-   eas update --branch main --message ""
    ```
    
