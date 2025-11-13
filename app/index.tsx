@@ -7,6 +7,7 @@ export default function Index() {
   const router = useRouter();
 
   useEffect(() => {
+    console.log('Checking onboarding status...');
     checkOnboardingStatus();
   }, []);
 
@@ -15,7 +16,7 @@ export default function Index() {
       const hasViewedOnboarding = await AsyncStorage.getItem('@viewedOnboarding');
 
       if (hasViewedOnboarding === 'true') {
-        router.replace('/onboarding');
+        router.replace('/login');
       } else {
         router.replace('/onboarding');
       }

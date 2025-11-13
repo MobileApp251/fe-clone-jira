@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "cloneJira",
+    "name": "test",
     "slug": "clonejira",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "clonejira",
+    "scheme": "test",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -47,15 +47,15 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "8b35a3db-104a-41ac-9078-741b6c7b7007"
+        "projectId": "67fefdfb-e017-4976-9a77-0b4a03a66a8c"
       }
     },
-    "owner": "hannd2308",
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/8b35a3db-104a-41ac-9078-741b6c7b7007"
-    }
+      "url": "https://u.expo.dev/67fefdfb-e017-4976-9a77-0b4a03a66a8c"
+    },
+    "owner": "hannd2308"
   }
 }

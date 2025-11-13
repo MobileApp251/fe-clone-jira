@@ -4,13 +4,19 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
 ## Get started
 
-1. Install dependencies
+1. Setup project
+
+   ```bash
+   npm run setup
+   ```
+
+2. Install dependencies
 
    ```bash
    npm install
    ```
 
-2. Start the app
+3. Start the app
 
    ```bash
    npx expo start
@@ -53,6 +59,7 @@ Join our community of developers creating universal apps.
 
    ```bash
    npx expo login
-   npx expo publish
+   eas init --id <project-id>
+   eas update --branch main -m ""
    ```
    
