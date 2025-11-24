@@ -31,6 +31,6 @@ jobs:
           token: ${{ secrets.EAS_TOKEN }}
 
       - name: 🚀 Publish OTA update
-        run: 
+        run: |
           COMMIT_MESSAGE=$(git log -1 --pretty=%B | head -n1)
           eas update --channel production --message "$COMMIT_MESSAGE" --non-interactive
