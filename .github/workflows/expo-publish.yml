@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: 🟢 Setup Node
         uses: actions/setup-node@v3
@@ -29,4 +31,6 @@ jobs:
           token: ${{ secrets.EAS_TOKEN }}
 
       - name: 🚀 Publish OTA update
-        run: eas update --channel production --message "Auto publish from GitHub Actions" --non-interactive
+        run: 
+          COMMIT_MESSAGE=$(git log -1 --pretty=%B | head -n1)
+          eas update --channel production --message "$COMMIT_MESSAGE" --non-interactive
