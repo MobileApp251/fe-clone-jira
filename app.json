@@ -47,15 +47,17 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "8b35a3db-104a-41ac-9078-741b6c7b7007"
+        "projectId": "45d05732-4541-4d3f-95e6-13be04ec443d"
       }
     },
-    "owner": "hannd2308",
+    "owner": "mobileapp251",
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/8b35a3db-104a-41ac-9078-741b6c7b7007"
+      "url": "https://u.expo.dev/45d05732-4541-4d3f-95e6-13be04ec443d",
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
     }
   }
 }

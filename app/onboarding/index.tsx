@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
+import LottieView from 'lottie-react-native';
 import React, { useRef, useState } from 'react';
 import {
   Dimensions,
@@ -17,18 +18,21 @@ const onboardingData = [
   {
     id: '1',
     title: 'Chào mừng đến với ứng dụng',
+    animation: require('../../assets/animations/onboarding1.json'),
     description:
       'Khám phá những tính năng tuyệt vời giúp cuộc sống của bạn dễ dàng hơn',
   },
   {
     id: '2',
     title: 'Dễ dàng sử dụng',
+    animation: require('../../assets/animations/onboarding2.json'),
     description:
       'Giao diện thân thiện, dễ dàng thao tác và quản lý công việc hàng ngày',
   },
   {
     id: '3',
     title: 'Bắt đầu ngay',
+    animation: require('../../assets/animations/onboarding3.json'),
     description:
       'Đăng nhập và trải nghiệm tất cả các tính năng tuyệt vời của chúng tôi',
   },
@@ -79,6 +83,12 @@ export default function Onboarding() {
         data={onboardingData}
         renderItem={({ item }) => (
           <View style={styles.slide}>
+            <LottieView
+              source={item.animation}
+              autoPlay
+              loop
+              style={styles.animation}
+            />
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.description}>{item.description}</Text>
           </View>
@@ -119,6 +129,7 @@ export default function Onboarding() {
 }
 
 // -------------------- STYLES --------------------
+const screenWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   slide: {
     width,
@@ -133,6 +144,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     color: '#333',
   },
+  animation: {
+    width: screenWidth * 0.7,
+    height: screenWidth * 0.7,
+  },
   description: {
     fontSize: 16,
     textAlign: 'center',
@@ -142,10 +157,15 @@ const styles = StyleSheet.create({
 
   skipButtonTop: {
     position: 'absolute',
-    top: 50,
+    top: 60,
     right: 20,
     zIndex: 2,
     padding: 8,
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderColor: '#666',
+    borderWidth: 1,
+    borderRadius: 20,
   },
   skipText: {
     fontSize: 16,
