@@ -29,7 +29,6 @@ You can start developing by editing the files inside the **app** directory. This
 
    ```bash
    npx expo login
-   npx expo publish
    eas init --id <project-id>
    eas update --branch main -m "Message"
    ```
