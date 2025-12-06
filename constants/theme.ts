@@ -10,12 +10,13 @@ const tintColorDark = '#fff';
 
 export const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+    primary: '#005BAC',
+    primary_light: '#E6F0FA',
+    background: '#FFFFFF',
+    surface: '#F5F7FA',
+    text_primary: '#212121',
+    text_secondary: '#616161',
+    border: '#E0E0E0',
   },
   dark: {
     text: '#ECEDEE',
@@ -25,6 +26,13 @@ export const Colors = {
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
   },
+};
+
+export const typography = {
+  regular: "Poppins-Regular",
+  medium: "Poppins-Medium",
+  semibold: "Poppins-SemiBold",
+  bold: "Poppins-Bold",
 };
 
 export const Fonts = Platform.select({
