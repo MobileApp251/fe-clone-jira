@@ -1,66 +1,46 @@
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import LottieView from 'lottie-react-native';
+import React from 'react';
 import {
-    Alert,
-    KeyboardAvoidingView,
-    Platform,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 
+import { Colors } from '@/constants/theme';
+
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const router = useRouter();
 
   const handleLogin = () => {
-    if (!email || !password) {
-      Alert.alert('Lỗi', 'Vui lòng nhập email và mật khẩu');
-      return;
-    }
-
-    // Xử lý login logic ở đây
-    console.log('Login attempt:', { email, password });
-    
-    // Sau khi login thành công, chuyển hướng đến màn hình chính
-    // router.replace('/home');
-    Alert.alert('Thành công', 'Đăng nhập thành công!');
+    router.push('/dashboard');
   };
 
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
+      <View style={styles.topBar}>
+        <Text style={styles.headerText}>CloneJira</Text>
+      </View>
       <View style={styles.content}>
-        <Text style={styles.title}>Đăng nhập</Text>
-        
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
+        <LottieView
+          source={require('../../assets/animations/register.json')}
+          autoPlay
+          loop
+          style={styles.animation}
         />
-        
-        <TextInput
-          style={styles.input}
-          placeholder="Mật khẩu"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-        
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>Đăng nhập</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.forgotPassword}>
-          <Text style={styles.forgotPasswordText}>Quên mật khẩu?</Text>
+          <Image
+            source={require('@/assets/images/icons8-google-48.png')}
+            style={styles.googleIcon}
+          />
+          <Text style={styles.loginButtonText}>Login with Google account</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -68,6 +48,10 @@ export default function Login() {
 }
 
 const styles = StyleSheet.create({
+  animation: {
+    height: '30%',
+    width: '70%',
+  },
   container: {
     flex: 1,
     backgroundColor: 'white',
@@ -75,14 +59,15 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 24,
   },
   title: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 40,
-    color: '#333',
+    marginBottom: 200,
+    color: Colors.light.text_primary,
   },
   input: {
     borderWidth: 1,
@@ -93,16 +78,28 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   loginButton: {
-    backgroundColor: '#007AFF',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 40,
+    backgroundColor: Colors.light.primary,
     padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
+    paddingLeft: 40,
+    paddingRight: 40,
+    borderRadius: 20,
     marginTop: 20,
+  },
+  googleIcon: {
+    width: 40,
+    height: 40,
+    resizeMode: "contain",
+    backgroundColor: 'white',
+    borderRadius: 50
   },
   loginButtonText: {
     color: 'white',
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
   forgotPassword: {
     alignItems: 'center',
@@ -111,5 +108,25 @@ const styles = StyleSheet.create({
   forgotPasswordText: {
     color: '#007AFF',
     fontSize: 16,
+  },
+  topBar: {
+    width: '100%',
+    paddingHorizontal: 20,
+    marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  headerText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    position: 'absolute',
+    top: 60,
+    left: 20,
+    zIndex: 2,
+    padding: 8,
+    paddingLeft: 20,
+    paddingRight: 20,
+    color: Colors.light.primary,
   },
 });
