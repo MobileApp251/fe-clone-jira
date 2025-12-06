@@ -1,3 +1,4 @@
+import { Colors } from '@/constants/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
@@ -12,29 +13,39 @@ import {
   View,
 } from 'react-native';
 
+
 const { width } = Dimensions.get('window');
 
 const onboardingData = [
   {
     id: '1',
-    title: 'Chào mừng đến với ứng dụng',
+    title: 'CloneJira',
+    subtitle: 'No deadline behind',
     animation: require('../../assets/animations/onboarding1.json'),
-    description:
-      'Khám phá những tính năng tuyệt vời giúp cuộc sống của bạn dễ dàng hơn',
+    subsubtitle:
+      'Wellcome to CloneJira',
+    description: 'Oraganize projects, collaborate with your team, and track work easily'
   },
   {
     id: '2',
-    title: 'Dễ dàng sử dụng',
+    title: 'Manage Your Projects',
     animation: require('../../assets/animations/onboarding2.json'),
     description:
-      'Giao diện thân thiện, dễ dàng thao tác và quản lý công việc hàng ngày',
+      'Manage all your projects in one place with clear structure and visibility',
   },
   {
     id: '3',
-    title: 'Bắt đầu ngay',
+    title: 'Stay On Schedule',
     animation: require('../../assets/animations/onboarding3.json'),
     description:
-      'Đăng nhập và trải nghiệm tất cả các tính năng tuyệt vời của chúng tôi',
+      'Stay ahead of your schedule with automatic deadline alerts',
+  },
+  {
+    id: '4',
+    title: 'You\'re All Set!',
+    animation: require('../../assets/animations/onboarding4.json'),
+    description:
+      'Start managing your work with ease',
   },
 ];
 
@@ -71,10 +82,14 @@ export default function Onboarding() {
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
 
-      {currentIndex < onboardingData.length - 1 && (
-        <TouchableOpacity style={styles.skipButtonTop} onPress={handleSkip}>
-          <Text style={styles.skipText}>Bỏ qua</Text>
-        </TouchableOpacity>
+      {currentIndex < onboardingData.length && (
+        <View style={styles.topBar}>
+          <Text style={styles.headerText}>CloneJira</Text>
+
+          <TouchableOpacity style={styles.skipButtonTop} onPress={handleSkip}>
+            <Text style={styles.skipText}>Bỏ qua</Text>
+          </TouchableOpacity>
+        </View>
       )}
 
       {/* FlatList hiển thị nội dung onboarding */}
@@ -90,6 +105,12 @@ export default function Onboarding() {
               style={styles.animation}
             />
             <Text style={styles.title}>{item.title}</Text>
+            {item.subtitle ? (
+              <Text style={styles.subtitle}>{item.subtitle}</Text>
+            ) : null}
+            {item.subsubtitle ? (
+              <Text style={styles.subsubtitle}>{item.subsubtitle}</Text>
+            ) : null}
             <Text style={styles.description}>{item.description}</Text>
           </View>
         )}
@@ -131,6 +152,26 @@ export default function Onboarding() {
 // -------------------- STYLES --------------------
 const screenWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
+  topBar: {
+    width: '100%',
+    paddingHorizontal: 20,
+    marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  headerText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    position: 'absolute',
+    top: 60,
+    left: 20,
+    zIndex: 2,
+    padding: 8,
+    paddingLeft: 20,
+    paddingRight: 20,
+    color: Colors.light.primary,
+  },
   slide: {
     width,
     justifyContent: 'center',
@@ -138,17 +179,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   title: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 16,
-    color: '#333',
+    marginBottom: 0,
+    color: Colors.light.primary
+  },
+  subtitle: {
+    fontSize: 16,
+    color: Colors.light.primary,
+    marginBottom: 50
+  },
+  subsubtitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: Colors.light.text_primary,
   },
   animation: {
     width: screenWidth * 0.7,
     height: screenWidth * 0.7,
   },
   description: {
+    marginTop: 40,
     fontSize: 16,
     textAlign: 'center',
     color: '#666',
