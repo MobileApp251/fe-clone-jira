@@ -1,14 +1,16 @@
+import Header from "@/components/header/Header";
 import { Stack } from "expo-router";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 export default function Layout() {
     return (
-        <View style={{ flex: 1 }}>
-            <Text style={{ marginTop: 60, textAlign: "center" }}>Layout Header</Text>
+        <View style={{ flex: 1 }} className="bg-white">
+            <Header />
 
             <Stack
                 screenOptions={{
                     headerShown: false,
+                    contentStyle: { backgroundColor: 'white' }
                 }}
             />
         </View>
