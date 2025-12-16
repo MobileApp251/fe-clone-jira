@@ -19,6 +19,24 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Light theme
+        lightPrimary: '#005BAC',
+        lightPrimaryLight: '#E6F0FA',
+        // lightBackground: Colors.light.background,
+        // lightSurface: Colors.light.surface,
+        // lightTextPrimary: Colors.light.text_primary,
+        // lightTextSecondary: Colors.light.text_secondary,
+        // lightBorder: Colors.light.border,
+
+        // Dark theme
+        darkPrimary: '#4DA3FF',
+        darkPrimaryLight: '#1A2E40',
+        // darkBackground: Colors.dark.background,
+        // darkSurface: Colors.dark.surface,
+        // darkTextPrimary: Colors.dark.text_primary,
+        // darkTextSecondary: Colors.dark.text_secondary,
+        // darkBorder: Colors.dark.border,
+        
         primary: {
           0: 'rgb(var(--color-primary-0)/<alpha-value>)',
           50: 'rgb(var(--color-primary-50)/<alpha-value>)',
