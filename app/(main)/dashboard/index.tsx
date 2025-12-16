@@ -16,7 +16,7 @@ export default function Dashboard() {
 
     return (
         <View>
-        <WorkSwitch />
+            <WorkSwitch />
         </View>
     );
 }

@@ -4,8 +4,4 @@
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
   },
-  "cSpell.words": [
-    "gluestack",
-    "Pressable"
-  ]
 }
