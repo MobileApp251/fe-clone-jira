@@ -4,7 +4,7 @@ import { View } from "react-native";
 
 export default function Layout() {
     return (
-        <View style={{ flex: 1 }} className="bg-white">
+        <View className="bg-white flex-1">
             <Header />
 
             <Stack
