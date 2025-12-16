@@ -15,7 +15,7 @@ export default function Dashboard() {
     }
 
     return (
-        <View>
+        <View className="flex-1">
             <WorkSwitch />
         </View>
     );

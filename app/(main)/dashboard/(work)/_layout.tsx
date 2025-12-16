@@ -5,9 +5,9 @@ import { Slot } from "expo-router";
 
 export default function WorkLayout() {
     return (
-        <Box>
+        <Box className="flex-1">
             <WorkSwitch/>
-            <Box className="py-4">
+            <Box className="py-4 flex-1">
                 <Slot />
             </Box>
         </Box>

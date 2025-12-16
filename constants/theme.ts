@@ -24,6 +24,12 @@ export const Colors = {
     text_secondary: '#B0B0B0',
     border: '#333333',
   },
+  card: {
+    in_progress: '#FFEDB3',
+    up_comming: '#FFFFFF',
+    done: '#C2EAFC',
+    due: '#F6BAB9'
+  }
 };
 
 export const typography = {

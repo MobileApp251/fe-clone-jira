@@ -26,16 +26,18 @@ module.exports = {
         // lightSurface: Colors.light.surface,
         // lightTextPrimary: Colors.light.text_primary,
         // lightTextSecondary: Colors.light.text_secondary,
-        // lightBorder: Colors.light.border,
+        lightBorder: '#E0E0E0',
+        
+        inprogress: '#FFC300',
 
         // Dark theme
         darkPrimary: '#4DA3FF',
         darkPrimaryLight: '#1A2E40',
         // darkBackground: Colors.dark.background,
         // darkSurface: Colors.dark.surface,
-        // darkTextPrimary: Colors.dark.text_primary,
+        darkTextPrimary: '#212121',
         // darkTextSecondary: Colors.dark.text_secondary,
-        // darkBorder: Colors.dark.border,
+        darkBorder: '#333333',
         
         primary: {
           0: 'rgb(var(--color-primary-0)/<alpha-value>)',

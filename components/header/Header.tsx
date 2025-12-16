@@ -1,7 +1,6 @@
-import { Colors } from '@/constants/theme';
-
 import { Center } from '@/components/ui/center';
 import { Divider } from '@/components/ui/divider';
+import { Colors } from '@/constants/theme';
 import { Avatar, AvatarImage, Text } from '@gluestack-ui/themed';
 import { Bell, User } from 'lucide-react-native';
 import { TouchableOpacity, View } from 'react-native';
@@ -58,9 +57,7 @@ export default function Header() {
                     )}
                 </View>
             </View>
-            <Divider className="my-4 w-[90%]"
-                style={{ backgroundColor: Colors.light.border }}
-            />
+            <Divider className="my-4 w-[90%] bg-lightBorder" />
         </Center>
     )
 }
