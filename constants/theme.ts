@@ -19,12 +19,13 @@ export const Colors = {
     border: '#E0E0E0',
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+    primary: '#4DA3FF',
+    primary_light: '#1A2E40',
+    background: '#0D0D0D',
+    surface: '#1A1A1A',
+    text_primary: '#FFFFFF',
+    text_secondary: '#B0B0B0',
+    border: '#333333',
   },
 };
 

@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
+import { useTheme } from '../providers/ThemeProvider';
 
 const { width } = Dimensions.get('window');
 
@@ -53,6 +53,7 @@ export default function Onboarding() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
   const router = useRouter();
+  const { colors } = useTheme();
 
   const handleNext = async () => {
     if (currentIndex < onboardingData.length - 1) {
