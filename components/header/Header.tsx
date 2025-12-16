@@ -14,7 +14,7 @@ export default function Header() {
     const notificationCount = 3;
 
     return (
-        <Center className='mt-20'>
+        <Center className='mt-10'>
             <View className="flex-row justify-between items-center px-5">
                 <View className="flex-row items-center flex-1 items-center">
                     <Avatar className="w-14 h-14 rounded-full mr-3">
@@ -46,7 +46,7 @@ export default function Header() {
                             console.log('Notification pressed');
                         }}
                         >
-                        <Bell size={24} color="#333" />
+                        <Bell size={24} color={Colors.light.primary} />
                     </TouchableOpacity>
                     
                     {notificationCount > 0 && (
