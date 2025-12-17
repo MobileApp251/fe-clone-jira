@@ -58,6 +58,9 @@ export default function Login() {
     await promptAsync();
   };
   
+  const handleContinueLogin = () => {
+    router.replace('/dashboard')
+  }
 
   return (
     <KeyboardAvoidingView
@@ -88,6 +91,9 @@ export default function Login() {
           <Text style={styles.loginButtonText}>
             Login with Google account
           </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleContinueLogin}>
+          <Text>Continue without login</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
