@@ -1,7 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as AuthSession from 'expo-auth-session';
+import { makeRedirectUri } from 'expo-auth-session';
 import { useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
+
+console.log('Redirect URI:', AuthSession.makeRedirectUri());
+console.log('Redirect URI của bạn là:', makeRedirectUri());
 
 export default function Index() {
   const router = useRouter();

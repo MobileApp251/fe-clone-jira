@@ -1,7 +1,10 @@
+import * as Google from 'expo-auth-session/providers/google';
 import { useRouter } from 'expo-router';
+import * as WebBrowser from 'expo-web-browser';
 import LottieView from 'lottie-react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
+  Alert,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -11,14 +14,50 @@ import {
   View
 } from 'react-native';
 
+
 import { Colors } from '@/constants/theme';
+import { ResponseType } from 'expo-auth-session';
+
+WebBrowser.maybeCompleteAuthSession();
 
 export default function Login() {
   const router = useRouter();
+  
 
-  const handleLogin = () => {
-    router.replace('/dashboard');
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    clientId: '838025556290-csiqqqd721dhpupsv5pnf0aro07sfv6e.apps.googleusercontent.com',
+    scopes: ['profile', 'email'],
+    responseType: 'id_token',
+  });
+  if (request) {
+  console.log('Redirect URI (tự động tạo):', request.redirectUri, " ", ResponseType.IdToken);
+}
+
+  useEffect(() => {
+    console.log(response?.type)
+    if (response?.type === 'success') {
+      const { authentication } = response;
+
+      console.log('ACCESS TOKEN:', authentication?.accessToken);
+
+      Alert.alert('Thành công', 'Đã đăng nhập với Google!', [
+        {
+          text: 'OK',
+          onPress: () => router.replace('/dashboard'),
+        },
+      ]);
+    }
+
+    if (response?.type === 'error') {
+      console.error('Lỗi đăng nhập:', response.error);
+      Alert.alert('Lỗi', 'Đăng nhập Google thất bại');
+    }
+  }, [response]);
+
+  const handleLogin = async () => {
+    await promptAsync();
   };
+  
 
   return (
     <KeyboardAvoidingView
@@ -28,6 +67,7 @@ export default function Login() {
       <View style={styles.topBar}>
         <Text style={styles.headerText}>CloneJira</Text>
       </View>
+
       <View style={styles.content}>
         <LottieView
           source={require('../../assets/animations/register.json')}
@@ -35,17 +75,25 @@ export default function Login() {
           loop
           style={styles.animation}
         />
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+
+        <TouchableOpacity
+          style={styles.loginButton}
+          onPress={handleLogin}
+          disabled={!request}
+        >
           <Image
             source={require('@/assets/images/icons8-google-48.png')}
             style={styles.googleIcon}
           />
-          <Text style={styles.loginButtonText}>Login with Google account</Text>
+          <Text style={styles.loginButtonText}>
+            Login with Google account
+          </Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
 }
+
 
 const styles = StyleSheet.create({
   animation: {
