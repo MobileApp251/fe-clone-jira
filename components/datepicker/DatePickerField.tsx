@@ -6,8 +6,21 @@ import { useState } from "react";
 import { Modal, Pressable, View } from "react-native";
 import DatePicker, { DateType, useDefaultClassNames } from 'react-native-ui-datepicker';
 
-export default function DatePickerField({ label }: { label: string; }) {
-	const [date, setDate] = useState<DateType>();
+type Props = {
+	date?: DateType;
+	setDate: React.Dispatch<React.SetStateAction<DateType | undefined>>;
+	label: string;
+	minDate?: DateType;
+	maxDate?: DateType;
+};
+
+export default function DatePickerField({
+	date,
+	setDate,
+	label,
+	minDate,
+	maxDate
+}: Props) {
 	const [show, setShow] = useState(false);
 	const [tempDate, setTempDate] = useState<DateType>();
 
@@ -62,6 +75,8 @@ export default function DatePickerField({ label }: { label: string; }) {
 								onChange={({ date }) => {
 									setTempDate(date);
 								}}
+								minDate={minDate}
+								maxDate={maxDate}
 								navigationPosition="right"
 								classNames={{
 									...defaultClassNames,
