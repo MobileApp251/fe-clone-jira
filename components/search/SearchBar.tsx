@@ -12,11 +12,12 @@ import { TouchableOpacity } from "react-native";
 
 type Props = {
     onFilterPress: () => void;
+    page: "project" | "task";
 };
 
-export default function SearchBar({onFilterPress}: Props) {
+export default function SearchBar({ page, onFilterPress }: Props) {
     return (
-        <HStack space="sm" className="items-center">
+        <HStack space="sm" className="items-center mx-6">
             <Box className="flex-1">
                 <Input
                     variant="outline"
@@ -27,20 +28,22 @@ export default function SearchBar({onFilterPress}: Props) {
                         <InputIcon as={Search} />
                     </InputSlot>
                     <InputField
-                        placeholder="Search..."
-                        className="pl-2"
+                        placeholder="Enter text here..."
+                        className="pl-2 text-darkTextPrimary"
                     />
                 </Input>
             </Box>
+            {(page === "project") && (
+                <Box className="w-12 h-12" >
+                    <TouchableOpacity className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
+                        <Plus size={22} color={Colors.light.primary} />
+                    </TouchableOpacity>
+                </Box>
+            )}
+
 
             <Box className="w-12 h-12">
-                <TouchableOpacity className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
-                    <Plus size={22} color={Colors.light.primary} />
-                </TouchableOpacity>
-            </Box>
-
-            <Box className="w-12 h-12">
-                <TouchableOpacity 
+                <TouchableOpacity
                     onPress={onFilterPress}
                     className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
                     <Filter size={22} color={Colors.light.primary} />

@@ -30,7 +30,7 @@ const WorkSwitch = () => {
     );
 
     return (
-        <Box className="bg-lightPrimaryLight items-center p-2 rounded-xl">
+        <Box className="bg-lightPrimaryLight items-center mx-6 p-2 rounded-xl">
             <HStack space="sm" reversed={false}>
                 <Box className="flex-1 h-12 rounded-lg overflow-hidden">
                     <Tab
@@ -39,7 +39,7 @@ const WorkSwitch = () => {
                         onPress={() => router.push("/(main)/dashboard/(work)/projects")}
                     />
                 </Box>
-                <Box className="flex-1 h-12 rounded-lg overflow-hidden"> 
+                <Box className="flex-1 h-12 rounded-lg overflow-hidden">
                     <Tab
                         label="My tasks"
                         active={isTasks}
