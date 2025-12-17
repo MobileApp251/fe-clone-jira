@@ -27,8 +27,11 @@ module.exports = {
         // lightTextPrimary: Colors.light.text_primary,
         // lightTextSecondary: Colors.light.text_secondary,
         lightBorder: '#E0E0E0',
+        inputBorder: '#AAD2F4',
+        
 
         inprogress: '#FFC300',
+        indanger: '#E53935',
 
         // Dark theme
         darkPrimary: '#4DA3FF',

@@ -24,7 +24,7 @@ export const projects = [
     description:
       "Sed ut perspiciatis unde omnis iste natus error sit voluptatem.",
     members: 2,
-    status: "UpComming",
+    status: "Up Comming",
     endDate: "10/01/2026",
   },{
     id: "4",

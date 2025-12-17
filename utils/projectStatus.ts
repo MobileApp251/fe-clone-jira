@@ -16,7 +16,7 @@ export const PROJECT_STATUS_STYLE: Record<
     iconColor: Colors.light.text_primary,
     icon: Play,
   },
-  "UpComming": {
+  "Up Comming": {
     bg: Colors.card.up_comming,
     text: Colors.light.text_primary,
     iconColor: Colors.light.text_primary,

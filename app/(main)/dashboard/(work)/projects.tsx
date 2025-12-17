@@ -1,4 +1,5 @@
 import ProjectCard from "@/components/card/ProjectCard";
+import CreateProjectModal from "@/components/project/Create";
 import ProjectFilter from "@/components/search/FilterPanel";
 import SearchBar from "@/components/search/SearchBar";
 import { Box } from "@/components/ui/box";
@@ -8,11 +9,18 @@ import { projects } from "./project_data";
 
 export default function ProjectsScreen() {
     const [showFilter, setShowFilter] = useState(false);
-
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    
     return (
         <Box className="flex-1">
-            <SearchBar page="project" onFilterPress={() => setShowFilter((prev) => !prev)} />
-
+            <SearchBar 
+                onCreatePress={() => setShowCreateModal((prev) => !prev)}
+                onFilterPress={() => setShowFilter((prev) => !prev)}/>
+            
+            <CreateProjectModal 
+                visible={showCreateModal}
+                onClose={() => setShowCreateModal(false)}
+            />
             {showFilter && <ProjectFilter />}
 
             <FlatList

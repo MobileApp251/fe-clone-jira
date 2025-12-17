@@ -29,6 +29,9 @@ export const Colors = {
     up_comming: '#FFFFFF',
     done: '#C2EAFC',
     due: '#F6BAB9'
+  },
+  status: {
+    danger: '#E53935',
   }
 };
 
