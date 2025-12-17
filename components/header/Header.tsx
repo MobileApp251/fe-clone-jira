@@ -2,6 +2,7 @@ import { Center } from '@/components/ui/center';
 import { Divider } from '@/components/ui/divider';
 import { Colors } from '@/constants/theme';
 import { Avatar, AvatarImage, Text } from '@gluestack-ui/themed';
+import { usePathname, useRouter } from 'expo-router';
 import { Bell, User } from 'lucide-react-native';
 import { TouchableOpacity, View } from 'react-native';
 
@@ -11,6 +12,8 @@ export default function Header() {
         avatar: '',
     };
     const notificationCount = 3;
+    const router = useRouter();
+    const pathname = usePathname();
 
     return (
         <Center className='mt-16'>
@@ -42,7 +45,8 @@ export default function Header() {
                     <TouchableOpacity
                         className="w-14 h-14 rounded-full items-center justify-center bg-lightPrimaryLight"
                         onPress={() => {
-                            console.log('Notification pressed');
+                            if (pathname === "/notification") return;
+                            router.push("/notification")
                         }}
                     >
                         <Bell size={24} color={Colors.light.primary} />
