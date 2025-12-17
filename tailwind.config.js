@@ -27,7 +27,7 @@ module.exports = {
         // lightTextPrimary: Colors.light.text_primary,
         // lightTextSecondary: Colors.light.text_secondary,
         lightBorder: '#E0E0E0',
-        
+
         inprogress: '#FFC300',
 
         // Dark theme
@@ -38,7 +38,7 @@ module.exports = {
         darkTextPrimary: '#212121',
         // darkTextSecondary: Colors.dark.text_secondary,
         darkBorder: '#333333',
-        
+
         primary: {
           0: 'rgb(var(--color-primary-0)/<alpha-value>)',
           50: 'rgb(var(--color-primary-50)/<alpha-value>)',

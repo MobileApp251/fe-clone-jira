@@ -6,11 +6,11 @@ import { Users } from "lucide-react-native";
 import { PROJECT_STATUS_STYLE } from "@/utils/projectStatus";
 
 type Props = {
-    title: string;
-    description: string;
-    members: number;
-    status: string;
-    endDate: string;
+  title: string;
+  description: string;
+  members: number;
+  status: string;
+  endDate: string;
 };
 
 export default function ProjectCard({
@@ -28,18 +28,18 @@ export default function ProjectCard({
 
   return (
     <Box
-      className="rounded-2xl p-4 mb-4 shadow-sm"
-      style={{ 
+      className="rounded-2xl p-4 mb-4 mx-6 shadow-sm"
+      style={{
         backgroundColor: style.bg,
         // iOS
         shadowColor: "#000",
-        shadowOffset: { width: 3, height: 3 },
+        shadowOffset: { width: 5, height: 5 },
         shadowOpacity: 0.15,
-        shadowRadius: 8,
+        shadowRadius: 3,
 
         // Android shadow
         elevation: 3,
-       }}
+      }}
     >
       <HStack className="justify-between items-center">
         <Text className="text-lg font-semibold" style={{ color: style.text }}>

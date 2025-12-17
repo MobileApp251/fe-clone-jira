@@ -8,13 +8,13 @@ import { projects } from "./project_data";
 
 export default function ProjectsScreen() {
     const [showFilter, setShowFilter] = useState(false);
-    
+
     return (
         <Box className="flex-1">
-            <SearchBar onFilterPress={()=> setShowFilter((prev) => !prev)}/>
-            
+            <SearchBar page="project" onFilterPress={() => setShowFilter((prev) => !prev)} />
+
             {showFilter && <ProjectFilter />}
-            
+
             <FlatList
                 className="mt-4"
                 data={projects}
