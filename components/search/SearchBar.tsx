@@ -10,7 +10,11 @@ import { Colors } from "@/constants/theme";
 import { Filter, Plus, Search } from "lucide-react-native";
 import { TouchableOpacity } from "react-native";
 
-export default function SearchBar() {
+type Props = {
+    onFilterPress: () => void;
+};
+
+export default function SearchBar({onFilterPress}: Props) {
     return (
         <HStack space="sm" className="items-center">
             <Box className="flex-1">
@@ -23,24 +27,22 @@ export default function SearchBar() {
                         <InputIcon as={Search} />
                     </InputSlot>
                     <InputField
-                        placeholder="Enter text here..."
+                        placeholder="Search..."
                         className="pl-2"
                     />
                 </Input>
             </Box>
 
             <Box className="w-12 h-12">
-                <TouchableOpacity
-                    className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary"
-                >
+                <TouchableOpacity className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
                     <Plus size={22} color={Colors.light.primary} />
                 </TouchableOpacity>
             </Box>
 
             <Box className="w-12 h-12">
-                <TouchableOpacity
-                    className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary"
-                >
+                <TouchableOpacity 
+                    onPress={onFilterPress}
+                    className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
                     <Filter size={22} color={Colors.light.primary} />
                 </TouchableOpacity>
             </Box>

@@ -1,13 +1,20 @@
 import ProjectCard from "@/components/card/ProjectCard";
+import ProjectFilter from "@/components/search/FilterPanel";
 import SearchBar from "@/components/search/SearchBar";
 import { Box } from "@/components/ui/box";
+import { useState } from "react";
 import { FlatList } from "react-native";
 import { projects } from "./project_data";
 
 export default function ProjectsScreen() {
+    const [showFilter, setShowFilter] = useState(false);
+    
     return (
         <Box className="flex-1">
-            <SearchBar></SearchBar>
+            <SearchBar onFilterPress={()=> setShowFilter((prev) => !prev)}/>
+            
+            {showFilter && <ProjectFilter />}
+            
             <FlatList
                 className="mt-4"
                 data={projects}
