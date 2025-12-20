@@ -72,51 +72,34 @@ export default function TaskCard({
                         >
                             {priority}
                         </Text>
-                </HStack>
-            </HStack>
-
-            <HStack className="mt-3 items-start">
-                <Box className={inProject ? "flex-1 pr-3" : "w-full"}>
-                    <Text
-                    className="text-sm leading-5"
-                    style={{ color: style.text }}
-                    numberOfLines={inProject ? 2 : undefined}
-                    >
-                    {description}
-                    </Text>
-                </Box>
-
-                {inProject && (
-                    <HStack space="xs" className="items-center">
-                    {[1, 2, 3].map((_, index) => (
-                        <Box
-                            key={index}
-                            className="w-8 h-8 rounded-full bg-inputBorder items-center justify-center"
-                        >
-                            <User size={16} color={Colors.light.primary} />
-                        </Box>
-                    ))}
                     </HStack>
-                )}
-            </HStack>
-
-
-            <Box className="h-[1px] bg-gray-300 my-3" />
-
-            <HStack className="justify-between items-center">
-                <HStack space="sm" className="items-center">
-                    <StatusIcon size={16} color={style.iconColor} />
-                    <Text className="text-sm font-medium" style={{ color: style.text }}>
-                        {status}
-                    </Text>
                 </HStack>
 
-                <Text
-                    className="text-sm mt-2 leading-5"
-                    style={{ color: style.text }}
-                >
-                    {description}
-                </Text>
+                <HStack className="mt-3 items-start">
+                    <Box className={inProject ? "flex-1 pr-3" : "w-full"}>
+                        <Text
+                        className="text-sm leading-5"
+                        style={{ color: style.text }}
+                        numberOfLines={inProject ? 2 : undefined}
+                        >
+                        {description}
+                        </Text>
+                    </Box>
+
+                    {inProject && (
+                        <HStack space="xs" className="items-center">
+                        {[1, 2, 3].map((_, index) => (
+                            <Box
+                                key={index}
+                                className="w-8 h-8 rounded-full bg-inputBorder items-center justify-center"
+                            >
+                                <User size={16} color={Colors.light.primary} />
+                            </Box>
+                        ))}
+                        </HStack>
+                    )}
+                </HStack>
+
 
                 <Box className="h-[1px] bg-gray-300 my-3" />
 
@@ -128,11 +111,12 @@ export default function TaskCard({
                         </Text>
                     </HStack>
 
+                    
+
                     <Text className="text-sm text-darkTextPrimary">
                         Due date: {endDate}
                     </Text>
                 </HStack>
-            </HStack>
             </Box>
         </Pressable>
     );
