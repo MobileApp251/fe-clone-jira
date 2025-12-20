@@ -82,6 +82,7 @@ export default function ProjectDetail() {
                     }
                 >
                     <TaskCard
+                        id={item.id}
                         title={item.title}
                         description={item.description}
                         priority={item.priority}
