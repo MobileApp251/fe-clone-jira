@@ -11,8 +11,8 @@ import { Filter, Plus, Search } from "lucide-react-native";
 import { TouchableOpacity } from "react-native";
 
 type Props = {
-    onFilterPress: () => void;
-    page: "project" | "task";
+    onFilterPress?: () => void;
+    page: "project" | "task" | 'onlySearch';
     onCreatePress?: () => void;
 };
 
@@ -34,23 +34,26 @@ export default function SearchBar({onFilterPress, onCreatePress, page}: Props) {
                     />
                 </Input>
             </Box>
-            {(page === "project") && (
-                <Box className="w-12 h-12" >
-                    <TouchableOpacity 
-                        onPress={onCreatePress}
-                        className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
-                        <Plus size={22} color={Colors.light.primary} />
-                    </TouchableOpacity>
-                </Box>
-            )}
+            {(page !== 'onlySearch') && (
+                <>
+                    {(page === "project") && (
+                    <Box className="w-12 h-12" >
+                        <TouchableOpacity 
+                            onPress={onCreatePress}
+                            className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
+                            <Plus size={22} color={Colors.light.primary} />
+                        </TouchableOpacity>
+                    </Box>
+                    )}
 
-            <Box className="w-12 h-12">
-                <TouchableOpacity
-                    onPress={onFilterPress}
-                    className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
-                    <Filter size={22} color={Colors.light.primary} />
-                </TouchableOpacity>
-            </Box>
+                    <Box className="w-12 h-12">
+                        <TouchableOpacity
+                            onPress={onFilterPress}
+                            className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
+                            <Filter size={22} color={Colors.light.primary} />
+                        </TouchableOpacity>
+                    </Box>
+                </>)}
         </HStack>
     );
 }
