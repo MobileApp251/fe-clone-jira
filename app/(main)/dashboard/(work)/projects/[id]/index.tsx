@@ -1,9 +1,9 @@
 import { useLocalSearchParams } from "expo-router";
-import { View } from "lucide-react-native";
+import { Text } from "react-native";
 
 export default function ProjectDetail() {
     const { id } = useLocalSearchParams<{ id: string }>();
     return (
-        <View>Project Detail: {id}</View>
+        <Text>Project detail: {id}</Text>
     )
-}
+} 

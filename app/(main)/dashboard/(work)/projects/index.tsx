@@ -3,13 +3,16 @@ import CreateProjectModal from "@/components/project/Create";
 import ProjectFilter from "@/components/search/FilterPanel";
 import SearchBar from "@/components/search/SearchBar";
 import { Box } from "@/components/ui/box";
+import { router } from "expo-router";
 import { useState } from "react";
-import { FlatList } from "react-native";
+import { FlatList, Pressable } from "react-native";
 import { projects } from "./project_data";
 
 export default function ProjectsScreen() {
+
     const [showFilter, setShowFilter] = useState(false);
     const [showCreateModal, setShowCreateModal] = useState(false);
+
     
     return (
         <Box className="flex-1">
@@ -34,13 +37,17 @@ export default function ProjectsScreen() {
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
-                    <ProjectCard
-                        title={item.title}
-                        description={item.description}
-                        members={item.members}
-                        status={item.status}
-                        endDate={item.endDate}
-                    />
+                    <Pressable
+                        onPress={() => router.push(`/(main)/dashboard/(work)/projects/${item.id}`)}
+                        >
+                        <ProjectCard
+                            title={item.title}
+                            description={item.description}
+                            members={item.members}
+                            status={item.status}
+                            endDate={item.endDate}
+                        />
+                    </Pressable>
                 )}
             />
         </Box>
