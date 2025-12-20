@@ -4,8 +4,11 @@ import { Text } from "@/components/ui/text";
 
 import { PROJECT_STATUS_STYLE } from "@/utils/projectStatus";
 import { priorityStyles } from "@/utils/taskStatus";
+import { useRouter } from "expo-router";
+import { Pressable } from "react-native";
 
 type Props = {
+    id: string;
     title: string;
     description: string;
     priority: string;
@@ -14,6 +17,7 @@ type Props = {
 };
 
 export default function TaskCard({
+    id,
     title,
     description,
     priority,
@@ -24,62 +28,72 @@ export default function TaskCard({
         PROJECT_STATUS_STYLE[status] ??
         PROJECT_STATUS_STYLE["Pending"];
 
+    const router = useRouter();
+
+    const viewDetailTask = (id: string) => {
+        router.push(`/(main)/dashboard/(work)/tasks/${id}`)
+    }
+
     const StatusIcon = style.icon;
 
     return (
-        <Box
-            className="rounded-2xl p-4 mb-4 mx-6 shadow-sm"
-            style={{
-                backgroundColor: "#F5F7FA",
-                // iOS
-                shadowColor: "#000",
-                shadowOffset: { width: 5, height: 5 },
-                shadowOpacity: 0.15,
-                shadowRadius: 3,
+        <Pressable onPress={() => viewDetailTask(id)}>
+            <Box
+                className="rounded-2xl p-4 mb-4 mx-6 shadow-sm"
+                style={{
+                    backgroundColor: "#F5F7FA",
+                    // iOS
+                    shadowColor: "#000",
+                    shadowOffset: { width: 5, height: 5 },
+                    shadowOpacity: 0.15,
+                    shadowRadius: 3,
 
-                // Android shadow
-                elevation: 3,
-            }}
-        >
-            <HStack className="justify-between items-center">
-                <Text className="text-lg font-semibold" style={{ color: style.text }}>
-                    {title}
-                </Text>
+                    // Android shadow
+                    elevation: 3,
+                }}
 
-                <HStack
-                    className={`items-center px-2.5 py-1 rounded-full ${priorityStyles[priority]?.bg ?? 'bg-gray-100'
-                        }`}
-                >
-                    <Text
-                        className={`text-md font-semibold ${priorityStyles[priority]?.text ?? 'text-gray-700'
+            >
+                <HStack className="justify-between items-center">
+                    <Text className="text-lg font-semibold" style={{ color: style.text }}>
+                        {title}
+                    </Text>
+
+                    <HStack
+                        className={`items-center px-2.5 py-1 rounded-full ${priorityStyles[priority]?.bg ?? 'bg-gray-100'
                             }`}
                     >
-                        {priority}
-                    </Text>
-                </HStack>
-            </HStack>
-
-            <Text
-                className="text-sm mt-2 leading-5"
-                style={{ color: style.text }}
-            >
-                {description}
-            </Text>
-
-            <Box className="h-[1px] bg-gray-300 my-3" />
-
-            <HStack className="justify-between items-center">
-                <HStack space="sm" className="items-center">
-                    <StatusIcon size={16} color={style.iconColor} />
-                    <Text className="text-sm font-medium" style={{ color: style.text }}>
-                        {status}
-                    </Text>
+                        <Text
+                            className={`text-md font-semibold ${priorityStyles[priority]?.text ?? 'text-gray-700'
+                                }`}
+                        >
+                            {priority}
+                        </Text>
+                    </HStack>
                 </HStack>
 
-                <Text className="text-sm text-darkTextPrimary">
-                    Due date: {endDate}
+                <Text
+                    className="text-sm mt-2 leading-5"
+                    style={{ color: style.text }}
+                >
+                    {description}
                 </Text>
-            </HStack>
-        </Box>
+
+                <Box className="h-[1px] bg-gray-300 my-3" />
+
+                <HStack className="justify-between items-center">
+                    <HStack space="sm" className="items-center">
+                        <StatusIcon size={16} color={style.iconColor} />
+                        <Text className="text-sm font-medium" style={{ color: style.text }}>
+                            {status}
+                        </Text>
+                    </HStack>
+
+                    <Text className="text-sm text-darkTextPrimary">
+                        Due date: {endDate}
+                    </Text>
+                </HStack>
+            </Box>
+
+        </Pressable>
     );
 }
