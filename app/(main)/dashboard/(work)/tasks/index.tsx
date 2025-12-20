@@ -26,6 +26,7 @@ export default function TasksScreen() {
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
                     <TaskCard
+                        id={item.id}
                         title={item.title}
                         description={item.description}
                         priority={item.priority}

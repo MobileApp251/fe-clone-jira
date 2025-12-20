@@ -8,6 +8,26 @@ export const tasks = [
         priority: "low",
         status: "Due",
         endDate: "25/11/2025",
+        assignee: [
+            {
+                id: "123",
+                name: "Nguyen Van A",
+            },
+            {
+                id: "1234",
+                name: "Nguyen Van B",
+            }
+        ],
+        issues: [
+            {
+                id: 1,
+                text: "kajdflasjdfl",
+            },
+            {
+                id: 2,
+                text: "oiquwnlwvc",
+            }
+        ]
     },
     {
         id: "2",
@@ -17,6 +37,26 @@ export const tasks = [
         priority: "high",
         status: "In Progress",
         endDate: "10/01/2026",
+        assignee: [
+            {
+                id: "123",
+                name: "Nguyen Van A",
+            },
+            {
+                id: "1234",
+                name: "Nguyen Van B",
+            }
+        ],
+        issues: [
+            {
+                id: 1,
+                text: "kajdflasjdfl",
+            },
+            {
+                id: 2,
+                text: "oiquwnlwvc",
+            }
+        ]
     },
     {
         id: "3",
@@ -26,6 +66,26 @@ export const tasks = [
         priority: "medium",
         status: "Up Comming",
         endDate: "10/01/2026",
+        assignee: [
+            {
+                id: "123",
+                name: "Nguyen Van A",
+            },
+            {
+                id: "1234",
+                name: "Nguyen Van B",
+            }
+        ],
+        issues: [
+            {
+                id: 1,
+                text: "kajdflasjdfl",
+            },
+            {
+                id: 2,
+                text: "oiquwnlwvc",
+            }
+        ]
     }, {
         id: "4",
         title: "Task 4",
@@ -34,5 +94,25 @@ export const tasks = [
         priority: "high",
         status: "Done",
         endDate: "10/01/2026",
+        assignee: [
+            {
+                id: "123",
+                name: "Nguyen Van A",
+            },
+            {
+                id: "1234",
+                name: "Nguyen Van B",
+            }
+        ],
+        issues: [
+            {
+                id: 1,
+                text: "kajdflasjdfl",
+            },
+            {
+                id: 2,
+                text: "oiquwnlwvc",
+            }
+        ]
     },
 ];

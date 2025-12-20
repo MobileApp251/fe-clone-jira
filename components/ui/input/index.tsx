@@ -1,15 +1,11 @@
 'use client';
-import React from 'react';
-import { createInput } from '@gluestack-ui/core/input/creator';
-import { View, Pressable, TextInput } from 'react-native';
-import { tva } from '@gluestack-ui/utils/nativewind-utils';
-import {
-  withStyleContext,
-  useStyleContext,
-} from '@gluestack-ui/utils/nativewind-utils';
-import { cssInterop } from 'nativewind';
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils';
 import { PrimitiveIcon, UIIcon } from '@gluestack-ui/core/icon/creator';
+import { createInput } from '@gluestack-ui/core/input/creator';
+import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils';
+import { tva, useStyleContext, withStyleContext } from '@gluestack-ui/utils/nativewind-utils';
+import { cssInterop } from 'nativewind';
+import React from 'react';
+import { Pressable, TextInput, View } from 'react-native';
 
 const SCOPE = 'INPUT';
 
@@ -34,7 +30,7 @@ cssInterop(PrimitiveIcon, {
 });
 
 const inputStyle = tva({
-  base: 'border-background-300 flex-row overflow-hidden content-center data-[hover=true]:border-outline-400 data-[focus=true]:border-primary-700 data-[focus=true]:hover:border-primary-700 data-[disabled=true]:opacity-40 data-[disabled=true]:hover:border-background-300 items-center',
+  base: 'border-background-300 flex-row overflow-hidden content-center data-[hover=true]:border-outline-400 data-[focus=true]:hover:border-primary-700 data-[disabled=true]:border-lightPrimaryLight data-[disabled=true]:hover:border-background-300 items-center',
 
   variants: {
     size: {
@@ -215,3 +211,4 @@ InputSlot.displayName = 'InputSlot';
 InputField.displayName = 'InputField';
 
 export { Input, InputField, InputIcon, InputSlot };
+

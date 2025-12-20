@@ -95,7 +95,10 @@ export default function DatePickerField({
 								className="flex-row justify-end mt-0"
 							>
 								<Pressable
-									onPress={() => setShow(false)}
+									onPress={() => {
+										setTempDate(date);
+										setShow(false)
+									}}
 									className="p-4"
 								>
 									<Text className="text-lightPrimary font-bold">
