@@ -111,8 +111,6 @@ export default function TaskCard({
                         </Text>
                     </HStack>
 
-                    
-
                     <Text className="text-sm text-darkTextPrimary">
                         Due date: {endDate}
                     </Text>
