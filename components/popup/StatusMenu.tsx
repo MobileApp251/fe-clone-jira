@@ -57,7 +57,7 @@ export default function StatusMenu({ status, setStatus }: Props) {
             }}
             trigger={({ ...triggerProps }) => {
                 return (
-                    <Box className="relative mb-5 w-32">
+                    <Box className="relative mb-5">
                         <Box className="absolute left-3 -top-2 px-1 z-10 bg-lightPrimaryLight">
                             <Text className="text-xs font-semibold text-blue-700">
                                 Status

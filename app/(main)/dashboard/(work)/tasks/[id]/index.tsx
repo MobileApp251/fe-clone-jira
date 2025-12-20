@@ -71,11 +71,20 @@ export default function TaskDetail() {
                 </Textarea>
             </VStack>
 
-            <Box className="flex-row justify-between items-center my-4 mx-6">
-                <StatusMenu status={status} setStatus={setStatus}></StatusMenu>
-                <TaskPriorityMenu priority={priority} setPriority={setPriority}></TaskPriorityMenu>
-                <DatePickerField date={dueDate} setDate={setDueDate} label="Due Date" />
+            <Box className="flex-row justify-between gap-4 items-center my-4 mx-6">
+                <Box className="flex-1">
+                    <StatusMenu status={status} setStatus={setStatus} />
+                </Box>
+
+                <Box className="flex-1">
+                    <TaskPriorityMenu priority={priority} setPriority={setPriority} />
+                </Box>
+
+                <Box className="flex-1">
+                    <DatePickerField date={dueDate} setDate={setDueDate} label="Due Date" />
+                </Box>
             </Box>
+
 
             <VStack space="xs">
                 <Box className="flex-row justify-between items-center mx-6">
