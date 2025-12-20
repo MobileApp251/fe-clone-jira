@@ -9,7 +9,7 @@ import DatePicker, { DateType, useDefaultClassNames } from 'react-native-ui-date
 type Props = {
 	date?: DateType;
 	setDate: React.Dispatch<React.SetStateAction<DateType | undefined>>;
-	label: string;
+	label?: string;
 	minDate?: DateType;
 	maxDate?: DateType;
 };
@@ -28,11 +28,11 @@ export default function DatePickerField({
 
 	return (
 		<Box className="relative mb-5">
-			<Box className="absolute left-3 -top-2 px-1 z-10 bg-lightPrimaryLight">
+			{label && <Box className="absolute left-3 -top-2 px-1 z-10 bg-lightPrimaryLight">
 				<Text className="text-xs font-semibold text-blue-700">
 					{label}
 				</Text>
-			</Box>
+			</Box>}
 
 			<Pressable
 				onPress={() => setShow(true)}

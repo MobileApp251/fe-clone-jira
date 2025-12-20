@@ -13,9 +13,10 @@ import { TouchableOpacity } from "react-native";
 type Props = {
     onFilterPress: () => void;
     page: "project" | "task";
+    onCreatePress: () => void;
 };
 
-export default function SearchBar({ page, onFilterPress }: Props) {
+export default function SearchBar({onFilterPress, onCreatePress, page}: Props) {
     return (
         <HStack space="sm" className="items-center mx-6">
             <Box className="flex-1">
@@ -35,12 +36,13 @@ export default function SearchBar({ page, onFilterPress }: Props) {
             </Box>
             {(page === "project") && (
                 <Box className="w-12 h-12" >
-                    <TouchableOpacity className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
+                    <TouchableOpacity 
+                        onPress={onCreatePress}
+                        className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
                         <Plus size={22} color={Colors.light.primary} />
                     </TouchableOpacity>
                 </Box>
             )}
-
 
             <Box className="w-12 h-12">
                 <TouchableOpacity
