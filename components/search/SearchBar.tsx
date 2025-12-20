@@ -13,7 +13,7 @@ import { TouchableOpacity } from "react-native";
 type Props = {
     onFilterPress: () => void;
     page: "project" | "task";
-    onCreatePress: () => void;
+    onCreatePress?: () => void;
 };
 
 export default function SearchBar({onFilterPress, onCreatePress, page}: Props) {
