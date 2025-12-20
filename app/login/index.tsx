@@ -1,4 +1,4 @@
-import * as Google from 'expo-auth-session/providers/google';
+import * as Google from "expo-auth-session/providers/google";
 import { useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import LottieView from 'lottie-react-native';
@@ -14,50 +14,43 @@ import {
   View
 } from 'react-native';
 
-
 import { Colors } from '@/constants/theme';
-import { ResponseType } from 'expo-auth-session';
+import { makeRedirectUri } from "expo-auth-session";
 
 WebBrowser.maybeCompleteAuthSession();
 
 export default function Login() {
   const router = useRouter();
-  
 
   const [request, response, promptAsync] = Google.useAuthRequest({
-    clientId: '838025556290-csiqqqd721dhpupsv5pnf0aro07sfv6e.apps.googleusercontent.com',
+    clientId: Platform.select({
+      ios: '533414330142-jr6nu65hm55u5lfjbm3ce6capa6lpd6k.apps.googleusercontent.com',
+      android: '533414330142-uiipgttob8ocai8ld3gmrgg559sn3gab.apps.googleusercontent.com',
+    }),
     scopes: ['profile', 'email'],
-    responseType: 'id_token',
+    redirectUri: makeRedirectUri({ scheme: 'clonejira' }),
   });
+
   if (request) {
-  console.log('Redirect URI (tự động tạo):', request.redirectUri, " ", ResponseType.IdToken);
-}
+    console.log('REDIRECT:', request.redirectUri);
+  }
 
   useEffect(() => {
-    console.log(response?.type)
-    if (response?.type === 'success') {
-      const { authentication } = response;
+    if (response?.type === "success") {
+      const accessToken = response.authentication?.accessToken;
 
-      console.log('ACCESS TOKEN:', authentication?.accessToken);
+      console.log('TOKEN:', accessToken);
 
-      Alert.alert('Thành công', 'Đã đăng nhập với Google!', [
-        {
-          text: 'OK',
-          onPress: () => router.replace('/dashboard'),
-        },
+      Alert.alert('Success', 'Login with Google', [
+        { text: 'OK', onPress: handleContinueLogin },
       ]);
     }
-
-    if (response?.type === 'error') {
-      console.error('Lỗi đăng nhập:', response.error);
-      Alert.alert('Lỗi', 'Đăng nhập Google thất bại');
+    if (response?.type === "error") {
+      console.log(response.error);
+      Alert.alert('Error', 'Login with Google failed.')
     }
   }, [response]);
 
-  const handleLogin = async () => {
-    await promptAsync();
-  };
-  
   const handleContinueLogin = () => {
     router.replace('/dashboard')
   }
@@ -81,8 +74,7 @@ export default function Login() {
 
         <TouchableOpacity
           style={styles.loginButton}
-          onPress={handleLogin}
-          disabled={!request}
+          onPress={() => promptAsync()}
         >
           <Image
             source={require('@/assets/images/icons8-google-48.png')}
