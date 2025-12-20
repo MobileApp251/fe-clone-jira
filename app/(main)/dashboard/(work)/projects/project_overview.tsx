@@ -13,7 +13,8 @@ export default function ProjectsScreen() {
     
     return (
         <Box className="flex-1">
-            <SearchBar 
+            <SearchBar
+                page="project"
                 onCreatePress={() => setShowCreateModal((prev) => !prev)}
                 onFilterPress={() => setShowFilter((prev) => !prev)}/>
             
@@ -21,7 +22,11 @@ export default function ProjectsScreen() {
                 visible={showCreateModal}
                 onClose={() => setShowCreateModal(false)}
             />
-            {showFilter && <ProjectFilter />}
+
+            <Box className="ml-6 mr-6">
+                {showFilter && <ProjectFilter />}
+            </Box>
+            
 
             <FlatList
                 className="mt-4"

@@ -8,6 +8,7 @@ import { Colors } from "@/constants/theme";
 import { Plus, X } from "lucide-react-native";
 import { useState } from "react";
 import { Modal, Pressable } from "react-native";
+import { DateType } from "react-native-ui-datepicker";
 import DatePickerField from "../datepicker/DatePickerField";
 import StatusPickerField from "../statuspicker/StatusPickerField";
 
@@ -18,6 +19,9 @@ type CreateProjectProps = {
 
 export default function CreateProjectModal({ visible, onClose }: CreateProjectProps) {
     const [status, setStatus] = useState<string>();
+    const [startDate, setStartDate] = useState<DateType>();
+    const [endDate, setEndDate] = useState<DateType>();
+
     return (
         <Modal transparent animationType="fade" visible={visible}>
             <Pressable
@@ -49,10 +53,10 @@ export default function CreateProjectModal({ visible, onClose }: CreateProjectPr
                     </Input>
 
                     <Text className="font-medium mb-1 text-darkTextPrimary">Start date</Text>
-                    <DatePickerField/>
-
+                    <DatePickerField date={startDate} setDate={setStartDate} maxDate={endDate} />
+                    
                     <Text className="font-medium mb-1 text-darkTextPrimary">Due date</Text>
-                    <DatePickerField/>
+                    <DatePickerField date={endDate} setDate={setEndDate} minDate={startDate}/>
 
                     <Text className="font-medium mb-1 text-darkTextPrimary">Status</Text>
                     <StatusPickerField
