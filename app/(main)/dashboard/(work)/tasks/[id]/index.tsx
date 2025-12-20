@@ -71,7 +71,7 @@ export default function TaskDetail() {
                 </Textarea>
             </VStack>
 
-            <Box className="flex-row justify-between gap-4 items-center my-4 mx-6">
+            <Box className="flex-row justify-between gap-2 items-center my-4 mx-6">
                 <Box className="flex-1">
                     <StatusMenu status={status} setStatus={setStatus} />
                 </Box>
