@@ -44,3 +44,5 @@ app-example
 
 # yarn
 *.lock
+
+.env

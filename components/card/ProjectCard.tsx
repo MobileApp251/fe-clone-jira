@@ -7,7 +7,7 @@ import { PROJECT_STATUS_STYLE } from "@/utils/projectStatus";
 
 type Props = {
   title: string;
-  description: string;
+  description: string | null;
   members: number;
   status: string;
   endDate: string;
