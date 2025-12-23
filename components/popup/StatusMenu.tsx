@@ -55,6 +55,7 @@ export default function StatusMenu({ status, setStatus }: Props) {
                 const value = Array.from(keys)[0] as string;
                 setStatus(value);
             }}
+            className='p-0 border-lightPrimary bg-white'
             trigger={({ ...triggerProps }) => {
                 return (
                     <Box className="relative mb-5">
@@ -93,7 +94,7 @@ export default function StatusMenu({ status, setStatus }: Props) {
                         </MenuItemLabel>
                     </MenuItem>
 
-                    {index < STATUS_OPTIONS.length - 1 && <MenuSeparator />}
+                    {index < STATUS_OPTIONS.length - 1 && <MenuSeparator className='bg-lightPrimaryLight' />}
                 </React.Fragment>
             ))}
         </Menu>

@@ -1,15 +1,17 @@
 import AssigneeCard from "@/components/card/AssigneeCard";
 import DatePickerField from "@/components/datepicker/DatePickerField";
 import DeleteTask from "@/components/popup/DeleteTask";
+import EditAssignee from "@/components/popup/EditAssignee";
 import EditTask from "@/components/popup/EditTask";
 import StatusMenu from "@/components/popup/StatusMenu";
 import TaskPriorityMenu from "@/components/popup/TaskPriorityMenu";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
-import { AddIcon, ChevronsLeftIcon, EditIcon, TrashIcon } from "@/components/ui/icon";
+import { ChevronsLeftIcon, EditIcon, TrashIcon } from "@/components/ui/icon";
 import { Textarea, TextareaInput } from "@/components/ui/textarea";
 import { VStack } from "@/components/ui/vstack";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { UserPlus } from "lucide-react-native";
 import { useState } from "react";
 import { FlatList, Text, View } from "react-native";
 import { DateType } from "react-native-ui-datepicker";
@@ -27,17 +29,18 @@ export default function TaskDetail() {
     const [status, setStatus] = useState(taskDetail?.status ?? "");
     const [priority, setPriority] = useState(taskDetail?.priority ?? "");
     const [dueDate, setDueDate] = useState<DateType>(taskDetail?.endDate);
+    const [showEditAssigneeModal, setShowEditAssigneeModal] = useState(false);
 
     return (
         <View className="flex-1">
             <Box className='flex-row justify-start mx-6'>
                 <Button className='bg-white p-0' onPress={() => router.back()}>
-                    <ButtonIcon className='text-lightPrimary font-semibold text-xl' as={ChevronsLeftIcon} />
-                    <ButtonText className='text-lightPrimary font-semibold text-xl'>Back</ButtonText>
+                    <ButtonIcon className='text-lightPrimary font-medium' as={ChevronsLeftIcon} />
+                    <ButtonText className='text-lightPrimary font-medium'>Back</ButtonText>
                 </Button>
             </Box>
 
-            <Box className="flex-row justify-between items-center my-8  mx-6">
+            <Box className="flex-row justify-between items-center mx-6 mb-4">
                 <Box>
                     <Text className="text-darkTextPrimary font-semibold text-3xl">{taskDetail?.title}</Text>
                 </Box>
@@ -71,7 +74,7 @@ export default function TaskDetail() {
                 </Textarea>
             </VStack>
 
-            <Box className="flex-row justify-between gap-2 items-center my-4 mx-6">
+            <Box className="flex-row justify-between gap-1 items-center my-4 mx-6">
                 <Box className="flex-1">
                     <StatusMenu status={status} setStatus={setStatus} />
                 </Box>
@@ -89,10 +92,14 @@ export default function TaskDetail() {
             <VStack space="xs">
                 <Box className="flex-row justify-between items-center mx-6">
                     <Text className="text-darkTextPrimary font-semibold text-lg">Assignee</Text>
-                    <Button className="rounded-md aspect-square p-3.5" variant="outline" action="positive" size="xl" onPress={() => setShowEditModal(true)}>
-                        <ButtonIcon className='text-lightPrimary font-bold text-xl' as={AddIcon} />
+                    <Button className="rounded-md aspect-square p-3.5" variant="outline" action="positive" size="xl" onPress={() => setShowEditAssigneeModal(true)}>
+                        <ButtonIcon className='text-lightPrimary font-bold text-xl' as={UserPlus} />
                     </Button>
                 </Box>
+                <EditAssignee
+                    showEditAssigneeModal={showEditAssigneeModal}
+                    setShowEditAssigneeModal={setShowEditAssigneeModal}
+                    assigneeList={taskDetail?.assignee ?? []} />
                 <FlatList
                     className="mt-2"
                     data={taskDetail?.assignee}

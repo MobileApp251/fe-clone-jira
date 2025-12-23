@@ -14,7 +14,7 @@ export default function AssigneeCard({
 
     return (
         <Box
-            className="rounded-2xl p-4 mb-4 mx-6 shadow-sm"
+            className="rounded-2xl p-4 mb-4 shadow-sm"
             style={{
                 backgroundColor: "#F5F7FA",
                 // iOS
