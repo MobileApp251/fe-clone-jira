@@ -6,7 +6,7 @@ export const tasks = [
         description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
         priority: "low",
-        status: "Due",
+        status: "DUE",
         endDate: "25/11/2025",
         assignee: [
             {
@@ -35,7 +35,7 @@ export const tasks = [
         description:
             "Sed ut perspiciatis unde omnis iste natus error sit voluptatem.",
         priority: "high",
-        status: "In Progress",
+        status: "IN_PROGRESS",
         endDate: "10/01/2026",
         assignee: [
             {
@@ -64,7 +64,7 @@ export const tasks = [
         description:
             "Sed ut perspiciatis unde omnis iste natus error sit voluptatem.",
         priority: "medium",
-        status: "Up Comming",
+        status: "UP_COMING",
         endDate: "10/01/2026",
         assignee: [
             {
@@ -92,7 +92,7 @@ export const tasks = [
         description:
             "Sed ut perspiciatis unde omnis iste natus error sit voluptatem.",
         priority: "high",
-        status: "Done",
+        status: "DONE",
         endDate: "10/01/2026",
         assignee: [
             {
