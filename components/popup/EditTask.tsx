@@ -49,7 +49,7 @@ export default function EditTask(
             size="md"
         >
             <ModalBackdrop />
-            <ModalContent className="bg-white">
+            <ModalContent className="bg-white -mt-96" >
                 <ModalHeader>
                     <Heading className="text-darkTextPrimary" size="lg">Editing</Heading>
                     <ModalCloseButton>

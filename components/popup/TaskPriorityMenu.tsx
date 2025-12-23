@@ -39,6 +39,7 @@ export default function TaskPriorityMenu({ priority, setPriority }: Props) {
                 const value = Array.from(keys)[0] as string;
                 setPriority(value);
             }}
+            className=' p-0 border-lightPrimary bg-white'
             trigger={({ ...triggerProps }) => {
                 return (
                     <Box className="relative mb-5">
@@ -72,7 +73,7 @@ export default function TaskPriorityMenu({ priority, setPriority }: Props) {
                         </MenuItemLabel>
                     </MenuItem>
 
-                    {index < PRIORITY_OPTIONS.length - 1 && <MenuSeparator />}
+                    {index < PRIORITY_OPTIONS.length - 1 && <MenuSeparator className='bg-lightPrimaryLight' />}
                 </React.Fragment>
             ))}
         </Menu>
