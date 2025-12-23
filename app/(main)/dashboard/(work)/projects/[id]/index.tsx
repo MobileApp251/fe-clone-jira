@@ -14,7 +14,7 @@ export default function ProjectDetail() {
     const project = projects.find((p) => p.id === id);
     const tasks: Task[] = project?.tasks ?? [];
     const [showAddTaskModal, setShowAddTaskModal] = useState(false);
-    
+
     if (!project) {
         return (
             <Box className="flex-1 justify-center items-center">
@@ -26,7 +26,7 @@ export default function ProjectDetail() {
     return (
         <Box className="flex-1">
             <Pressable className="flex-row items-center px-6" onPress={() => router.back()}>
-                <ChevronsLeft size={18} color={Colors.light.primary}/>
+                <ChevronsLeft size={18} color={Colors.light.primary} />
                 <Text className="ml-1 text-lightPrimary font-medium">Back</Text>
             </Pressable>
             <Box className="flex-row items-center justify-between mb-4 px-6">
@@ -46,7 +46,7 @@ export default function ProjectDetail() {
                         <TouchableOpacity
                             onPress={() =>
                                 router.push(
-                                `/(main)/dashboard/(work)/projects/${project.id}/edit`
+                                    `/(main)/dashboard/(work)/projects/${project.id}/edit`
                                 )
                             }
                             className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
@@ -58,7 +58,7 @@ export default function ProjectDetail() {
             <Box className="mb-4 px-6">
                 <Text className="font-semibold mb-1 text-lg text-darkTextPrimary">Description</Text>
                 <Text className="text-darkTextPrimary">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt. Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, eaque vero ex magnam labore iure quibusdam molestias culpa consequatur quod, porro quo, totam id explicabo. Impedit quis sapiente molestiae vitae!
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt. Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, eaque vero ex magnam labore iure quibusdam molestias culpa consequatur quod, porro quo, totam id explicabo. Impedit quis sapiente molestiae vitae!
                 </Text>
             </Box>
             <Box className="flex-row justify-between items-center mb-3 px-6">
@@ -76,27 +76,27 @@ export default function ProjectDetail() {
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
-                <Pressable
-                    onPress={() =>
-                        router.push(`/(main)/dashboard/(work)/tasks/${item.id}`)
-                    }
-                >
-                    <TaskCard
-                        id={item.id}
-                        title={item.title}
-                        description={item.description}
-                        priority={item.priority}
-                        status={item.status}
-                        endDate={item.endDate}
-                        inProject={true}
-                    />
-                </Pressable>)}
+                    <Pressable
+                        onPress={() =>
+                            router.push(`/(main)/dashboard/(work)/tasks/${item.id}`)
+                        }
+                    >
+                        <TaskCard
+                            id={item.id}
+                            title={item.title}
+                            description={item.description}
+                            priority={item.priority}
+                            status={item.status}
+                            endDate={new Date(item.endDate)}
+                            inProject={true}
+                        />
+                    </Pressable>)}
             >
             </FlatList>
 
-            <NewTaskModal 
+            <NewTaskModal
                 visible={showAddTaskModal}
-                onClose={() => setShowAddTaskModal(false)}/>
+                onClose={() => setShowAddTaskModal(false)} />
         </Box>
     )
 } 

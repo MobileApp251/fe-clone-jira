@@ -2,16 +2,39 @@ import TaskCard from "@/components/card/TaskCard";
 import SearchBar from "@/components/search/SearchBar";
 import SortPanel from "@/components/search/SortPannel";
 import { Box } from "@/components/ui/box";
-import { useState } from "react";
-import { FlatList } from "react-native";
-import { tasks } from "./task_data";
+import { Text } from "@/components/ui/text";
+import { useTasks } from "@/context/TasksContext";
+import { useEffect, useMemo, useState } from "react";
+import { ActivityIndicator, FlatList } from "react-native";
 
 export default function TasksScreen() {
     const [showFilter, setShowFilter] = useState(false);
+    const [search, setSearch] = useState("");
+    const { tasks, loading, error, loadTasks } = useTasks();
+
+    useEffect(() => {
+        loadTasks();
+    }, []);
+
+    const filteredTasks = useMemo(() => {
+        if (!search.trim()) return tasks;
+
+        const q = search.toLowerCase();
+
+        return tasks.filter(
+            (t) =>
+                t.task_name.toLowerCase().includes(q) ||
+                t.content?.toLowerCase().includes(q)
+        );
+    }, [tasks, search]);
 
     return (
         <Box className="flex-1">
-            <SearchBar page="task" onFilterPress={() => setShowFilter((prev) => !prev)} />
+            <SearchBar
+                page="task"
+                onFilterPress={() => setShowFilter((prev) => !prev)}
+                value={search}
+                onChange={setSearch} />
             <SortPanel
                 visible={showFilter}
                 onClose={() => setShowFilter(false)}
@@ -19,22 +42,33 @@ export default function TasksScreen() {
                     console.log("Sort by:", value);
                 }}
             />
-            <FlatList
-                className="mt-4"
-                data={tasks}
-                keyExtractor={(item) => item.id}
-                showsVerticalScrollIndicator={false}
-                renderItem={({ item }) => (
-                    <TaskCard
-                        id={item.id}
-                        title={item.title}
-                        description={item.description}
-                        priority={item.priority}
-                        status={item.status}
-                        endDate={item.endDate}
-                    />
-                )}
-            />
+            {loading ? (
+                <Box className="flex-1 justify-center items-center">
+                    <ActivityIndicator size="large" />
+                </Box>
+            ) : filteredTasks.length === 0 ? (
+                <Box className="flex-1 justify-center items-center">
+                    <Text className="text-darkTextSecondary text-sm">
+                        No matching tasks
+                    </Text>
+                </Box>
+            ) : (
+                <FlatList
+                    className="mt-4"
+                    data={filteredTasks}
+                    keyExtractor={(item) => item.task_id}
+                    showsVerticalScrollIndicator={false}
+                    renderItem={({ item }) => (
+                        <TaskCard
+                            id={item.task_id}
+                            title={item.task_name}
+                            description={item.content}
+                            status={item.status.toUpperCase()}
+                            endDate={new Date(item.endAt)}
+                        />
+                    )}
+                />
+            )}
         </Box>
     );
 }

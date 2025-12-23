@@ -3,8 +3,7 @@ import { HStack } from "@/components/ui/hstack";
 import { Text } from "@/components/ui/text";
 import { Colors } from "@/constants/theme";
 
-import { PROJECT_STATUS_STYLE } from "@/utils/projectStatus";
-import { priorityStyles } from "@/utils/taskStatus";
+import { priorityStyles, TASK_STATUS_STYLE, TaskPriority } from "@/utils/taskStatus";
 import { useRouter } from "expo-router";
 import { User } from "lucide-react-native";
 import { Pressable } from "react-native";
@@ -13,9 +12,9 @@ type Props = {
     id: string;
     title: string;
     description: string;
-    priority: string;
+    priority?: TaskPriority;
     status: string;
-    endDate: string;
+    endDate: Date;
     inProject?: boolean;
 };
 
@@ -29,8 +28,8 @@ export default function TaskCard({
     inProject
 }: Props) {
     const style =
-        PROJECT_STATUS_STYLE[status] ??
-        PROJECT_STATUS_STYLE["Pending"];
+        TASK_STATUS_STYLE[status] ??
+        TASK_STATUS_STYLE["Pending"];
 
     const router = useRouter();
 
@@ -62,40 +61,42 @@ export default function TaskCard({
                         {title}
                     </Text>
 
-                    <HStack
-                        className={`items-center px-2.5 py-1 rounded-full ${priorityStyles[priority]?.bg ?? 'bg-gray-100'
-                            }`}
-                    >
-                        <Text
-                            className={`text-md font-semibold ${priorityStyles[priority]?.text ?? 'text-gray-700'
+                    {priority && (
+                        <HStack
+                            className={`items-center px-2.5 py-1 rounded-full ${priorityStyles[priority].bg
                                 }`}
                         >
-                            {priority}
-                        </Text>
-                    </HStack>
+                            <Text
+                                className={`text-md font-semibold ${priorityStyles[priority].text
+                                    }`}
+                            >
+                                {priority}
+                            </Text>
+                        </HStack>
+                    )}
                 </HStack>
 
                 <HStack className="mt-3 items-start">
                     <Box className={inProject ? "flex-1 pr-3" : "w-full"}>
                         <Text
-                        className="text-sm leading-5"
-                        style={{ color: style.text }}
-                        numberOfLines={inProject ? 2 : undefined}
+                            className="text-sm leading-5"
+                            style={{ color: style.text }}
+                            numberOfLines={inProject ? 2 : undefined}
                         >
-                        {description}
+                            {description}
                         </Text>
                     </Box>
 
                     {inProject && (
                         <HStack space="xs" className="items-center">
-                        {[1, 2, 3].map((_, index) => (
-                            <Box
-                                key={index}
-                                className="w-8 h-8 rounded-full bg-inputBorder items-center justify-center"
-                            >
-                                <User size={16} color={Colors.light.primary} />
-                            </Box>
-                        ))}
+                            {[1, 2, 3].map((_, index) => (
+                                <Box
+                                    key={index}
+                                    className="w-8 h-8 rounded-full bg-inputBorder items-center justify-center"
+                                >
+                                    <User size={16} color={Colors.light.primary} />
+                                </Box>
+                            ))}
                         </HStack>
                     )}
                 </HStack>
@@ -112,7 +113,7 @@ export default function TaskCard({
                     </HStack>
 
                     <Text className="text-sm text-darkTextPrimary">
-                        Due date: {endDate}
+                        Due date: {endDate.toDateString()}
                     </Text>
                 </HStack>
             </Box>

@@ -14,9 +14,11 @@ type Props = {
     onFilterPress?: () => void;
     page: "project" | "task" | 'onlySearch';
     onCreatePress?: () => void;
+    value: string;
+    onChange: (text: string) => void;
 };
 
-export default function SearchBar({onFilterPress, onCreatePress, page}: Props) {
+export default function SearchBar({ onFilterPress, onCreatePress, page, value, onChange }: Props) {
     return (
         <HStack space="sm" className="items-center mx-6">
             <Box className="flex-1">
@@ -29,6 +31,8 @@ export default function SearchBar({onFilterPress, onCreatePress, page}: Props) {
                         <InputIcon as={Search} />
                     </InputSlot>
                     <InputField
+                        value={value}
+                        onChangeText={onChange}
                         placeholder="Enter text here..."
                         className="pl-2 text-darkTextPrimary"
                     />
@@ -37,13 +41,13 @@ export default function SearchBar({onFilterPress, onCreatePress, page}: Props) {
             {(page !== 'onlySearch') && (
                 <>
                     {(page === "project") && (
-                    <Box className="w-12 h-12" >
-                        <TouchableOpacity 
-                            onPress={onCreatePress}
-                            className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
-                            <Plus size={22} color={Colors.light.primary} />
-                        </TouchableOpacity>
-                    </Box>
+                        <Box className="w-12 h-12" >
+                            <TouchableOpacity
+                                onPress={onCreatePress}
+                                className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
+                                <Plus size={22} color={Colors.light.primary} />
+                            </TouchableOpacity>
+                        </Box>
                     )}
 
                     <Box className="w-12 h-12">
