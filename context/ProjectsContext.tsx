@@ -29,6 +29,7 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
             proj_name: "",
             startAt: "",
             updateAt: "",
+            done: false,
         }
     })
     const [projectTasks, setProjectTasks] = useState<TaskAPIResponse[]>([]);

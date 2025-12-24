@@ -26,7 +26,7 @@ export const Colors = {
   },
   card: {
     in_progress: '#FFEDB3',
-    up_comming: '#FFFFFF',
+    up_comming: '#FFEDB3',
     done: '#C2EAFC',
     due: '#F6BAB9'
   },
