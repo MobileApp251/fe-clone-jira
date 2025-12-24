@@ -4,20 +4,30 @@ import {
     InputField
 } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
+import {
+    Toast,
+    ToastDescription,
+    ToastTitle,
+    useToast,
+} from '@/components/ui/toast';
 import { Colors } from "@/constants/theme";
 import { useProjects } from "@/context/ProjectsContext";
+import dayjs from "dayjs";
 import { Plus, X } from "lucide-react-native";
 import { useState } from "react";
 import { Pressable } from "react-native";
 import { DateType } from "react-native-ui-datepicker";
 import DatePickerField from "../datepicker/DatePickerField";
 import StatusPickerField from "../statuspicker/StatusPickerField";
+import { ButtonSpinner } from "../ui/button";
 import { Modal, ModalBackdrop, ModalBody, ModalContent, ModalFooter, ModalHeader } from "../ui/modal";
 
 type CreateProjectProps = {
     visible: boolean;
     onClose: () => void;
 };
+
+type ToastType = "error" | "warning" | "success" | "info" | "muted" | undefined;
 
 export default function CreateProjectModal({ visible, onClose }: CreateProjectProps) {
     const [status, setStatus] = useState<string>();
@@ -29,19 +39,61 @@ export default function CreateProjectModal({ visible, onClose }: CreateProjectPr
     const { projects, project, createNewProject, loading, error } = useProjects();
 
     const handleCreateProject = async () => {
+        if (title.length <= 0) {
+            handleToast("error", "Create new project!", "Project title cannot be empty.");
+            return;
+        }
         try {
             await createNewProject({
-                createAt: (new Date()).toString(),
                 description: description,
-                endAt: endDate?.toLocaleString() ?? "",
+                endAt: endDate ? dayjs(endDate).toISOString() : "",
                 proj_name: title,
-                startAt: startDate?.toLocaleString() ?? "",
-                updateAt: startDate?.toLocaleString() ?? ""
+                startAt: startDate ? dayjs(endDate).toISOString() : "",
             });
         } catch (err) {
             console.error(err);
+        } finally {
+            onClose();
+            handleResetFormData();
+            handleToast("success", "Create new project!", "New project has been created successfully.");
         }
     }
+
+    const handleResetFormData = () => {
+        setStatus("");
+        setStartDate(null);
+        setEndDate(null);
+        setTitle("");
+        setDescription("");
+    }
+
+    const toast = useToast();
+    const [toastId, setToastId] = useState("0");
+    const handleToast = (type: ToastType, title: string, text: string) => {
+        if (!toast.isActive(toastId)) {
+            showToast(type, title, text);
+        }
+    };
+    const showToast = (type: ToastType, title: string, text: string) => {
+        const newId = Math.random().toString();
+        setToastId(newId);
+        toast.show({
+            id: newId,
+            placement: 'bottom',
+            duration: 3000,
+            render: ({ id }) => {
+                const uniqueToastId = 'toast-' + id;
+                return (
+                    <Toast nativeID={uniqueToastId} action={type} variant="outline" className="bg-white">
+                        <ToastTitle>{title}</ToastTitle>
+                        <ToastDescription className="text-darkTextPrimary">
+                            {text}
+                        </ToastDescription>
+                    </Toast>
+                );
+            },
+        });
+    };
 
     return (
         <Modal
@@ -127,7 +179,7 @@ export default function CreateProjectModal({ visible, onClose }: CreateProjectPr
                             onPress={handleCreateProject}
                             className="bg-lightPrimary rounded-xl px-4 py-2 flex-row items-center"
                         >
-                            <Plus size={16} color="white" />
+                            {loading ? (<ButtonSpinner color="gray" />) : (<Plus size={16} color="white" />)}
                             <Text className="text-white ml-1 font-medium">
                                 Create
                             </Text>

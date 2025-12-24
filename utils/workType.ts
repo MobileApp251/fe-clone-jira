@@ -43,12 +43,10 @@ export type ProjectByIdAPIResponse = {
 }
 
 export type CreateProjectDTO = {
-  createAt: string;
   description: string;
   endAt: string;
   proj_name: string;
   startAt: string;
-  updateAt: string;
 }
 
 export type TaskAPIResponse = {

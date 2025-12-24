@@ -7,6 +7,7 @@ import { Text } from "@/components/ui/text";
 import { useProjects } from "@/context/ProjectsContext";
 import { formatDate } from "@/utils/date";
 import { getProjectStatus } from "@/utils/projectStatus";
+import dayjs from "dayjs";
 import { router } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, FlatList, Pressable } from "react-native";
@@ -76,8 +77,8 @@ export default function ProjectsScreen() {
                                 description={item.description}
                                 members={4}
                                 status={getProjectStatus({
-                                    startAt: item.startAt,
-                                    endAt: item.endAt,
+                                    startAt: item.startAt ? dayjs(item.startAt).toISOString() : "",
+                                    endAt: item.endAt ? dayjs(item.endAt).toISOString() : "",
                                     isDone: true,
                                 })}
                                 endDate={formatDate(item.endAt)}
