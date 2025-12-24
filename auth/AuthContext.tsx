@@ -1,49 +1,53 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import * as Linking from "expo-linking";
+import { createContext, useContext, useEffect, useState } from "react";
+import { loginWithGoogle } from "./LoginGoogle";
 import { tokenStore } from "./token";
 
-type AuthState = {
-    accessToken: string | null;
+type AuthContextType = {
+    token: string | null;
     loading: boolean;
-    isAuthenticated: boolean;
-    setTokens: (access: string, refresh: string) => Promise<void>;
+    login: () => Promise<void>;
     logout: () => Promise<void>;
 };
 
-const AuthContext = createContext<AuthState|null>(null);
+const AuthContext = createContext<AuthContextType | null>(null);
 
-export function AuthProvider ({ children }: { children: React.ReactNode }) {
-    const [accessToken, setAccessToken] = useState<string | null>(null);
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+    const [token, setToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const loadToken = async () => {
-            const token = await tokenStore.getAccessToken();
-            setAccessToken(token);
+        tokenStore.get().then(t => {
+            setToken(t);
             setLoading(false);
-        };
-        loadToken();
+        });
     }, []);
 
-    const setTokens = async (access: string) => {
-        await tokenStore.setAccessToken(access);
-        setAccessToken(access);
+    useEffect(() => {
+        const sub = Linking.addEventListener("url", async ({ url }) => {
+            const { queryParams } = Linking.parse(url);
+            const accessToken = queryParams?.access_token as string;
+
+            if (accessToken) {
+                await tokenStore.set(accessToken);
+                setToken(accessToken);
+            }
+        });
+
+        return () => sub.remove();
+    }, []);
+
+    const login = async () => {
+        await loginWithGoogle();
     };
 
     const logout = async () => {
-        await tokenStore.removeAccessToken();
-        setAccessToken(null);
+        await tokenStore.clear();
+        setToken(null);
     };
 
     return (
-        <AuthContext.Provider
-            value={{
-                accessToken,
-                loading,
-                isAuthenticated: !!accessToken,
-                setTokens,
-                logout,
-            }}
-        >
+        <AuthContext.Provider value={{ token, loading, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
