@@ -18,7 +18,6 @@ import { useState } from "react";
 import { Pressable } from "react-native";
 import { DateType } from "react-native-ui-datepicker";
 import DatePickerField from "../datepicker/DatePickerField";
-import StatusPickerField from "../statuspicker/StatusPickerField";
 import { ButtonSpinner } from "../ui/button";
 import { Modal, ModalBackdrop, ModalBody, ModalContent, ModalFooter, ModalHeader } from "../ui/modal";
 
@@ -30,7 +29,6 @@ type CreateProjectProps = {
 type ToastType = "error" | "warning" | "success" | "info" | "muted" | undefined;
 
 export default function CreateProjectModal({ visible, onClose }: CreateProjectProps) {
-    const [status, setStatus] = useState<string>();
     const [startDate, setStartDate] = useState<DateType>();
     const [endDate, setEndDate] = useState<DateType>();
     const [title, setTitle] = useState("");
@@ -60,7 +58,6 @@ export default function CreateProjectModal({ visible, onClose }: CreateProjectPr
     }
 
     const handleResetFormData = () => {
-        setStatus("");
         setStartDate(null);
         setEndDate(null);
         setTitle("");
@@ -152,14 +149,6 @@ export default function CreateProjectModal({ visible, onClose }: CreateProjectPr
                         date={endDate}
                         setDate={setEndDate}
                         minDate={startDate}
-                    />
-
-                    <Text className="font-medium mb-1 text-darkTextPrimary mt-3">
-                        Status
-                    </Text>
-                    <StatusPickerField
-                        value={status}
-                        onChange={setStatus}
                     />
                 </ModalBody>
 

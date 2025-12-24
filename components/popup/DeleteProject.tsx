@@ -14,7 +14,7 @@ type Props = {
 };
 
 
-export default function DeleteTask(
+export default function DeleteProject(
     { showDeleteModal, setShowDeleteModal, title }: Props
 ) {
     return (
@@ -28,18 +28,16 @@ export default function DeleteTask(
             <ModalBackdrop />
             <ModalContent className="max-w-[305px] bg-white items-center">
                 <ModalHeader>
-                    <ModalHeader>
-                        <Box className="w-[56px] h-[56px] rounded-full bg-red-100 items-center justify-center">
-                            <Icon as={TrashIcon} className="stroke-error-600" size="xl" />
-                        </Box>
-                    </ModalHeader>
+                    <Box className="w-[56px] h-[56px] rounded-full bg-red-100 items-center justify-center">
+                        <Icon as={TrashIcon} className="stroke-error-600" size="xl" />
+                    </Box>
                 </ModalHeader>
                 <ModalBody className="mt-0 mb-4">
-                    <Heading size="md" className="text-bold mb-2 justify-center">
-                        Delete project task
+                    <Heading size="md" className="text-bold mb-2 text-center">
+                        Delete project
                     </Heading>
                     <Text size="sm" className="text-typography-500 text-center">
-                        Are you sure you want to delete this task? This action cannot be
+                        Are you sure you want to delete project <Text size="sm" className="text-typography-500 font-bold text-center">{title}</Text>? This action cannot be
                         undone.
                     </Text>
                 </ModalBody>

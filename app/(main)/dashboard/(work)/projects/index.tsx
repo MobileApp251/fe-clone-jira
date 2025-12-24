@@ -79,7 +79,7 @@ export default function ProjectsScreen() {
                                 status={getProjectStatus({
                                     startAt: item.startAt ? dayjs(item.startAt).toISOString() : "",
                                     endAt: item.endAt ? dayjs(item.endAt).toISOString() : "",
-                                    isDone: true,
+                                    isDone: item.done,
                                 })}
                                 endDate={formatDate(item.endAt)}
                             />

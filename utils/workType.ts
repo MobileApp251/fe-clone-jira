@@ -28,6 +28,7 @@ export type ProjectData = {
   endAt: string;
   createAt: string;
   updateAt: string;
+  done: boolean;
 };
 
 export type ProjectMembers = {
