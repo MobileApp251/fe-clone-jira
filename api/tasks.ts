@@ -1,7 +1,7 @@
 import { API_URL } from "@/config/env";
 import { TaskAPIResponse } from "@/utils/workType";
 
-const ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYTEwODkxNC05YjQ4LTFjMTItODE5Yi00OTAyZDI1YTAwMDEiLCJpYXQiOjE3NjY0NTY0ODAsImV4cCI6MTc2NjU0Mjg4MH0.odrWRH0jmvXBekzvUg-n-DonJR3CovzlKww0MFmLTzQ';
+const ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYTExOTIyNy05YjRlLTFjNGItODE5Yi00ZTBmOTc0OTAwMDAiLCJpYXQiOjE3NjY1NDEyMDQsImV4cCI6MTc2NjYyNzYwNH0.uJqyruKCBBtgi4H6hgEpD8jBwz73TLU53MIcu6t9PTY';
 
 export async function getMyTasks(): Promise<TaskAPIResponse[]> {
     const res = await fetch(`${API_URL}/api/tasks`, {

@@ -69,7 +69,7 @@ export default function ProjectsScreen() {
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item }) => (
                         <Pressable
-                            onPress={() => router.push(`/(main)/dashboard/(work)/projects/${item.proj_id}`)}
+                            onPress={() => router.push(`/dashboard/projects/${item.proj_id}`)}
                         >
                             <ProjectCard
                                 title={item.proj_name}
