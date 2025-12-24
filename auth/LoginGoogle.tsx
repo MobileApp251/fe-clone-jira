@@ -1,7 +1,7 @@
 import { API_URL } from '@/config/env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
-import { tokenStore } from './token';
 
 export async function loginWithGoogle() {
     const redirectUri = Linking.createURL('auth');
@@ -32,5 +32,5 @@ export async function loginWithGoogle() {
         throw new Error('No token returned');
     }
 
-    await tokenStore.set(token);
+    await AsyncStorage.setItem("ACCESS_TOKEN", token);
 }

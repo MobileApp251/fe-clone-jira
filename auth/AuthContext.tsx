@@ -1,7 +1,7 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Linking from "expo-linking";
 import { createContext, useContext, useEffect, useState } from "react";
 import { loginWithGoogle } from "./LoginGoogle";
-import { tokenStore } from "./token";
 
 type AuthContextType = {
     token: string | null;
@@ -17,10 +17,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        tokenStore.get().then(t => {
-            setToken(t);
-            setLoading(false);
-        });
+        // tokenStore.get().then(t => {
+        //     setToken(t);
+        //     setLoading(false);
+        // });
     }, []);
 
     useEffect(() => {
@@ -29,7 +29,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const accessToken = queryParams?.access_token as string;
 
             if (accessToken) {
-                await tokenStore.set(accessToken);
+                await AsyncStorage.setItem("ACCESS_TOKEN", accessToken);
                 setToken(accessToken);
             }
         });
@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     const logout = async () => {
-        await tokenStore.clear();
+        await AsyncStorage.clear()
         setToken(null);
     };
 

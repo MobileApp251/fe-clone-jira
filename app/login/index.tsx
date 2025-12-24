@@ -1,9 +1,13 @@
 
-import { loginWithGoogle } from '@/auth/LoginGoogle';
+import { signIn } from '@/auth/sign-in';
+import { Box } from '@/components/ui/box';
+import { HStack } from '@/components/ui/hstack';
+import { Input, InputField } from '@/components/ui/input';
 import { Colors } from '@/constants/theme';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Image,
     KeyboardAvoidingView,
@@ -16,61 +20,137 @@ import {
 
 export default function Login() {
     const router = useRouter();
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     
     const handleContinueLogin = () => {
         router.replace('/dashboard')
     }
 
     const handleGoogleLogin = async () => {
-    try {
-        await loginWithGoogle();
-        router.replace('/dashboard');
-    } catch (err) {
-        console.error('Login failed', err);
-    }
-};
+        router.push("/coming-soon");
+        // try {
+        //     await loginWithGoogle();
+        //     router.replace('/dashboard');
+        // } catch (err) {
+        //     console.error('Login failed', err);
+        // }
+    };
+
+    const handleSignUp = async () => {
+
+        router.push("/signup");
+        // try {
+        //     await loginWithGoogle();
+        //     router.replace('/dashboard');
+        // } catch (err) {
+        //     console.error('Login failed', err);
+        // }
+    };
+
+    const handleSignIn = async () => {
+        try {
+            await signIn(email, password);
+            router.replace("/dashboard");
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     return (
         <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-        <View style={styles.topBar}>
-            <Text style={styles.headerText}>CloneJira</Text>
-        </View>
+            <View style={styles.topBar}>
+                <Text style={styles.headerText}>CloneJira</Text>
+            </View>
 
-        <View style={styles.content}>
-            <LottieView
-            source={require('../../assets/animations/register.json')}
-            autoPlay
-            loop
-            style={styles.animation}
-            />
-
-            <TouchableOpacity
-                style={styles.loginButton}
-                onPress={handleGoogleLogin}
+            <View style={styles.content}>
+                <LottieView
+                    source={require('../../assets/animations/register.json')}
+                    autoPlay
+                    loop
+                    style={styles.animation}
+                />
+            </View>
+            <LinearGradient
+                style={{
+                    height: '60%',
+                    width: '100%',
+                    borderTopLeftRadius: 32,
+                    borderTopRightRadius: 32,
+                    overflow: 'hidden',      
+                }}
+                colors={['#8637CF', '#0F55A1']}
+                start={[0, 1]}
+                end={[1, 0]}
             >
-            <Image
-                source={require('@/assets/images/icons8-google-48.png')}
-                style={styles.googleIcon}
-            />
-            <Text style={styles.loginButtonText}>
-                Login with Google account
-            </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleContinueLogin}>
-            <Text>Continue without login</Text>
-            </TouchableOpacity>
-        </View>
+                <Box className='h-[60%] p-4 items-center '>
+                    <Text className="font-bold text-3xl mb-6 text-white text-center">
+                        Sign in
+                    </Text>
+                    <Input className="h-14 mb-4 rounded-lg bg-white border-white">
+                        <InputField
+                            value={email}
+                            onChangeText={setEmail}
+                            placeholder="Email"
+                            className="text-darkTextPrimary text-lg"
+                        />
+                    </Input>
+                    <Input className="h-14 mb-2 rounded-lg bg-white border-white">
+                        <InputField
+                            value={password}
+                            onChangeText={setPassword}
+                            placeholder="Password"
+                            className="text-darkTextPrimary text-lg"
+                        />
+                    </Input>
+
+                    <HStack className="w-full justify-between mb-6">
+                        <TouchableOpacity onPress={handleSignUp} >
+                            <Text className="text-white font-medium">Sign Up</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleContinueLogin}>
+                            <Text className="text-white font-medium">Continue without login</Text>
+                        </TouchableOpacity>
+                    </HStack>
+
+                    <TouchableOpacity style={styles.loginButton} onPress={handleSignIn}>
+                        <Text style={styles.loginButtonText}>
+                            Login
+                        </Text>
+                    </TouchableOpacity>
+
+                    <Box className="w-[80%] flex-row items-center my-4 px-6">
+                        <Box className="flex-1 h-[1px] bg-white/40" />
+                            <Text className="mx-3 text-white font-semibold">OR</Text>
+                        <Box className="flex-1 h-[1px] bg-white/40" />
+                    </Box>
+
+                    <TouchableOpacity
+                        style={styles.loginButton}
+                        onPress={handleGoogleLogin}
+                    >
+                        <Image
+                            source={require('@/assets/images/icons8-google-48.png')}
+                            style={styles.googleIcon}
+                        />
+                        <Text style={styles.loginButtonText}>
+                            Login with Google
+                        </Text>
+                    </TouchableOpacity>
+                </Box>
+            </LinearGradient>
         </KeyboardAvoidingView>
     );
     }
 
 
-    const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     animation: {
-        height: '30%',
+        height: '70%',
         width: '70%',
     },
     container: {
@@ -79,36 +159,20 @@ export default function Login() {
     },
     content: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 24,
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginBottom: 200,
-        color: Colors.light.text_primary,
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: '#E5E5E5',
-        borderRadius: 8,
-        padding: 16,
-        marginBottom: 16,
-        fontSize: 16,
+        justifyContent: 'flex-end',
+        alignItems: 'center'
     },
     loginButton: {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
+        width: '80%',
         gap: 40,
-        backgroundColor: Colors.light.primary,
-        padding: 16,
+        backgroundColor:  'white',
+        padding: 12,
         paddingLeft: 40,
         paddingRight: 40,
         borderRadius: 20,
-        marginTop: 20,
     },
     googleIcon: {
         width: 40,
@@ -118,7 +182,7 @@ export default function Login() {
         borderRadius: 50
     },
     loginButtonText: {
-        color: 'white',
+        color: Colors.light.primary,
         fontSize: 16,
         fontWeight: 'bold',
     },

@@ -10,7 +10,6 @@ export async function getMyProjects(): Promise<ProjectData[]> {
             Authorization: `Bearer ${ACCESS_TOKEN}`,
         },
     });
-    console.log("Res", res)
 
     if (!res.ok) {
         if (res.status === 401) {
@@ -20,7 +19,6 @@ export async function getMyProjects(): Promise<ProjectData[]> {
     }
 
     const json = await res.json();
-    console.log("projects: ", json)
     return json;
 }
 
@@ -34,7 +32,6 @@ export async function createProject(project: CreateProjectDTO): Promise<ProjectD
         },
         body: JSON.stringify(project),
     });
-    console.log("Res", res)
 
     if (!res.ok) {
         if (res.status === 401) {
@@ -44,7 +41,6 @@ export async function createProject(project: CreateProjectDTO): Promise<ProjectD
     }
 
     const json = await res.json();
-    console.log("project: ", json)
     return json;
 }
 
@@ -55,7 +51,6 @@ export async function getProjectById(id: string): Promise<ProjectByIdAPIResponse
             Authorization: `Bearer ${ACCESS_TOKEN}`,
         },
     });
-    console.log("Res", res)
 
     if (!res.ok) {
         if (res.status === 401) {
@@ -65,7 +60,6 @@ export async function getProjectById(id: string): Promise<ProjectByIdAPIResponse
     }
 
     const json = await res.json();
-    console.log("project: ", json)
     return json;
 }
 
@@ -76,7 +70,6 @@ export async function getProjectTasks(id: string): Promise<TaskAPIResponse[]> {
             Authorization: `Bearer ${ACCESS_TOKEN}`,
         },
     });
-    console.log("Res", res)
 
     if (!res.ok) {
         if (res.status === 401) {
@@ -86,6 +79,5 @@ export async function getProjectTasks(id: string): Promise<TaskAPIResponse[]> {
     }
 
     const json = await res.json();
-    console.log("project: ", json)
     return json;
 }
