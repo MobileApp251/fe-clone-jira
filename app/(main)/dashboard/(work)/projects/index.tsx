@@ -22,7 +22,7 @@ export default function ProjectsScreen() {
         loadProjects();
     }, []);
 
-    const filteredTasks = useMemo(() => {
+    const filteredProjects = useMemo(() => {
         if (!search.trim()) return projects;
 
         const q = search.toLowerCase();
@@ -56,7 +56,7 @@ export default function ProjectsScreen() {
                 <Box className="flex-1 justify-center items-center">
                     <ActivityIndicator size="large" />
                 </Box>
-            ) : filteredTasks.length === 0 ? (
+            ) : filteredProjects.length === 0 ? (
                 <Box className="flex-1 justify-center items-center">
                     <Text className="text-darkTextSecondary text-sm">
                         No matching projects
@@ -65,7 +65,7 @@ export default function ProjectsScreen() {
             ) : (
                 <FlatList
                     className="mt-4"
-                    data={projects}
+                    data={filteredProjects}
                     keyExtractor={(item) => item.proj_id}
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item }) => (
