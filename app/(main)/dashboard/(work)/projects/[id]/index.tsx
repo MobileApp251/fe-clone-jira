@@ -38,7 +38,7 @@ export default function ProjectDetail() {
             ) : (
                 <>
                     <Box className="flex-row items-center justify-between mb-4 px-6">
-                        <Text className="text-3xl font-semibold">{project?.proj_name}</Text>
+                        <Text className="text-3xl font-semibold">{project?.project.proj_name}</Text>
 
                         <Box className="flex-row gap-3">
                             <Box className="w-12 h-12">
@@ -54,7 +54,7 @@ export default function ProjectDetail() {
                                 <TouchableOpacity
                                     onPress={() =>
                                         router.push(
-                                            `/(main)/dashboard/(work)/projects/${project?.proj_id}/edit`
+                                            `/(main)/dashboard/(work)/projects/${project?.project.proj_id}/edit`
                                         )
                                     }
                                     className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
@@ -66,7 +66,7 @@ export default function ProjectDetail() {
                     <Box className="mb-4 px-6">
                         <Text className="font-semibold mb-1 text-lg text-darkTextPrimary">Description</Text>
                         <Text className="text-darkTextPrimary">
-                            {project?.description}
+                            {project?.project.description}
                         </Text>
                     </Box>
                     <Box className="flex-row justify-between items-center mb-3 px-6">

@@ -1,7 +1,7 @@
 import { API_URL } from "@/config/env";
 import { CreateProjectDTO, ProjectByIdAPIResponse, ProjectData, TaskAPIResponse } from "@/utils/workType";
 
-const ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYTExOTIyNy05YjRlLTFjNGItODE5Yi00ZTBmOTc0OTAwMDAiLCJpYXQiOjE3NjY1NDEyMDQsImV4cCI6MTc2NjYyNzYwNH0.uJqyruKCBBtgi4H6hgEpD8jBwz73TLU53MIcu6t9PTY';
+const ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYTExZTZiNC05YjRmLTE2NDMtODE5Yi00Zjk4MDMyNjAwMDAiLCJpYXQiOjE3NjY1NjY5MjEsImV4cCI6MTc2NjY1MzMyMX0.kBVLp4Eo12pXpulhmvcxrGPhWL19MhZ557M8AWmPjAU';
 
 export async function getMyProjects(): Promise<ProjectData[]> {
     const res = await fetch(`${API_URL}/projects`, {
@@ -25,6 +25,7 @@ export async function getMyProjects(): Promise<ProjectData[]> {
 }
 
 export async function createProject(project: CreateProjectDTO): Promise<ProjectData> {
+    console.log(project);
     const res = await fetch(`${API_URL}/projects`, {
         method: "POST",
         headers: {
