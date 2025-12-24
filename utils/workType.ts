@@ -19,7 +19,7 @@ export type Project = {
   tasks?: Task[];
 };
 
-export type ProjectAPIResponse = {
+export type ProjectData = {
   proj_id: string;
   proj_name: string;
   description: string | null;
@@ -29,6 +29,27 @@ export type ProjectAPIResponse = {
   createAt: string;
   updateAt: string;
 };
+
+export type ProjectMembers = {
+  email: string;
+  role: string;
+  uid: string;
+  username: string;
+}
+
+export type ProjectByIdAPIResponse = {
+  members: ProjectMembers[];
+  project: ProjectData;
+}
+
+export type CreateProjectDTO = {
+  createAt: string;
+  description: string;
+  endAt: string;
+  proj_name: string;
+  startAt: string;
+  updateAt: string;
+}
 
 export type TaskAPIResponse = {
   content: string;

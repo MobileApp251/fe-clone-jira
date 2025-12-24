@@ -5,12 +5,14 @@ import {
 } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import { Colors } from "@/constants/theme";
+import { useProjects } from "@/context/ProjectsContext";
 import { Plus, X } from "lucide-react-native";
 import { useState } from "react";
-import { Modal, Pressable } from "react-native";
+import { Pressable } from "react-native";
 import { DateType } from "react-native-ui-datepicker";
 import DatePickerField from "../datepicker/DatePickerField";
 import StatusPickerField from "../statuspicker/StatusPickerField";
+import { Modal, ModalBackdrop, ModalBody, ModalContent, ModalFooter, ModalHeader } from "../ui/modal";
 
 type CreateProjectProps = {
     visible: boolean;
@@ -21,69 +23,119 @@ export default function CreateProjectModal({ visible, onClose }: CreateProjectPr
     const [status, setStatus] = useState<string>();
     const [startDate, setStartDate] = useState<DateType>();
     const [endDate, setEndDate] = useState<DateType>();
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+
+    const { projects, project, createNewProject, loading, error } = useProjects();
+
+    const handleCreateProject = async () => {
+        try {
+            await createNewProject({
+                createAt: (new Date()).toString(),
+                description: description,
+                endAt: endDate?.toLocaleString() ?? "",
+                proj_name: title,
+                startAt: startDate?.toLocaleString() ?? "",
+                updateAt: startDate?.toLocaleString() ?? ""
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
     return (
-        <Modal transparent animationType="fade" visible={visible}>
-            <Pressable
-                onPress={onClose}
-                className="flex-1 bg-black/50 justify-center items-center px-4"
-            >
-                <Pressable className="w-full bg-white rounded-2xl p-5">
-                    <Text className="text-xl font-semibold mb-4 text-darkTextPrimary">
+        <Modal
+            isOpen={visible}
+            onClose={onClose}
+            size="md"
+        >
+            <ModalBackdrop />
+
+            <ModalContent className="w-full -mt-40 bg-white mx-4 rounded-2xl p-5">
+                <ModalHeader>
+                    <Text className="text-xl font-semibold text-darkTextPrimary">
                         Create new project
                     </Text>
+                </ModalHeader>
 
+                <ModalBody>
                     <Text className="font-medium mb-1 text-darkTextPrimary">
                         Title <Text className="text-red-500">*</Text>
                     </Text>
                     <Input className="mb-3 rounded-lg border-inputBorder">
-                        <InputField 
-                            placeholder="Project title" 
-                            className="text-darkTextPrimary focus:text-darkTextPrimary focus:border focus:border-inputBorder focus:rounded-lg"
+                        <InputField
+                            value={title}
+                            onChangeText={setTitle}
+                            placeholder="Project title"
+                            className="text-darkTextPrimary"
                         />
                     </Input>
 
-                    <Text className="font-medium mb-1 text-darkTextPrimary">Description</Text>
+                    <Text className="font-medium mb-1 text-darkTextPrimary">
+                        Description
+                    </Text>
                     <Input className="mb-3 rounded-lg h-24 border-inputBorder">
                         <InputField
+                            value={description}
+                            onChangeText={setDescription}
                             placeholder="Description"
                             multiline
-                            className="text-darkTextPrimary focus:text-darkTextPrimary focus:border focus:border-inputBorder focus:rounded-lg"
+                            className="text-darkTextPrimary"
                         />
                     </Input>
 
-                    <Text className="font-medium mb-1 text-darkTextPrimary">Start date</Text>
-                    <DatePickerField date={startDate} setDate={setStartDate} maxDate={endDate} />
-                    
-                    <Text className="font-medium mb-1 text-darkTextPrimary">Due date</Text>
-                    <DatePickerField date={endDate} setDate={setEndDate} minDate={startDate}/>
+                    <Text className="font-medium mb-1 text-darkTextPrimary">
+                        Start date
+                    </Text>
+                    <DatePickerField
+                        date={startDate}
+                        setDate={setStartDate}
+                        maxDate={endDate}
+                    />
 
-                    <Text className="font-medium mb-1 text-darkTextPrimary">Status</Text>
+                    <Text className="font-medium mb-1 text-darkTextPrimary mt-3">
+                        Due date
+                    </Text>
+                    <DatePickerField
+                        date={endDate}
+                        setDate={setEndDate}
+                        minDate={startDate}
+                    />
+
+                    <Text className="font-medium mb-1 text-darkTextPrimary mt-3">
+                        Status
+                    </Text>
                     <StatusPickerField
                         value={status}
                         onChange={setStatus}
                     />
+                </ModalBody>
 
-                    <HStack className="justify-between mt-6">
+                <ModalFooter>
+                    <HStack className="justify-between w-full">
                         <Pressable
-                        onPress={onClose}
-                        className="border border-indanger rounded-xl px-4 py-2 flex-row items-center"
+                            onPress={onClose}
+                            className="border border-indanger rounded-xl px-4 py-2 flex-row items-center"
                         >
-                        <X size={16} color={Colors.status.danger} />
-                        <Text className="text-indanger ml-1 font-medium">
-                            Cancel
-                        </Text>
+                            <X size={16} color={Colors.status.danger} />
+                            <Text className="text-indanger ml-1 font-medium">
+                                Cancel
+                            </Text>
                         </Pressable>
 
-                        <Pressable className="bg-lightPrimary rounded-xl px-4 py-2 flex-row items-center">
-                        <Plus size={16} color="white" />
-                        <Text className="text-white ml-1 font-medium">
-                            Create
-                        </Text>
+                        <Pressable
+                            onPress={handleCreateProject}
+                            className="bg-lightPrimary rounded-xl px-4 py-2 flex-row items-center"
+                        >
+                            <Plus size={16} color="white" />
+                            <Text className="text-white ml-1 font-medium">
+                                Create
+                            </Text>
                         </Pressable>
                     </HStack>
-                </Pressable>
-            </Pressable>
+                </ModalFooter>
+            </ModalContent>
         </Modal>
     );
+
 }

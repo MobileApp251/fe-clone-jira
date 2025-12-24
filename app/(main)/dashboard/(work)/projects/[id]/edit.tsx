@@ -1,24 +1,28 @@
-    import { Box } from "@/components/ui/box";
+import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
 import { Colors } from "@/constants/theme";
+import { useProjects } from "@/context/ProjectsContext";
 import { router, useLocalSearchParams } from "expo-router";
 import { Check, ChevronsLeft, X } from "lucide-react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Pressable, TextInput } from "react-native";
-import { projects } from "../project_data";
 
 export default function EditProjectScreen() {
     const { id } = useLocalSearchParams<{ id: string }>();
-    const project = projects.find(p => p.id === id);
+    const { project, projectTasks, loading, error, loadProjectById } = useProjects();
 
-    const [name, setName] = useState(project?.title ?? "");
+    const [name, setName] = useState(project?.proj_name ?? "");
     const [description, setDescription] = useState(project?.description ?? "");
+
+    useEffect(() => {
+        loadProjectById(id);
+    }, []);
 
     if (!project) {
         return (
-        <Box className="flex-1 items-center justify-center">
-            <Text>Project not found</Text>
-        </Box>
+            <Box className="flex-1 items-center justify-center">
+                <Text>Project not found</Text>
+            </Box>
         );
     }
 
@@ -32,7 +36,7 @@ export default function EditProjectScreen() {
                 <Text className="ml-1 text-lightPrimary font-medium">Back</Text>
             </Pressable>
 
-            <Text className="text-3xl font-semibold text-darkTextPrimary">{project.title}</Text>
+            <Text className="text-3xl font-semibold text-darkTextPrimary">{project?.proj_name}</Text>
 
             <Text className="font-medium my-1 text-darkTextPrimary">Name</Text>
             <Box className="mb-4">
@@ -73,7 +77,7 @@ export default function EditProjectScreen() {
                     </Pressable>
                 </Box>
             </Box>
-            
+
         </Box>
     );
 }
