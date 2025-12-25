@@ -1,18 +1,18 @@
 import { Text } from "@/components/ui/text";
 import { Colors } from "@/constants/theme";
-import { TaskStatus } from "@/utils/taskStatus";
+import { TaskPriority } from "@/utils/taskStatus";
 import { Check, ChevronDown } from "lucide-react-native";
 import { useState } from "react";
 import { Modal, Pressable, View } from "react-native";
 
-const STATUSES: TaskStatus[] = ["open", "progress", "done", "reopen", "close"];
-
 type Props = {
-    value?: TaskStatus;
-    onChange?: (value: TaskStatus) => void;
+    value?: TaskPriority;
+    onChange?: (value: TaskPriority) => void;
 };
 
-export default function StatusPickerField({ value, onChange }: Props) {
+const PRIORITIES: TaskPriority[] = ["low", "medium", "high"];
+
+export default function PriorityPicker({ value, onChange }: Props) {
     const [visible, setVisible] = useState(false);
 
     return (
@@ -39,7 +39,7 @@ export default function StatusPickerField({ value, onChange }: Props) {
                     Select status
                 </Text>
 
-                {STATUSES.map((item) => (
+                {PRIORITIES.map((item) => (
                 <Pressable
                     key={item}
                     onPress={() => {

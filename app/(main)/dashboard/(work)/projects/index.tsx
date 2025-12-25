@@ -65,7 +65,7 @@ export default function ProjectsScreen() {
             ) : (
                 <FlatList
                     className="mt-4"
-                    data={projects}
+                    data={filteredProjects}
                     keyExtractor={(item) => item.proj_id}
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item }) => (

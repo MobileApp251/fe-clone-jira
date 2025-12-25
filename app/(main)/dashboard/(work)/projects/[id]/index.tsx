@@ -104,7 +104,9 @@ export default function ProjectDetail() {
 
                     <NewTaskModal
                         visible={showAddTaskModal}
-                        onClose={() => setShowAddTaskModal(false)} />
+                        onClose={() => setShowAddTaskModal(false)} 
+                        projectId={id}/>
+                        
                 </>
             )}
 

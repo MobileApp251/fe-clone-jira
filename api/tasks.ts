@@ -1,5 +1,5 @@
 import { API_URL } from "@/config/env";
-import { TaskAPIResponse } from "@/utils/workType";
+import { CreateTaskDTO, TaskAPIResponse } from "@/utils/workType";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 let ACCESS_TOKEN: string | null = null;
@@ -15,6 +15,29 @@ export async function getMyTasks(): Promise<TaskAPIResponse[]> {
         headers: {
             Authorization: `Bearer ${ACCESS_TOKEN}`,
         },
+    });
+
+    if (!res.ok) {
+        if (res.status === 401) {
+            throw new Error("UNAUTHORIZED");
+        }
+        throw new Error("Failed to fetch tasks");
+    }
+
+    const json = await res.json();
+    return json;
+}
+
+export async function createTask(projectId: string, task: CreateTaskDTO): Promise<TaskAPIResponse> {
+    await initAuth();
+    console.log(projectId)
+    const res = await fetch(`${API_URL}/api/tasks/${projectId}`, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(task),
     });
 
     if (!res.ok) {

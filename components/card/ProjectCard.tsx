@@ -35,7 +35,7 @@ export default function ProjectCard({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const renderRightActions = () =>
-    () => {
+    {
       return (
         <>
           <Pressable
@@ -52,7 +52,7 @@ export default function ProjectCard({
 
   return (
     <Swipeable
-      renderRightActions={renderRightActions()}
+      renderRightActions={renderRightActions}
       overshootRight={false}
     >
       <Box

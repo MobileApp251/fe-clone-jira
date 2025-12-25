@@ -1,4 +1,4 @@
-import { TaskStatus } from "./taskStatus";
+import { TaskPriority, TaskStatus } from "./taskStatus";
 
 export type Task = {
   id: string;
@@ -60,4 +60,14 @@ export type TaskAPIResponse = {
   task_id: string;
   task_name: string;
   updateAt: Date;
+  priority: TaskPriority,
+}
+
+export type CreateTaskDTO = {
+  task_name: string;
+  content: string;
+  priority: "high" | "medium" | "low";
+  status: string;
+  startAt: string;
+  endAt: string;
 }
