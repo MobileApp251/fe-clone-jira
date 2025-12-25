@@ -9,14 +9,14 @@ import { Pressable, TextInput } from "react-native";
 
 export default function EditProjectScreen() {
     const { id } = useLocalSearchParams<{ id: string }>();
-    const { project, projectTasks, loading, error, loadProjectById } = useProjects();
+    const { project, loading, loadProjectById } = useProjects();
 
-    const [name, setName] = useState(project?.proj_name ?? "");
-    const [description, setDescription] = useState(project?.description ?? "");
+    const [name, setName] = useState(project?.project.proj_name ?? "");
+    const [description, setDescription] = useState(project?.project.description ?? "");
 
     useEffect(() => {
         loadProjectById(id);
-    }, []);
+    }, [id, loadProjectById]);
 
     if (!project) {
         return (
@@ -36,48 +36,49 @@ export default function EditProjectScreen() {
                 <Text className="ml-1 text-lightPrimary font-medium">Back</Text>
             </Pressable>
 
-            <Text className="text-3xl font-semibold text-darkTextPrimary">{project?.proj_name}</Text>
+            {loading && <>
+                <Text className="text-3xl font-semibold text-darkTextPrimary">{project?.project.proj_name}</Text>
 
-            <Text className="font-medium my-1 text-darkTextPrimary">Name</Text>
-            <Box className="mb-4">
-                <TextInput
-                    value={name}
-                    onChangeText={setName}
-                    className="border border-inputBorder rounded-l-lg rounded-tr-lg p-3"
-                />
+                <Text className="font-medium my-1 text-darkTextPrimary">Name</Text>
+                <Box className="mb-4">
+                    <TextInput
+                        value={name}
+                        onChangeText={setName}
+                        className="border border-inputBorder rounded-l-lg rounded-tr-lg p-3"
+                    />
 
-                <Box className="flex-row justify-end">
-                    <Pressable className="p-2 border-x border-b rounded-bl-lg border-inputBorder">
-                        <Check size={18} color="green" />
-                    </Pressable>
+                    <Box className="flex-row justify-end">
+                        <Pressable className="p-2 border-x border-b rounded-bl-lg border-inputBorder">
+                            <Check size={18} color="green" />
+                        </Pressable>
 
-                    <Pressable className="p-2 border-x border-b rounded-br-lg border-inputBorder">
-                        <X size={18} color={Colors.status.danger} />
-                    </Pressable>
+                        <Pressable className="p-2 border-x border-b rounded-br-lg border-inputBorder">
+                            <X size={18} color={Colors.status.danger} />
+                        </Pressable>
+                    </Box>
                 </Box>
-            </Box>
 
 
-            <Text className="font-medium my-1 text-darkTextPrimary">Description</Text>
-            <Box className="mb-4">
-                <TextInput
-                    multiline
-                    value={description}
-                    onChangeText={setDescription}
-                    className="border border-inputBorder rounded-l-lg rounded-tr-lg p-3"
-                />
+                <Text className="font-medium my-1 text-darkTextPrimary">Description</Text>
+                <Box className="mb-4">
+                    <TextInput
+                        multiline
+                        value={description}
+                        onChangeText={setDescription}
+                        className="border border-inputBorder rounded-l-lg rounded-tr-lg p-3"
+                    />
 
-                <Box className="flex-row justify-end">
-                    <Pressable className="p-2 border-x border-b rounded-bl-lg border-inputBorder">
-                        <Check size={18} color="green" />
-                    </Pressable>
+                    <Box className="flex-row justify-end">
+                        <Pressable className="p-2 border-x border-b rounded-bl-lg border-inputBorder">
+                            <Check size={18} color="green" />
+                        </Pressable>
 
-                    <Pressable className="p-2 border-x border-b rounded-br-lg border-inputBorder">
-                        <X size={18} color={Colors.status.danger} />
-                    </Pressable>
+                        <Pressable className="p-2 border-x border-b rounded-br-lg border-inputBorder">
+                            <X size={18} color={Colors.status.danger} />
+                        </Pressable>
+                    </Box>
                 </Box>
-            </Box>
-
+            </>}
         </Box>
     );
 }

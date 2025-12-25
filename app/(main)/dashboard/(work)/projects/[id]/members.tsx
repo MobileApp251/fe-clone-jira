@@ -4,16 +4,16 @@ import SearchBar from "@/components/search/SearchBar";
 import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
 import { Colors } from "@/constants/theme";
-import { router, useLocalSearchParams } from "expo-router";
+import { useProjects } from "@/context/ProjectsContext";
+import { router } from "expo-router";
 import { ChevronsLeft, UserPlus } from "lucide-react-native";
 import { useState } from "react";
 import { Pressable } from "react-native";
-import { projects } from "../project_data";
 
 export default function ProjectMembers() {
     const [openAddMember, setOpenAddMember] = useState(false);
-    const { id } = useLocalSearchParams<{ id: string }>();
-    const project = projects.find((p) => p.id === id);
+    const [search, setSearch] = useState("")
+    const { project } = useProjects();
     
     if (!project) {
         return (
@@ -31,7 +31,7 @@ export default function ProjectMembers() {
             </Pressable>
 
             <Box className="flex-row items-center justify-between mb-4 px-6">
-                <Text className="text-3xl font-semibold text-darkTextPrimary">{project.title}</Text>
+                <Text className="text-3xl font-semibold text-darkTextPrimary">{project.project.proj_name}</Text>
 
                 <Pressable 
                     onPress={() => setOpenAddMember(true)}
@@ -44,20 +44,16 @@ export default function ProjectMembers() {
                 </Pressable>
             </Box>
 
-            <SearchBar page='onlySearch'/>
+            <SearchBar page='onlySearch' value={search} onChange={setSearch}/>
             <Box className="mt-4 mx-6">
-                {[
-                    { id: "1", name: "Nguyễn Văn A" },
-                    { id: "2", name: "Nguyễn Văn B" },
-                    { id: "3", name: "Nguyễn Văn C" },
-                ].map((member) => (
+                {project.members.map((member) => (
                 <MemberCard
-                    key={member.id}
-                    id={member.id}
-                    name={member.name}
+                    key={member.uid}
+                    id={member.uid}
+                    name={member.username}
                     onRemove={(id) => {
                     console.log("Remove member:", id);
-                    }}
+                }}
                 />
                 ))}
             </Box>

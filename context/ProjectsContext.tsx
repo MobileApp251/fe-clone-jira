@@ -4,7 +4,7 @@ import { CreateProjectDTO, CreateTaskDTO, ProjectByIdAPIResponse, ProjectData, T
 import { createContext, useCallback, useContext, useState } from "react";
 
 type ProjectsContextType = {
-    projects: ProjectData[];
+    projects: ProjectByIdAPIResponse[];
     project: ProjectByIdAPIResponse;
     projectTasks: TaskAPIResponse[];
     loading: boolean;
@@ -18,7 +18,7 @@ type ProjectsContextType = {
 const ProjectsContext = createContext<ProjectsContextType | null>(null);
 
 export function ProjectsProvider({ children }: { children: React.ReactNode }) {
-    const [projects, setProjects] = useState<ProjectData[]>([]);
+    const [projects, setProjects] = useState<ProjectByIdAPIResponse[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [project, setProject] = useState<ProjectByIdAPIResponse>({
@@ -42,7 +42,22 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
             setError(null);
 
             const newProject = await createProject(project);
-            setProjects(prev => [...prev, newProject]);
+            setProjects(prev => [
+                ...prev,
+                {
+                    members: [],
+                    project: {
+                        proj_id: newProject.proj_id,
+                        proj_name: newProject.proj_name,
+                        description: newProject.description,
+                        startAt: newProject.startAt,
+                        endAt: newProject.endAt,
+                        createAt: newProject.createAt,
+                        updateAt: newProject.updateAt,
+                        done: newProject.done,
+                    }
+                }
+            ]);
             return newProject;
         } catch (error: any) {
             setError(error?.message ?? "LOAD_FAILED");

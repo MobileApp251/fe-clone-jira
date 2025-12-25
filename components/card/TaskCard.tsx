@@ -16,6 +16,7 @@ type Props = {
     status: string;
     endDate: Date;
     inProject?: boolean;
+    projectId: string;
 };
 
 export default function TaskCard({
@@ -25,7 +26,8 @@ export default function TaskCard({
     priority,
     status,
     endDate,
-    inProject
+    inProject,
+    projectId
 }: Props) {
     const style =
         TASK_STATUS_STYLE[status] ??
@@ -33,9 +35,15 @@ export default function TaskCard({
 
     const router = useRouter();
 
-    const viewDetailTask = (id: string) => {
-        router.push(`/(main)/dashboard/(work)/tasks/${id}`)
-    }
+    const viewDetailTask = (taskId: string) => {
+    router.push({
+        pathname: "/(main)/dashboard/(work)/tasks/[id]",
+        params: { 
+            id: taskId,
+            projectId,
+        },
+    });
+};
 
     const StatusIcon = style.icon;
 
