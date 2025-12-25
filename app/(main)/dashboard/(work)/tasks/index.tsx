@@ -10,11 +10,11 @@ import { ActivityIndicator, FlatList } from "react-native";
 export default function TasksScreen() {
     const [showFilter, setShowFilter] = useState(false);
     const [search, setSearch] = useState("");
-    const { tasks, loading, error, loadTasks } = useTasks();
+    const { tasks, loading, loadTasks } = useTasks();
 
     useEffect(() => {
         loadTasks();
-    }, []);
+    }, [loadTasks]);
 
     const filteredTasks = useMemo(() => {
         if (!search.trim()) return tasks;
@@ -66,6 +66,7 @@ export default function TasksScreen() {
                             status={item.status.toUpperCase()}
                             endDate={new Date(item.endAt)}
                             priority={item.priority}
+                            projectId={item.proj_id}
                         />
                     )}
                 />

@@ -23,7 +23,6 @@ export type ProjectData = {
   proj_id: string;
   proj_name: string;
   description: string | null;
-
   startAt: string;
   endAt: string;
   createAt: string;

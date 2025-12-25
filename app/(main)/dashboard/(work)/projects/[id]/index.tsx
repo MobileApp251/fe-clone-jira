@@ -11,11 +11,11 @@ import { ActivityIndicator, FlatList, Pressable, Text, TouchableOpacity } from "
 export default function ProjectDetail() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const [showAddTaskModal, setShowAddTaskModal] = useState(false);
-    const { project, projectTasks, loading, error, loadProjectById } = useProjects();
+    const { project, projectTasks, loading, loadProjectById } = useProjects();
 
     useEffect(() => {
         loadProjectById(id);
-    }, []);
+    }, [id, loadProjectById]);
 
     if (!project) {
         return (
@@ -97,6 +97,7 @@ export default function ProjectDetail() {
                                     status={item.status.toUpperCase()}
                                     endDate={new Date(item.endAt)}
                                     inProject={true}
+                                    projectId={item.proj_id}
                                 />
                             </Pressable>)}
                     >

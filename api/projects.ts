@@ -8,7 +8,7 @@ async function initAuth() {
     ACCESS_TOKEN = await AsyncStorage.getItem("ACCESS_TOKEN");
 }
 
-export async function getMyProjects(): Promise<ProjectData[]> {
+export async function getMyProjects(): Promise<ProjectByIdAPIResponse[]> {
     await initAuth();
     const res = await fetch(`${API_URL}/projects`, {
         method: "GET",
