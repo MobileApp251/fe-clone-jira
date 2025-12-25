@@ -86,7 +86,7 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
 
     const createNewTask = useCallback(async (projectId: string, task: CreateTaskDTO) => {
         try {
-            setLoading(true);
+            setLoading(false);
             setError(null);
 
             const data = await createTask(projectId, task);
@@ -99,7 +99,7 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
     }, [])
 
     return (
-        <ProjectsContext.Provider value={{ projects, project, projectTasks, loading, error, createNewProject, loadProjects, loadProjectById, createNewTask}}>
+        <ProjectsContext.Provider value={{ projects, project, projectTasks, loading, error, createNewProject, loadProjects, loadProjectById, createNewTask }}>
             {children}
         </ProjectsContext.Provider>
 

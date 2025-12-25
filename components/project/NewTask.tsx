@@ -7,11 +7,13 @@ import { TaskPriority, TaskStatus } from "@/utils/taskStatus";
 import dayjs from "dayjs";
 import { ChevronLeft, Plus, X } from "lucide-react-native";
 import { useState } from "react";
-import { Modal, Pressable } from "react-native";
+import { Pressable } from "react-native";
 import { DateType } from "react-native-ui-datepicker";
 import DatePickerField from "../datepicker/DatePickerField";
 import PriorityPicker from "../prioritypicker/PriorityPicker";
 import StatusPickerField from "../statuspicker/StatusPickerField";
+import { ButtonSpinner } from "../ui/button";
+import { Modal, ModalBackdrop, ModalContent } from "../ui/modal";
 
 type AddNewTaskProps = {
     visible: boolean;
@@ -21,7 +23,7 @@ type AddNewTaskProps = {
 
 export default function NewTaskModal({ visible, onClose, projectId }: AddNewTaskProps) {
     const [step, setStep] = useState<1 | 2>(1);
-    const {createNewTask} = useProjects();
+    const { createNewTask } = useProjects();
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -34,16 +36,14 @@ export default function NewTaskModal({ visible, onClose, projectId }: AddNewTask
     const [endDate, setEndDate] = useState<DateType>();
 
     const handleClose = () => {
-        console.log("CLOSE MODAL");
         setStep(1);
         onClose();
     };
 
-    const handleCreate = async() => {
+    const handleCreate = async () => {
         try {
             setLoading(true);
             setError(null);
-
             await createNewTask(projectId, {
                 task_name: taskName,
                 content: description,
@@ -62,183 +62,159 @@ export default function NewTaskModal({ visible, onClose, projectId }: AddNewTask
     }
 
     return (
-        <Modal transparent animationType="fade" visible={visible}>
-            <Pressable
-                onPress={handleClose}
-                className="flex-1 bg-black/50 justify-center items-center px-4"
-            >
-                <Pressable className="w-full bg-white rounded-2xl p-5">
-                    <Text className="text-xl font-semibold mb-1 text-darkTextPrimary">
-                        Add new task
-                    </Text>
-                    <Text className="text-sm text-gray-400 mb-4">
-                        Step {step} of 2
-                    </Text>
+        <Modal isOpen={visible} onClose={handleClose} size="md">
+            <ModalBackdrop />
+            <ModalContent className="w-full -mt-40 rounded-2xl p-5 bg-white">
+                <Text className="text-xl font-semibold mb-1 text-darkTextPrimary">
+                    Add new task
+                </Text>
 
-                    {/* ================= STEP 1 ================= */}
-                    {step === 1 && (
-                        <>
-                            <Text className="font-medium mb-1 text-darkTextPrimary">
-                                Task name <Text className="text-red-500">*</Text>
-                            </Text>
-                            <Input className="mb-3 rounded-lg border-inputBorder">
-                                <InputField
-                                    value={taskName}
-                                    onChangeText={setTaskName}
-                                    placeholder="Task name"
-                                    className="text-darkTextPrimary focus:text-darkTextPrimary focus:border focus:border-inputBorder focus:rounded-lg"
-                                />
-                            </Input>
+                <Text className="text-sm text-gray-400 mb-4">
+                    Step {step} of 2
+                </Text>
 
-                            <Text className="font-medium mb-1 text-darkTextPrimary">
-                                Description
-                            </Text>
-                            <Input className="mb-3 rounded-lg h-24 border-inputBorder">
-                                <InputField
-                                    value={description}
-                                    onChangeText={setDescription}
-                                    multiline
-                                    placeholder="Description"
-                                    className="text-darkTextPrimary focus:text-darkTextPrimary focus:border focus:border-inputBorder focus:rounded-lg"
-                                />
-                            </Input>
+                {/* ================= STEP 1 ================= */}
+                {step === 1 && (
+                    <>
+                        <Text className="font-medium mb-1 text-darkTextPrimary">
+                            Task name <Text className="text-red-500">*</Text>
+                        </Text>
 
-                            <Text className="font-medium mb-1 text-darkTextPrimary">
-                                Start date
-                            </Text>
-                            <DatePickerField
-                                date={startDate}
-                                setDate={setStartDate}
-                                maxDate={endDate}
+                        <Input className="mb-3 rounded-lg border-inputBorder">
+                            <InputField
+                                value={taskName}
+                                onChangeText={setTaskName}
+                                placeholder="Task name"
+                                className="text-darkTextPrimary"
                             />
+                        </Input>
 
-                            <Text className="font-medium mb-1 text-darkTextPrimary">
-                                Due date
-                            </Text>
-                            <DatePickerField
-                                date={endDate}
-                                setDate={setEndDate}
-                                minDate={startDate}
+                        <Text className="font-medium mb-1 text-darkTextPrimary">
+                            Description
+                        </Text>
+
+                        <Input className="mb-3 rounded-lg h-24 border-inputBorder">
+                            <InputField
+                                value={description}
+                                onChangeText={setDescription}
+                                multiline
+                                placeholder="Description"
+                                className="text-darkTextPrimary"
                             />
-                        </>
-                    )}
+                        </Input>
 
-                    {/* ================= STEP 2 ================= */}
-                    {step === 2 && (
-                        <>
-                            <Text className="font-medium mb-1 text-darkTextPrimary">
-                                Priority
-                            </Text>
-                            <PriorityPicker
-                                value={priority}
-                                onChange={setPriority}
-                            />
+                        <Text className="font-medium mb-1 text-darkTextPrimary">
+                            Start date
+                        </Text>
+                        <DatePickerField
+                            date={startDate}
+                            setDate={setStartDate}
+                            maxDate={endDate}
+                        />
 
-                            <Text className="font-medium mb-1 mt-2 text-darkTextPrimary">
-                                Assignee
-                            </Text>
-                            <StatusPickerField
-                                value={status}
-                                onChange={setStatus}
-                            />
+                        <Text className="font-medium mb-1 text-darkTextPrimary">
+                            Due date
+                        </Text>
+                        <DatePickerField
+                            date={endDate}
+                            setDate={setEndDate}
+                            minDate={startDate}
+                        />
+                    </>
+                )}
 
-                            <Text className="font-medium mb-1 mt-2 text-darkTextPrimary">
-                                Notify before deadline
-                            </Text>
+                {/* ================= STEP 2 ================= */}
+                {step === 2 && (
+                    <>
+                        <Text className="font-medium mb-1 text-darkTextPrimary">
+                            Priority
+                        </Text>
 
-                            <HStack className="items-center gap-2">
-                                <Input className="w-14 h-12 rounded-lg border-inputBorder">
-                                    <InputField
-                                        keyboardType="number-pad"
-                                        placeholder="00"
-                                        maxLength={2}
-                                        textAlign="center"
-                                        className="text-darkTextPrimary focus:text-darkTextPrimary focus:border focus:border-inputBorder focus:rounded-lg"
-                                    />
-                                </Input>
+                        <PriorityPicker
+                            value={priority}
+                            onChange={setPriority}
+                        />
 
-                                <Text className="text-lg font-semibold">:</Text>
+                        <Text className="font-medium mb-1 mt-2 text-darkTextPrimary">
+                            Assignee
+                        </Text>
 
-                                <Input className="w-14 h-12 rounded-lg border-inputBorder">
-                                    <InputField
-                                        keyboardType="number-pad"
-                                        placeholder="00"
-                                        maxLength={2}
-                                        textAlign="center"
-                                        className="text-darkTextPrimary focus:text-darkTextPrimary focus:border focus:border-inputBorder focus:rounded-lg"
-                                    />
-                                </Input>
+                        <StatusPickerField
+                            value={status}
+                            onChange={setStatus}
+                        />
 
-                                <Text className="text-lg font-semibold">:</Text>
+                        <Text className="font-medium mb-1 mt-2 text-darkTextPrimary">
+                            Notify before deadline
+                        </Text>
 
-                                <Input className="w-14 h-12 rounded-lg border-inputBorder">
-                                    <InputField
-                                        keyboardType="number-pad"
-                                        placeholder="00"
-                                        maxLength={2}
-                                        textAlign="center"
-                                        className="text-darkTextPrimary focus:text-darkTextPrimary focus:border focus:border-inputBorder focus:rounded-lg"
-                                    />
-                                </Input>
-                            </HStack>
-                        </>
-                    )}
-
-                    {/* ================= FOOTER ================= */}
-                    <HStack className="justify-between mt-6">
-                        {step === 1 ? (
-                            <>
-                                <Pressable
-                                    onPress={handleClose}
-                                    className="border border-indanger rounded-xl px-4 py-2 flex-row items-center"
+                        <HStack className="items-center gap-2">
+                            {["hh", "mm", "ss"].map((_, i) => (
+                                <Input
+                                    key={i}
+                                    className="w-14 h-12 rounded-lg border-inputBorder"
                                 >
-                                    <X
-                                        size={16}
-                                        color={Colors.status.danger}
+                                    <InputField
+                                        keyboardType="number-pad"
+                                        placeholder="00"
+                                        maxLength={2}
+                                        textAlign="center"
+                                        className="text-darkTextPrimary"
                                     />
-                                    <Text className="text-indanger ml-1 font-medium">
-                                        Cancel
-                                    </Text>
-                                </Pressable>
+                                </Input>
+                            ))}
+                        </HStack>
+                    </>
+                )}
 
-                                <Pressable
-                                    onPress={() => setStep(2)}
-                                    disabled={!taskName}
-                                    className={`rounded-xl px-6 py-2 ${
-                                        taskName
-                                            ? "bg-lightPrimary"
-                                            : "bg-gray-300"
+                {/* ================= FOOTER ================= */}
+                <HStack className="justify-between mt-6">
+                    {step === 1 ? (
+                        <>
+                            <Pressable
+                                onPress={handleClose}
+                                className="border border-indanger rounded-xl px-4 py-2 flex-row items-center"
+                            >
+                                <X size={16} color={Colors.status.danger} />
+                                <Text className="text-indanger ml-1 font-medium">
+                                    Cancel
+                                </Text>
+                            </Pressable>
+
+                            <Pressable
+                                onPress={() => setStep(2)}
+                                disabled={!taskName}
+                                className={`rounded-xl px-6 py-2 ${taskName ? "bg-lightPrimary" : "bg-gray-300"
                                     }`}
-                                >
-                                    <Text className="text-white font-medium">
-                                        Next
-                                    </Text>
-                                </Pressable>
-                            </>
-                        ) : (
-                            <>
-                                <Pressable
-                                    onPress={() => setStep(1)}
-                                    className="flex-row items-center gap-1 border border-inputBorder rounded-xl px-4 py-2"
-                                >
-                                    <ChevronLeft size={16} color={Colors.light.primary}/> 
-                                    <Text className="font-medium text-lightPrimary">Back</Text>
-                                </Pressable>
+                            >
+                                <Text className="text-white font-medium">Next</Text>
+                            </Pressable>
+                        </>
+                    ) : (
+                        <>
+                            <Pressable
+                                onPress={() => setStep(1)}
+                                className="flex-row items-center gap-1 border border-inputBorder rounded-xl px-4 py-2"
+                            >
+                                <ChevronLeft size={16} color={Colors.light.primary} />
+                                <Text className="font-medium text-lightPrimary">
+                                    Back
+                                </Text>
+                            </Pressable>
 
-                                <Pressable
-                                    className="bg-lightPrimary rounded-xl px-4 py-2 flex-row items-center"
-                                    onPress={handleCreate}
-                                >
-                                    <Plus size={16} color="white" />
-                                    <Text className="text-white ml-1 font-medium">
-                                        {loading ? "Creating..." : "Create"}
-                                    </Text>
-                                </Pressable>
-                            </>
-                        )}
-                    </HStack>
-                </Pressable>
-            </Pressable>
+                            <Pressable
+                                onPress={handleCreate}
+                                className="bg-lightPrimary rounded-xl px-4 py-2 flex-row items-center"
+                            >
+                                {loading ? (<ButtonSpinner color="gray" />) : (<Plus size={16} color="white" />)}
+                                <Text className="text-white ml-1 font-medium">
+                                    Create
+                                </Text>
+                            </Pressable>
+                        </>
+                    )}
+                </HStack>
+            </ModalContent>
         </Modal>
     );
 }
