@@ -65,6 +65,7 @@ export default function TasksScreen() {
                             description={item.content}
                             status={item.status.toUpperCase()}
                             endDate={new Date(item.endAt)}
+                            priority={item.priority}
                         />
                     )}
                 />

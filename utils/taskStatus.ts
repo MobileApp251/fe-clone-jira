@@ -58,10 +58,12 @@ export const TASK_STATUS_STYLE: Record<
 };
 
 export type TaskStatus =
-    | "OPEN"
-    | "PROGRESS"
-    | "DONE"
-    | "REOPEN"
-    | "CLOSE";
+    | "open"
+    | "progress"
+    | "done"
+    | "reopen"
+    | "close";
+
+
 
 export type TaskPriority = "low" | "medium" | "high";

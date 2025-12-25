@@ -1,5 +1,6 @@
 import { createProject, getMyProjects, getProjectById, getProjectTasks } from "@/api/projects";
-import { CreateProjectDTO, ProjectByIdAPIResponse, ProjectData, TaskAPIResponse } from "@/utils/workType";
+import { createTask } from "@/api/tasks";
+import { CreateProjectDTO, CreateTaskDTO, ProjectByIdAPIResponse, ProjectData, TaskAPIResponse } from "@/utils/workType";
 import { createContext, useCallback, useContext, useState } from "react";
 
 type ProjectsContextType = {
@@ -9,6 +10,7 @@ type ProjectsContextType = {
     loading: boolean;
     error: string | null;
     createNewProject: (project: CreateProjectDTO) => Promise<ProjectData>;
+    createNewTask: (projectId: string, task: CreateTaskDTO) => Promise<void>
     loadProjects: (force?: boolean) => Promise<void>;
     loadProjectById: (id: string) => Promise<void>;
 };
@@ -80,10 +82,24 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
         } finally {
             setLoading(false);
         }
-    }, [project])
+    }, [])
+
+    const createNewTask = useCallback(async (projectId: string, task: CreateTaskDTO) => {
+        try {
+            setLoading(true);
+            setError(null);
+
+            const data = await createTask(projectId, task);
+            setProjectTasks(prev => [...prev, data]);
+        } catch (error: any) {
+            setError(error?.message ?? "LOAD_FAILED");
+        } finally {
+            setLoading(false);
+        }
+    }, [])
 
     return (
-        <ProjectsContext.Provider value={{ projects, project, projectTasks, loading, error, createNewProject, loadProjects, loadProjectById }}>
+        <ProjectsContext.Provider value={{ projects, project, projectTasks, loading, error, createNewProject, loadProjects, loadProjectById, createNewTask}}>
             {children}
         </ProjectsContext.Provider>
 

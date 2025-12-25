@@ -2,31 +2,64 @@ import { HStack } from "@/components/ui/hstack";
 import { Input, InputField } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
 import { Colors } from "@/constants/theme";
+import { useProjects } from "@/context/ProjectsContext";
+import { TaskPriority, TaskStatus } from "@/utils/taskStatus";
+import dayjs from "dayjs";
 import { ChevronLeft, Plus, X } from "lucide-react-native";
 import { useState } from "react";
 import { Modal, Pressable } from "react-native";
 import { DateType } from "react-native-ui-datepicker";
 import DatePickerField from "../datepicker/DatePickerField";
+import PriorityPicker from "../prioritypicker/PriorityPicker";
 import StatusPickerField from "../statuspicker/StatusPickerField";
 
 type AddNewTaskProps = {
     visible: boolean;
     onClose: () => void;
+    projectId: string;
 };
 
-export default function NewTaskModal({ visible, onClose }: AddNewTaskProps) {
+export default function NewTaskModal({ visible, onClose, projectId }: AddNewTaskProps) {
     const [step, setStep] = useState<1 | 2>(1);
+    const {createNewTask} = useProjects();
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const [taskName, setTaskName] = useState("");
     const [description, setDescription] = useState("");
-    const [status, setStatus] = useState<string>();
+    const [status, setStatus] = useState<TaskStatus>("open");
+    const [priority, setPriority] = useState<TaskPriority>("medium");
     const [startDate, setStartDate] = useState<DateType>();
     const [endDate, setEndDate] = useState<DateType>();
 
     const handleClose = () => {
+        console.log("CLOSE MODAL");
         setStep(1);
         onClose();
     };
+
+    const handleCreate = async() => {
+        try {
+            setLoading(true);
+            setError(null);
+
+            await createNewTask(projectId, {
+                task_name: taskName,
+                content: description,
+                priority: priority,
+                status: status,
+                startAt: startDate ? dayjs(startDate).toISOString() : "",
+                endAt: endDate ? dayjs(endDate).toISOString() : "",
+            })
+
+            handleClose();
+        } catch (e: any) {
+            setError(e?.message || "Something went wrong");
+        } finally {
+            setLoading(false);
+        }
+    }
 
     return (
         <Modal transparent animationType="fade" visible={visible}>
@@ -52,7 +85,7 @@ export default function NewTaskModal({ visible, onClose }: AddNewTaskProps) {
                                 <InputField
                                     value={taskName}
                                     onChangeText={setTaskName}
-                                    placeholder="Project title"
+                                    placeholder="Task name"
                                     className="text-darkTextPrimary focus:text-darkTextPrimary focus:border focus:border-inputBorder focus:rounded-lg"
                                 />
                             </Input>
@@ -96,9 +129,9 @@ export default function NewTaskModal({ visible, onClose }: AddNewTaskProps) {
                             <Text className="font-medium mb-1 text-darkTextPrimary">
                                 Priority
                             </Text>
-                            <StatusPickerField
-                                value={status}
-                                onChange={setStatus}
+                            <PriorityPicker
+                                value={priority}
+                                onChange={setPriority}
                             />
 
                             <Text className="font-medium mb-1 mt-2 text-darkTextPrimary">
@@ -194,10 +227,11 @@ export default function NewTaskModal({ visible, onClose }: AddNewTaskProps) {
 
                                 <Pressable
                                     className="bg-lightPrimary rounded-xl px-4 py-2 flex-row items-center"
+                                    onPress={handleCreate}
                                 >
                                     <Plus size={16} color="white" />
                                     <Text className="text-white ml-1 font-medium">
-                                        Create
+                                        {loading ? "Creating..." : "Create"}
                                     </Text>
                                 </Pressable>
                             </>
