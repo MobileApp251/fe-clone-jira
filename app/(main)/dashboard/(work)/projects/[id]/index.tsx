@@ -93,7 +93,7 @@ export default function ProjectDetail() {
                                     id={item.task_id}
                                     title={item.task_name}
                                     description={item.content}
-                                    priority={"medium"}
+                                    priority={item.priority}
                                     status={item.status.toUpperCase()}
                                     endDate={new Date(item.endAt)}
                                     inProject={true}
@@ -104,9 +104,9 @@ export default function ProjectDetail() {
 
                     <NewTaskModal
                         visible={showAddTaskModal}
-                        onClose={() => setShowAddTaskModal(false)} 
-                        projectId={id}/>
-                        
+                        onClose={() => setShowAddTaskModal(false)}
+                        projectId={id} />
+
                 </>
             )}
 

@@ -30,7 +30,6 @@ export async function getMyTasks(): Promise<TaskAPIResponse[]> {
 
 export async function createTask(projectId: string, task: CreateTaskDTO): Promise<TaskAPIResponse> {
     await initAuth();
-    console.log(projectId)
     const res = await fetch(`${API_URL}/api/tasks/${projectId}`, {
         method: "POST",
         headers: {
