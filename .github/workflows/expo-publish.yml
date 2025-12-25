@@ -30,6 +30,10 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EAS_TOKEN }}
 
+      - name: 🔐 Create .env file
+        run: |
+          echo "EXPO_PUBLIC_API_URL=${{ secrets.EXPO_PUBLIC_API_URL }}" > .env
+
       - name: 🚀 Publish OTA update
         run: |
           COMMIT_MESSAGE=$(git log -1 --pretty=%B | head -n1)
