@@ -20,6 +20,7 @@ export default function RootLayout() {
                   <Stack.Screen name="login" />
                   <Stack.Screen name="onboarding" />
                   <Stack.Screen name="notification" />
+                  <Stack.Screen name="profile" />
                 </Stack>
               </TasksProvider>
             </ProjectsProvider>

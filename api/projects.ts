@@ -1,9 +1,15 @@
 import { API_URL } from "@/config/env";
 import { CreateProjectDTO, ProjectByIdAPIResponse, ProjectData, TaskAPIResponse } from "@/utils/workType";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYTExZTZiNC05YjRmLTE2NDMtODE5Yi00Zjk4MDMyNjAwMDAiLCJpYXQiOjE3NjY1NjY5MjEsImV4cCI6MTc2NjY1MzMyMX0.kBVLp4Eo12pXpulhmvcxrGPhWL19MhZ557M8AWmPjAU';
+let ACCESS_TOKEN: string | null = null;
+
+async function initAuth() {
+    ACCESS_TOKEN = await AsyncStorage.getItem("ACCESS_TOKEN");
+}
 
 export async function getMyProjects(): Promise<ProjectData[]> {
+    await initAuth();
     const res = await fetch(`${API_URL}/projects`, {
         method: "GET",
         headers: {
@@ -23,7 +29,7 @@ export async function getMyProjects(): Promise<ProjectData[]> {
 }
 
 export async function createProject(project: CreateProjectDTO): Promise<ProjectData> {
-    console.log(project);
+    await initAuth();
     const res = await fetch(`${API_URL}/projects`, {
         method: "POST",
         headers: {
@@ -45,6 +51,7 @@ export async function createProject(project: CreateProjectDTO): Promise<ProjectD
 }
 
 export async function getProjectById(id: string): Promise<ProjectByIdAPIResponse> {
+    await initAuth();
     const res = await fetch(`${API_URL}/projects/${id}`, {
         method: "GET",
         headers: {
@@ -64,6 +71,7 @@ export async function getProjectById(id: string): Promise<ProjectByIdAPIResponse
 }
 
 export async function getProjectTasks(id: string): Promise<TaskAPIResponse[]> {
+    await initAuth();
     const res = await fetch(`${API_URL}/api/tasks/${id}`, {
         method: "GET",
         headers: {

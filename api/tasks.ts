@@ -1,9 +1,15 @@
 import { API_URL } from "@/config/env";
 import { TaskAPIResponse } from "@/utils/workType";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYTExZTZiNC05YjRmLTE2NDMtODE5Yi00Zjk4MDMyNjAwMDAiLCJpYXQiOjE3NjY1NjY5MjEsImV4cCI6MTc2NjY1MzMyMX0.kBVLp4Eo12pXpulhmvcxrGPhWL19MhZ557M8AWmPjAU';
+let ACCESS_TOKEN: string | null = null;
+
+async function initAuth() {
+    ACCESS_TOKEN = await AsyncStorage.getItem("ACCESS_TOKEN");
+}
 
 export async function getMyTasks(): Promise<TaskAPIResponse[]> {
+    await initAuth();
     const res = await fetch(`${API_URL}/api/tasks`, {
         method: "GET",
         headers: {

@@ -2,7 +2,8 @@
 import { signIn } from '@/auth/sign-in';
 import { Box } from '@/components/ui/box';
 import { HStack } from '@/components/ui/hstack';
-import { Input, InputField } from '@/components/ui/input';
+import { EyeIcon, EyeOffIcon } from '@/components/ui/icon';
+import { Input, InputField, InputIcon, InputSlot } from '@/components/ui/input';
 import { Colors } from '@/constants/theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -23,7 +24,8 @@ export default function Login() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    
+    const [showPassword, setShowPassword] = useState(false);
+
     const handleContinueLogin = () => {
         router.replace('/dashboard')
     }
@@ -58,6 +60,12 @@ export default function Login() {
         }
     };
 
+    const handleState = () => {
+        setShowPassword((showState) => {
+            return !showState;
+        });
+    };
+
     return (
         <KeyboardAvoidingView
             style={styles.container}
@@ -81,7 +89,7 @@ export default function Login() {
                     width: '100%',
                     borderTopLeftRadius: 32,
                     borderTopRightRadius: 32,
-                    overflow: 'hidden',      
+                    overflow: 'hidden',
                 }}
                 colors={['#8637CF', '#0F55A1']}
                 start={[0, 1]}
@@ -105,7 +113,11 @@ export default function Login() {
                             onChangeText={setPassword}
                             placeholder="Password"
                             className="text-darkTextPrimary text-lg"
+                            type={showPassword ? 'text' : 'password'}
                         />
+                        <InputSlot className="pr-3" onPress={handleState}>
+                            <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} />
+                        </InputSlot>
                     </Input>
 
                     <HStack className="w-full justify-between mb-6">
@@ -125,7 +137,7 @@ export default function Login() {
 
                     <Box className="w-[80%] flex-row items-center my-4 px-6">
                         <Box className="flex-1 h-[1px] bg-white/40" />
-                            <Text className="mx-3 text-white font-semibold">OR</Text>
+                        <Text className="mx-3 text-white font-semibold">OR</Text>
                         <Box className="flex-1 h-[1px] bg-white/40" />
                     </Box>
 
@@ -145,7 +157,7 @@ export default function Login() {
             </LinearGradient>
         </KeyboardAvoidingView>
     );
-    }
+}
 
 
 const styles = StyleSheet.create({
@@ -168,7 +180,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width: '80%',
         gap: 40,
-        backgroundColor:  'white',
+        backgroundColor: 'white',
         padding: 12,
         paddingLeft: 40,
         paddingRight: 40,
@@ -214,4 +226,4 @@ const styles = StyleSheet.create({
         paddingRight: 20,
         color: Colors.light.primary,
     },
-    });
+});
