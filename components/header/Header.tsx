@@ -28,7 +28,7 @@ export default function Header() {
                         ) : (
                             <TouchableOpacity
                                 className="w-14 h-14 rounded-full items-center justify-center bg-lightPrimaryLight"
-                                onPress={() => console.log('Pressed')}
+                                onPress={() => router.push('/profile')}
                             >
                                 <User size={26} color={Colors.light.primary} />
                             </TouchableOpacity>
