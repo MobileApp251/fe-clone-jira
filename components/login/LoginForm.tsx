@@ -1,30 +1,30 @@
-import { useAuth } from "@/auth/GoogleAuthContext";
+import { useGoogleAuth } from "@/auth/GoogleAuthContext";
 import { StyleSheet, Text, View } from "react-native";
 import SignInWithGoogleButton from "./SignInWithGoogleButton";
 
 export default function LoginForm() {
-  const { signIn, isLoading } = useAuth();
+  const { signIn, isLoading } = useGoogleAuth();
 
   return (
     <View style={styles.container}>
       <View style={styles.card}>
         <View style={styles.contentContainer}>
           <View style={styles.titleContainer}>
-              <Text>Welcome to Your App</Text>
-            </View>
-            <View>
-              <Text>
-                Experience seamless authentication{"\n"}
-                powered by Expo.{"\n"}
-              </Text>
-            </View>
+            <Text>Welcome to Your App</Text>
           </View>
-
-          <View style={styles.buttonContainer}>
-            <SignInWithGoogleButton onPress={signIn} disabled={isLoading} />
+          <View>
+            <Text>
+              Experience seamless authentication{"\n"}
+              powered by Expo.{"\n"}
+            </Text>
           </View>
         </View>
+
+        <View style={styles.buttonContainer}>
+          <SignInWithGoogleButton onPress={signIn} disabled={isLoading} />
+        </View>
       </View>
+    </View>
   );
 }
 

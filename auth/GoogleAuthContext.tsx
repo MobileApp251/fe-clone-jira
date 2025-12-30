@@ -17,8 +17,8 @@ WebBrowser.maybeCompleteAuthSession();
 
 const GoogleAuthContext = React.createContext({
   user: null as AuthUser | null,
-  signIn: () => {},
-  signOut: () => {},
+  signIn: () => { },
+  signOut: () => { },
   fetchWithAuth: (url: string, options: RequestInit) =>
     Promise.resolve(new Response()),
   isLoading: false,
@@ -139,7 +139,7 @@ export const GoogleAuthProvider = ({ children }: { children: React.ReactNode }) 
     refreshToken: string;
   }) => {
     const { accessToken: a, refreshToken: r } = tokens;
-
+    console.log("HEHE: ", accessToken);
     setAccessToken(a);
     setRefreshToken(r);
 
@@ -220,7 +220,7 @@ export const GoogleAuthProvider = ({ children }: { children: React.ReactNode }) 
         console.log("No request");
         return;
       }
-      
+
       console.log("About to promptAsync", request);
       await promptAsync();
     } catch (e) {
@@ -252,4 +252,4 @@ export const GoogleAuthProvider = ({ children }: { children: React.ReactNode }) 
   );
 };
 
-export const useAuth = () => React.useContext(GoogleAuthContext);
+export const useGoogleAuth = () => React.useContext(GoogleAuthContext);

@@ -1,5 +1,5 @@
 
-import { useAuth } from '@/auth/GoogleAuthContext';
+import { useGoogleAuth } from '@/auth/GoogleAuthContext';
 import { signIn } from '@/auth/sign-in';
 import LoginForm from '@/components/login/LoginForm';
 import { Box } from '@/components/ui/box';
@@ -24,7 +24,7 @@ import {
 export default function Login() {
     const router = useRouter();
 
-    const { user, isLoading } = useAuth();
+    const { user, isLoading } = useGoogleAuth();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -71,7 +71,7 @@ export default function Login() {
     };
 
     if (!user) return <LoginForm></LoginForm>;
-    
+
     return (
         <KeyboardAvoidingView
             style={styles.container}
