@@ -16,7 +16,7 @@ type ToastType = "error" | "warning" | "success" | "info" | "muted" | undefined;
 
 export default function EditProjectScreen() {
     const { id } = useLocalSearchParams<{ id: string }>();
-    const { project, loading, loadProjectById } = useProjects();
+    const { project, loading, updateProjectById, loadProjectById } = useProjects();
 
     const [name, setName] = useState(project?.project.proj_name ?? "");
     const [description, setDescription] = useState(project?.project.description ?? "");
@@ -55,6 +55,7 @@ export default function EditProjectScreen() {
             setName(res.proj_name);
             setOriginalDescription(res.description);
             setDescription(res.description);
+            updateProjectById(project.project.proj_id, res)
             handleToast("success", "Edit project!", "Project has been edited successfully.")
         } catch (error) {
             console.error(error);

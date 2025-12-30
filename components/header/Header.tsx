@@ -1,9 +1,12 @@
+import { getUserProfile } from '@/auth/sign-in';
 import { Center } from '@/components/ui/center';
 import { Divider } from '@/components/ui/divider';
 import { Colors } from '@/constants/theme';
+import { User as UserType } from '@/utils/userType';
 import { Avatar, AvatarImage, Text } from '@gluestack-ui/themed';
 import { usePathname, useRouter } from 'expo-router';
 import { Bell, User } from 'lucide-react-native';
+import { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 
 export default function Header() {
@@ -14,6 +17,25 @@ export default function Header() {
     const notificationCount = 3;
     const router = useRouter();
     const pathname = usePathname();
+
+    const [profile, setProfile] = useState<UserType>({
+        email: "",
+        uid: "",
+        username: "",
+    })
+
+    useEffect(() => {
+        handleGetProfile()
+    }, []);
+
+    const handleGetProfile = async () => {
+        try {
+            const res = await getUserProfile();
+            setProfile(res);
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     return (
         <Center className='mt-16'>
@@ -37,7 +59,7 @@ export default function Header() {
 
                     <View className="flex-col">
                         <Text className="text-sm text-gray-500 font-medium">Hi!</Text>
-                        <Text className="text-lg text-gray-800 font-semibold">{userInfo.name}</Text>
+                        <Text className="text-lg text-gray-800 font-semibold">{profile.username}</Text>
                     </View>
                 </View>
 

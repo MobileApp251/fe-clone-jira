@@ -12,6 +12,7 @@ type Props = {
 	label?: string;
 	minDate?: DateType;
 	maxDate?: DateType;
+	setUpdateDate?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function DatePickerField({
@@ -19,7 +20,8 @@ export default function DatePickerField({
 	setDate,
 	label,
 	minDate,
-	maxDate
+	maxDate,
+	setUpdateDate
 }: Props) {
 	const [show, setShow] = useState(false);
 	const [tempDate, setTempDate] = useState<DateType>();
@@ -110,6 +112,7 @@ export default function DatePickerField({
 									onPress={() => {
 										setDate(tempDate);
 										setShow(false);
+										setUpdateDate?.(true);
 									}}
 									className="p-4"
 								>
