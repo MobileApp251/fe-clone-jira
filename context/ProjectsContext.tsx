@@ -4,7 +4,7 @@ import { CreateProjectDTO, CreateTaskDTO, ProjectByIdAPIResponse, ProjectData, T
 import { createContext, useCallback, useContext, useState } from "react";
 
 type ProjectsContextType = {
-    projects: ProjectData[];
+    projects: ProjectByIdAPIResponse[];
     project: ProjectByIdAPIResponse;
     projectTasks: TaskAPIResponse[];
     loading: boolean;
@@ -13,12 +13,13 @@ type ProjectsContextType = {
     createNewTask: (projectId: string, task: CreateTaskDTO) => Promise<void>
     loadProjects: (force?: boolean) => Promise<void>;
     loadProjectById: (id: string) => Promise<void>;
+    removeProject: (id: string) => void;
 };
 
 const ProjectsContext = createContext<ProjectsContextType | null>(null);
 
 export function ProjectsProvider({ children }: { children: React.ReactNode }) {
-    const [projects, setProjects] = useState<ProjectData[]>([]);
+    const [projects, setProjects] = useState<ProjectByIdAPIResponse[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [project, setProject] = useState<ProjectByIdAPIResponse>({
@@ -42,7 +43,10 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
             setError(null);
 
             const newProject = await createProject(project);
-            setProjects(prev => [...prev, newProject]);
+            setProjects(prev => [...prev, {
+                project: newProject,
+                members: []
+            }]);
             return newProject;
         } catch (error: any) {
             setError(error?.message ?? "LOAD_FAILED");
@@ -50,6 +54,12 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
         } finally {
             setLoading(false);
         }
+    }, []);
+
+    const removeProject = useCallback((projectId: string) => {
+        setProjects(prev =>
+            prev.filter(p => p.project.proj_id !== projectId)
+        );
     }, []);
 
     const loadProjects = useCallback(async (force = false) => {
@@ -99,7 +109,7 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
     }, [])
 
     return (
-        <ProjectsContext.Provider value={{ projects, project, projectTasks, loading, error, createNewProject, loadProjects, loadProjectById, createNewTask }}>
+        <ProjectsContext.Provider value={{ projects, project, projectTasks, loading, error, createNewProject, removeProject, loadProjects, loadProjectById, createNewTask }}>
             {children}
         </ProjectsContext.Provider>
 

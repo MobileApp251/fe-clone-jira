@@ -29,8 +29,8 @@ export default function ProjectsScreen() {
 
         return projects.filter(
             (t) =>
-                t.proj_name.toLowerCase().includes(q) ||
-                t.description?.toLowerCase().includes(q)
+                t.project.proj_name.toLowerCase().includes(q) ||
+                t.project.description?.toLowerCase().includes(q)
         );
     }, [projects, search]);
 
@@ -66,22 +66,24 @@ export default function ProjectsScreen() {
                 <FlatList
                     className="mt-4"
                     data={filteredProjects}
-                    keyExtractor={(item) => item.proj_id}
+                    keyExtractor={(item) => String(item.project.proj_id)}
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item }) => (
                         <Pressable
-                            onPress={() => router.push(`/dashboard/projects/${item.proj_id}`)}
+                            onPress={() => router.push(`/dashboard/projects/${item.project.proj_id}`)}
+                            key={item.project.proj_id}
                         >
                             <ProjectCard
-                                title={item.proj_name}
-                                description={item.description}
-                                members={4}
+                                projectId={item.project.proj_id}
+                                title={item.project.proj_name}
+                                description={item.project.description}
+                                members={item.members.length}
                                 status={getProjectStatus({
-                                    startAt: item.startAt ? dayjs(item.startAt).toISOString() : "",
-                                    endAt: item.endAt ? dayjs(item.endAt).toISOString() : "",
-                                    isDone: item.done,
+                                    startAt: item.project.startAt ? dayjs(item.project.startAt).toISOString() : "",
+                                    endAt: item.project.endAt ? dayjs(item.project.endAt).toISOString() : "",
+                                    isDone: item.project.done,
                                 })}
-                                endDate={formatDate(item.endAt)}
+                                endDate={formatDate(item.project.endAt)}
                             />
                         </Pressable>
                     )}
