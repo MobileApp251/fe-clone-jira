@@ -40,6 +40,7 @@ export const GoogleAuthProvider = ({ children }: { children: React.ReactNode }) 
   const [user, setUser] = React.useState<AuthUser | null>(null);
   const [accessToken, setAccessToken] = React.useState<string | null>(null);
   const [refreshToken, setRefreshToken] = React.useState<string | null>(null);
+  const [idToken, setIdToken] = React.useState<string | null>(null);
   const [request, response, promptAsync] = useAuthRequest(config, discovery);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<AuthError | null>(null);
@@ -137,14 +138,19 @@ export const GoogleAuthProvider = ({ children }: { children: React.ReactNode }) 
   const handleNativeTokens = async (tokens: {
     accessToken: string;
     refreshToken: string;
+    idToken: string;
   }) => {
-    const { accessToken: a, refreshToken: r } = tokens;
+    const { accessToken: a, refreshToken: r, idToken } = tokens;
     console.log("HEHE: ", accessToken);
     setAccessToken(a);
     setRefreshToken(r);
+    setIdToken(idToken);
+    
 
     await tokenCache?.saveToken("accessToken", a);
     await tokenCache?.saveToken("refreshToken", r);
+    await tokenCache?.saveToken("idToken", idToken);
+    
 
     const decoded = jose.decodeJwt(a);
     setUser(decoded as AuthUser);
@@ -175,6 +181,9 @@ export const GoogleAuthProvider = ({ children }: { children: React.ReactNode }) 
         });
 
         const tokens = await tokenRes.json();
+        console.log("Tokens:", tokens);
+        console.log("Access Token:", tokens.accessToken);
+        console.log("Refresh Token:", tokens.refreshToken);
         await handleNativeTokens(tokens);
       } catch (e) {
         console.error(e);

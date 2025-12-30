@@ -135,9 +135,12 @@ export async function POST(request: Request) {
     return response;
   }
 
+  console.log("Token response:", { accessToken, refreshToken, idToken: data.id_token });
   // For native platforms, return both tokens in the response body
   return Response.json({
     accessToken,
     refreshToken,
+    idToken: data.id_token,
   });
+
 }

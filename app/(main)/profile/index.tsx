@@ -58,7 +58,7 @@ export default function Profile() {
                 <Heading size="sm" className="text-bold mb-2 text-center text-darkTextPrimary">
                     {profile.email}
                 </Heading>
-                <Button variant="solid" size="md" action="positive" className='max-w-fit mt-96' onPress={handleLogOut}>
+                <Button variant="solid" size="md" action="positive" className='max-w-fit' onPress={handleLogOut}>
                     <ButtonIcon as={LogOut} className="mr-2 text-white" />
                     <ButtonText className='text-white'>Log out</ButtonText>
                 </Button>

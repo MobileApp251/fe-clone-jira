@@ -1,12 +1,12 @@
 
 import { useGoogleAuth } from '@/auth/GoogleAuthContext';
-import { signIn } from '@/auth/sign-in';
-import LoginForm from '@/components/login/LoginForm';
+import { signIn as signInWithEmail } from '@/auth/sign-in';
 import { Box } from '@/components/ui/box';
 import { HStack } from '@/components/ui/hstack';
 import { EyeIcon, EyeOffIcon } from '@/components/ui/icon';
 import { Input, InputField, InputIcon, InputSlot } from '@/components/ui/input';
 import { Colors } from '@/constants/theme';
+import { tokenCache } from '@/utils/cache';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
@@ -24,7 +24,7 @@ import {
 export default function Login() {
     const router = useRouter();
 
-    const { user, isLoading } = useGoogleAuth();
+    const { user, isLoading, signOut, signIn } = useGoogleAuth();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -33,16 +33,6 @@ export default function Login() {
     const handleContinueLogin = () => {
         router.replace('/dashboard')
     }
-
-    const handleGoogleLogin = async () => {
-        router.push("/coming-soon");
-        // try {
-        //     await loginWithGoogle();
-        //     router.replace('/dashboard');
-        // } catch (err) {
-        //     console.error('Login failed', err);
-        // }
-    };
 
     const handleSignUp = async () => {
 
@@ -55,9 +45,9 @@ export default function Login() {
         // }
     };
 
-    const handleSignIn = async () => {
+    const handleSignInWithEmail = async () => {
         try {
-            await signIn(email, password);
+            await signInWithEmail(email, password);
             router.replace("/dashboard");
         } catch (err) {
             console.error(err);
@@ -70,13 +60,32 @@ export default function Login() {
         });
     };
 
-    if (!user) return <LoginForm></LoginForm>;
+    console.log("User:", JSON.stringify(user));
+
+    const getToken = async () => {
+        const token = await tokenCache?.getToken("accessToken");
+        console.log("Access token:", token);
+    };
+
+    const getIdToken = async () => {
+        const token = await tokenCache?.getToken("idToken");
+        console.log("ID token:", token);
+    };
+
+    // Call getToken to debug
+    getToken();
+    getIdToken();
+
+    console.log("token", user?.cookieExpiration);
 
     return (
         <KeyboardAvoidingView
             style={styles.container}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
+            <TouchableOpacity className="p-4 bg-red-500 rounded" onPress={signOut}>
+                <Text className="text-white">Logout</Text>
+            </TouchableOpacity>
             <View style={styles.topBar}>
                 <Text style={styles.headerText}>CloneJira</Text>
             </View>
@@ -135,7 +144,7 @@ export default function Login() {
                         </TouchableOpacity>
                     </HStack>
 
-                    <TouchableOpacity style={styles.loginButton} onPress={handleSignIn}>
+                    <TouchableOpacity style={styles.loginButton} onPress={handleSignInWithEmail}>
                         <Text style={styles.loginButtonText}>
                             Login
                         </Text>
@@ -149,7 +158,7 @@ export default function Login() {
 
                     <TouchableOpacity
                         style={styles.loginButton}
-                        onPress={handleGoogleLogin}
+                        onPress={signIn}
                     >
                         <Image
                             source={require('@/assets/images/icons8-google-48.png')}
@@ -158,8 +167,6 @@ export default function Login() {
                         <Text style={styles.loginButtonText}>
                             Login with Google
                         </Text>
-
-                        <Text>{JSON.stringify(user)}</Text>
                     </TouchableOpacity>
                 </Box>
             </LinearGradient>

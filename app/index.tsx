@@ -1,3 +1,4 @@
+import { tokenCache } from '@/utils/cache';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { useEffect } from 'react';
@@ -32,6 +33,7 @@ export default function Index() {
             }
 
             const token = await AsyncStorage.getItem('ACCESS_TOKEN');
+            const googleToken = await tokenCache?.getToken('accessToken');
 
             if (token && isTokenValid(token)) {
                 router.replace('/dashboard');
