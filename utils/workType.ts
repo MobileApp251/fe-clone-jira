@@ -50,6 +50,11 @@ export type CreateProjectDTO = {
 }
 
 export type TaskAPIResponse = {
+  task: TaskData;
+  members: ProjectMembers[];
+}
+
+export type TaskData = {
   content: string;
   createAt: Date;
   endAt: Date;
