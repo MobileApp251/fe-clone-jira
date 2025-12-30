@@ -33,7 +33,6 @@ export default function ProjectsScreen() {
                 t.project.description?.toLowerCase().includes(q)
         );
     }, [projects, search]);
-    console.log(projects)
 
     return (
         <Box className="flex-1">

@@ -22,7 +22,7 @@ export type Project = {
 export type ProjectData = {
   proj_id: string;
   proj_name: string;
-  description: string | null;
+  description: string;
   startAt: string;
   endAt: string;
   createAt: string;
@@ -74,4 +74,12 @@ export type CreateTaskDTO = {
   status: string;
   startAt: string;
   endAt: string;
+}
+
+export type UpdateProjectDTO = {
+  proj_name?: string;
+  description?: string;
+  startAt?: string;
+  endAt?: string;
+  done?: boolean;
 }

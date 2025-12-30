@@ -1,4 +1,5 @@
 import TaskCard from "@/components/card/TaskCard";
+import DatePickerField from "@/components/datepicker/DatePickerField";
 import NewTaskModal from "@/components/project/NewTask";
 import { Box } from "@/components/ui/box";
 import { Colors } from "@/constants/theme";
@@ -7,14 +8,19 @@ import { router, useLocalSearchParams } from "expo-router";
 import { ChevronsLeft, Plus, SquarePen, UsersRound } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Pressable, Text, TouchableOpacity } from "react-native";
+import { DateType } from "react-native-ui-datepicker";
 
 export default function ProjectDetail() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const [showAddTaskModal, setShowAddTaskModal] = useState(false);
     const { project, projectTasks, loading, loadProjectById } = useProjects();
 
+    const [dueDate, setDueDate] = useState<DateType>();
+
     useEffect(() => {
         loadProjectById(id);
+
+        setDueDate(new Date(project.project.endAt));
     }, [id, loadProjectById]);
 
     if (!project) {
@@ -79,6 +85,13 @@ export default function ProjectDetail() {
                             </TouchableOpacity>
                         </Box>
                     </Box>
+
+                    <Box className="flex-row justify-between gap-1 items-center my-4 mx-6">
+                        <Box className="flex-1">
+                            <DatePickerField date={dueDate} setDate={setDueDate} label="Due Date" />
+                        </Box>
+                    </Box>
+
                     <FlatList
                         data={projectTasks}
                         keyExtractor={(item) => item.task.task_id}

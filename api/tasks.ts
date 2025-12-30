@@ -1,5 +1,5 @@
 import { API_URL } from "@/config/env";
-import { CreateTaskDTO, TaskAPIResponse } from "@/utils/workType";
+import { CreateTaskDTO, TaskAPIResponse, TaskData } from "@/utils/workType";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 let ACCESS_TOKEN: string | null = null;
@@ -50,7 +50,7 @@ export async function createTask(projectId: string, task: CreateTaskDTO): Promis
     return json;
 }
 
-export async function getTaskById(projectId: string, taskId: string): Promise<TaskAPIResponse> {
+export async function getTaskById(projectId: string, taskId: string): Promise<TaskData> {
     await initAuth();
     const res = await fetch(`${API_URL}/api/tasks/${projectId}/${taskId}`, {
         method: "GET",
