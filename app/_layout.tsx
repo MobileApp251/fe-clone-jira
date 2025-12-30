@@ -1,4 +1,5 @@
 import { AuthProvider } from '@/auth/AuthContext';
+import { GoogleAuthProvider } from '@/auth/GoogleAuthContext';
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import { ProjectsProvider } from '@/context/ProjectsContext';
 import { TasksProvider } from '@/context/TasksContext';
@@ -10,23 +11,25 @@ import { ThemeProvider } from './providers/ThemeProvider';
 export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <AuthProvider>
-        <GluestackUIProvider mode="dark">
-          <ThemeProvider>
-            <ProjectsProvider>
-              <TasksProvider>
-                <Stack screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="index" />
-                  <Stack.Screen name="login" />
-                  <Stack.Screen name="onboarding" />
-                  <Stack.Screen name="notification" />
-                  <Stack.Screen name="profile" />
-                </Stack>
-              </TasksProvider>
-            </ProjectsProvider>
-          </ThemeProvider>
-        </GluestackUIProvider>
-      </AuthProvider>
+      <GoogleAuthProvider>
+        <AuthProvider>
+          <GluestackUIProvider mode="dark">
+            <ThemeProvider>
+              <ProjectsProvider>
+                <TasksProvider>
+                  <Stack screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="index" />
+                    <Stack.Screen name="login" />
+                    <Stack.Screen name="onboarding" />
+                    <Stack.Screen name="notification" />
+                    <Stack.Screen name="profile" />
+                  </Stack>
+                </TasksProvider>
+              </ProjectsProvider>
+            </ThemeProvider>
+          </GluestackUIProvider>
+        </AuthProvider>
+      </GoogleAuthProvider>
     </GestureHandlerRootView>
 
   );

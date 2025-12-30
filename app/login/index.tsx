@@ -1,5 +1,7 @@
 
+import { useAuth } from '@/auth/GoogleAuthContext';
 import { signIn } from '@/auth/sign-in';
+import LoginForm from '@/components/login/LoginForm';
 import { Box } from '@/components/ui/box';
 import { HStack } from '@/components/ui/hstack';
 import { EyeIcon, EyeOffIcon } from '@/components/ui/icon';
@@ -21,6 +23,8 @@ import {
 
 export default function Login() {
     const router = useRouter();
+
+    const { user, isLoading } = useAuth();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -66,6 +70,8 @@ export default function Login() {
         });
     };
 
+    if (!user) return <LoginForm></LoginForm>;
+    
     return (
         <KeyboardAvoidingView
             style={styles.container}
@@ -152,6 +158,8 @@ export default function Login() {
                         <Text style={styles.loginButtonText}>
                             Login with Google
                         </Text>
+
+                        <Text>{JSON.stringify(user)}</Text>
                     </TouchableOpacity>
                 </Box>
             </LinearGradient>
