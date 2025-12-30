@@ -1,6 +1,7 @@
 import { Text } from "@/components/ui/text";
 import { Colors } from "@/constants/theme";
 import { Plus, X } from "lucide-react-native";
+import { useState } from "react";
 import { Modal, Pressable } from "react-native";
 import MemberCard from "../card/MemberCard";
 import SearchBar from "../search/SearchBar";
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export default function AddMemberModal({ visible, onClose }: Props) {
+    const [search, setSearch] = useState("")
     return (
         <Modal transparent animationType="fade" visible={visible}>
             <Pressable
@@ -26,7 +28,7 @@ export default function AddMemberModal({ visible, onClose }: Props) {
                     Add member
                 </Text>
 
-                <SearchBar page='onlySearch'></SearchBar>
+                <SearchBar page='onlySearch' value={search} onChange={setSearch}></SearchBar>
 
                 <Box className="px-6 pt-4 pb-4">
                     <MemberCard id="5" name="Nguyễn Văn E"/>

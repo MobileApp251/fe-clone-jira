@@ -15,7 +15,7 @@ import { ActivityIndicator, FlatList, Pressable } from "react-native";
 export default function ProjectsScreen() {
     const [showFilter, setShowFilter] = useState(false);
     const [showCreateModal, setShowCreateModal] = useState(false);
-    const { projects, loading, error, loadProjects } = useProjects();
+    const { projects, loading, loadProjects } = useProjects();
     const [search, setSearch] = useState("");
 
     useEffect(() => {
@@ -33,6 +33,7 @@ export default function ProjectsScreen() {
                 t.project.description?.toLowerCase().includes(q)
         );
     }, [projects, search]);
+    console.log(projects)
 
     return (
         <Box className="flex-1">
@@ -66,7 +67,7 @@ export default function ProjectsScreen() {
                 <FlatList
                     className="mt-4"
                     data={filteredProjects}
-                    keyExtractor={(item) => String(item.project.proj_id)}
+                    keyExtractor={(item) => item.project.proj_id}
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item }) => (
                         <Pressable

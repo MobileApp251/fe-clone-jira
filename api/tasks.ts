@@ -49,3 +49,23 @@ export async function createTask(projectId: string, task: CreateTaskDTO): Promis
     const json = await res.json();
     return json;
 }
+
+export async function getTaskById(projectId: string, taskId: string): Promise<TaskAPIResponse> {
+    await initAuth();
+    const res = await fetch(`${API_URL}/api/tasks/${projectId}/${taskId}`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`
+        },
+    });
+
+    if (!res.ok) {
+        if (res.status === 401) {
+            throw new Error("UNAUTHORIZED");
+        }
+        throw new Error("Failed to fetch tasks");
+    }
+
+    const json = await res.json();
+    return json;
+}
