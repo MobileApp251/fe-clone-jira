@@ -1,27 +1,90 @@
+import { updateProject } from "@/api/projects";
 import TaskCard from "@/components/card/TaskCard";
 import DatePickerField from "@/components/datepicker/DatePickerField";
+import MarkAsDone from "@/components/markasdone/MarkAsDone";
 import NewTaskModal from "@/components/project/NewTask";
 import { Box } from "@/components/ui/box";
+import { Toast, ToastDescription, ToastTitle, useToast } from "@/components/ui/toast";
 import { Colors } from "@/constants/theme";
 import { useProjects } from "@/context/ProjectsContext";
+import { UpdateProjectDTO } from "@/utils/workType";
+import dayjs from "dayjs";
 import { router, useLocalSearchParams } from "expo-router";
 import { ChevronsLeft, Plus, SquarePen, UsersRound } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Pressable, Text, TouchableOpacity } from "react-native";
 import { DateType } from "react-native-ui-datepicker";
 
+type ToastType = "error" | "warning" | "success" | "info" | "muted" | undefined;
+
 export default function ProjectDetail() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const [showAddTaskModal, setShowAddTaskModal] = useState(false);
-    const { project, projectTasks, loading, loadProjectById } = useProjects();
+    const { project, projectTasks, loading, updateProjectById, loadProjectById } = useProjects();
 
     const [dueDate, setDueDate] = useState<DateType>();
+    const [done, setDone] = useState(false);
+    const [updateDate, setUpdateDate] = useState(false);
 
     useEffect(() => {
         loadProjectById(id);
+    }, [id, loadProjectById]);
+
+    useEffect(() => {
+        if (!project) return;
 
         setDueDate(new Date(project.project.endAt));
-    }, [id, loadProjectById]);
+        setDone(project.project.done);
+    }, [project]);
+
+    useEffect(() => {
+        if (updateDate) {
+            handleUpdateDueDate();
+        }
+    }, [updateDate]);
+
+    const handleUpdateDueDate = async () => {
+        try {
+            const payload: UpdateProjectDTO = {
+                done: project.project.done,
+                endAt: dueDate ? dayjs(dueDate).toISOString() : "",
+            }
+            const res = await updateProject(project.project.proj_id, payload);
+            updateProjectById(project.project.proj_id, res);
+            setUpdateDate(false);
+            handleToast("success", "Edit project!", `Project has been updated due date.`)
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const toast = useToast();
+    const [toastId, setToastId] = useState("0");
+    const handleToast = (type: ToastType, title: string, text: string) => {
+        if (!toast.isActive(toastId)) {
+            showToast(type, title, text);
+        }
+    };
+    const showToast = (type: ToastType, title: string, text: string) => {
+        const newId = Math.random().toString();
+        setToastId(newId);
+        toast.show({
+            id: newId,
+            placement: 'bottom',
+            duration: 3000,
+            render: ({ id }) => {
+                const uniqueToastId = 'toast-' + id;
+                return (
+                    <Toast nativeID={uniqueToastId} action={type} variant="outline" className="bg-white">
+                        <ToastTitle>{title}</ToastTitle>
+                        <ToastDescription className="text-darkTextPrimary">
+                            {text}
+                        </ToastDescription>
+                    </Toast>
+                );
+            },
+        });
+    };
 
     if (!project) {
         return (
@@ -88,7 +151,10 @@ export default function ProjectDetail() {
 
                     <Box className="flex-row justify-between gap-1 items-center my-4 mx-6">
                         <Box className="flex-1">
-                            <DatePickerField date={dueDate} setDate={setDueDate} label="Due Date" />
+                            <MarkAsDone projectId={project.project.proj_id} value={done} onChange={setDone} />
+                        </Box>
+                        <Box className="flex-1">
+                            <DatePickerField date={dueDate} setDate={setDueDate} label="Due Date" setUpdateDate={setUpdateDate} />
                         </Box>
                     </Box>
 
