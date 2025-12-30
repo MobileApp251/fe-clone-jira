@@ -81,23 +81,23 @@ export default function ProjectDetail() {
                     </Box>
                     <FlatList
                         data={projectTasks}
-                        keyExtractor={(item) => item.task_id}
+                        keyExtractor={(item) => item.task.task_id}
                         showsVerticalScrollIndicator={false}
                         renderItem={({ item }) => (
                             <Pressable
                                 onPress={() =>
-                                    router.push(`/dashboard/tasks/${item.task_id}`)
+                                    router.push(`/dashboard/tasks/${item.task.task_id}`)
                                 }
                             >
                                 <TaskCard
-                                    id={item.task_id}
-                                    title={item.task_name}
-                                    description={item.content}
-                                    priority={item.priority}
-                                    status={item.status.toUpperCase()}
-                                    endDate={new Date(item.endAt)}
+                                    id={item.task.task_id}
+                                    title={item.task.task_name}
+                                    description={item.task.content}
+                                    priority={item.task.priority}
+                                    status={item.task.status?.toUpperCase()}
+                                    endDate={new Date(item.task.endAt)}
                                     inProject={true}
-                                    projectId={item.proj_id}
+                                    projectId={item.task.proj_id}
                                 />
                             </Pressable>)}
                     >
