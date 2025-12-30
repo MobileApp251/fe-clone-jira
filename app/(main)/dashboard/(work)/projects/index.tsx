@@ -72,8 +72,10 @@ export default function ProjectsScreen() {
                     renderItem={({ item }) => (
                         <Pressable
                             onPress={() => router.push(`/dashboard/projects/${item.project.proj_id}`)}
+                            key={item.project.proj_id}
                         >
                             <ProjectCard
+                                projectId={item.project.proj_id}
                                 title={item.project.proj_name}
                                 description={item.project.description}
                                 members={item.members.length}

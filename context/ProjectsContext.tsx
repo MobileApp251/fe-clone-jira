@@ -13,6 +13,7 @@ type ProjectsContextType = {
     createNewTask: (projectId: string, task: CreateTaskDTO) => Promise<void>
     loadProjects: (force?: boolean) => Promise<void>;
     loadProjectById: (id: string) => Promise<void>;
+    removeProject: (id: string) => void;
 };
 
 const ProjectsContext = createContext<ProjectsContextType | null>(null);
@@ -42,22 +43,10 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
             setError(null);
 
             const newProject = await createProject(project);
-            setProjects(prev => [
-                ...prev,
-                {
-                    members: [],
-                    project: {
-                        proj_id: newProject.proj_id,
-                        proj_name: newProject.proj_name,
-                        description: newProject.description,
-                        startAt: newProject.startAt,
-                        endAt: newProject.endAt,
-                        createAt: newProject.createAt,
-                        updateAt: newProject.updateAt,
-                        done: newProject.done,
-                    }
-                }
-            ]);
+            setProjects(prev => [...prev, {
+                project: newProject,
+                members: []
+            }]);
             return newProject;
         } catch (error: any) {
             setError(error?.message ?? "LOAD_FAILED");
@@ -65,6 +54,12 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
         } finally {
             setLoading(false);
         }
+    }, []);
+
+    const removeProject = useCallback((projectId: string) => {
+        setProjects(prev =>
+            prev.filter(p => p.project.proj_id !== projectId)
+        );
     }, []);
 
     const loadProjects = useCallback(async (force = false) => {
@@ -114,7 +109,7 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
     }, [])
 
     return (
-        <ProjectsContext.Provider value={{ projects, project, projectTasks, loading, error, createNewProject, loadProjects, loadProjectById, createNewTask }}>
+        <ProjectsContext.Provider value={{ projects, project, projectTasks, loading, error, createNewProject, removeProject, loadProjects, loadProjectById, createNewTask }}>
             {children}
         </ProjectsContext.Provider>
 

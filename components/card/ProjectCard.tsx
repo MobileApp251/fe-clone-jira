@@ -16,6 +16,7 @@ type Props = {
   status: string;
   endDate: string;
   onDelete?: () => void;
+  projectId: string;
 };
 
 
@@ -26,6 +27,7 @@ export default function ProjectCard({
   members,
   status,
   endDate,
+  projectId
 }: Props) {
   const style =
     PROJECT_STATUS_STYLE[status] ??
@@ -34,21 +36,20 @@ export default function ProjectCard({
   const StatusIcon = style.icon;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const renderRightActions = () =>
-    {
-      return (
-        <>
-          <Pressable
-            onPress={() => setShowDeleteModal(true)}
-            className="bg-red-500 justify-center items-center w-20 mb-4 -ml-8 mr-6 rounded-r-2xl"
-          >
-            <Trash2 size={20} color="white" />
-            <Text className="text-white text-xs mt-1">Delete</Text>
-          </Pressable>
-          <DeleteProject showDeleteModal={showDeleteModal} setShowDeleteModal={setShowDeleteModal} title={title}></DeleteProject>
-        </>
-      );
-    };
+  const renderRightActions = () => {
+    return (
+      <>
+        <Pressable
+          onPress={() => setShowDeleteModal(true)}
+          className="bg-red-500 justify-center items-center w-20 mb-4 -ml-8 mr-6 rounded-r-2xl"
+        >
+          <Trash2 size={20} color="white" />
+          <Text className="text-white text-xs mt-1">Delete</Text>
+        </Pressable>
+        <DeleteProject showDeleteModal={showDeleteModal} setShowDeleteModal={setShowDeleteModal} title={title} projectId={projectId}></DeleteProject>
+      </>
+    );
+  };
 
   return (
     <Swipeable

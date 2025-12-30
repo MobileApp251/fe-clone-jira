@@ -89,3 +89,21 @@ export async function getProjectTasks(id: string): Promise<TaskAPIResponse[]> {
     const json = await res.json();
     return json;
 }
+
+export async function deleteProjectById(projectId: string): Promise<string> {
+    await initAuth();
+    const res = await fetch(`${API_URL}/projects/${projectId}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+        },
+    });
+    if (!res.ok) {
+        if (res.status === 401) {
+            throw new Error("UNAUTHORIZED");
+        }
+        throw new Error("Failed to fetch projects");
+    }
+
+    return "Delete project successfully";
+}

@@ -1,22 +1,73 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import { deleteProjectById } from '@/api/projects';
 import { Modal, ModalBackdrop, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@/components/ui/modal";
+import { useProjects } from '@/context/ProjectsContext';
 import { Box } from '../ui/box';
-import { Button, ButtonIcon, ButtonText } from '../ui/button';
+import { Button, ButtonIcon, ButtonSpinner, ButtonText } from '../ui/button';
 import { Heading } from '../ui/heading';
 import { CheckIcon, CloseIcon, Icon, TrashIcon } from '../ui/icon';
 import { Text } from '../ui/text';
+import { Toast, ToastDescription, ToastTitle, useToast } from '../ui/toast';
 
 type Props = {
     showDeleteModal: boolean;
     setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
     title: string | undefined;
+    projectId: string;
 };
 
+type ToastType = "error" | "warning" | "success" | "info" | "muted" | undefined;
 
 export default function DeleteProject(
-    { showDeleteModal, setShowDeleteModal, title }: Props
+    { showDeleteModal, setShowDeleteModal, title, projectId }: Props
 ) {
+    const { removeProject } = useProjects();
+
+    const [loading, setLoading] = useState(false);
+    const handleDeleteProject = async (id: string) => {
+        let res = "";
+        try {
+            setLoading(true);
+            res = await deleteProjectById(id);
+            removeProject(id);
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setShowDeleteModal(false);
+            handleToast("success", "Delete project!", res);
+            setLoading(false);
+        }
+    }
+
+    const toast = useToast();
+    const [toastId, setToastId] = useState("0");
+    const handleToast = (type: ToastType, title: string, text: string) => {
+        if (!toast.isActive(toastId)) {
+            showToast(type, title, text);
+        }
+    };
+    const showToast = (type: ToastType, title: string, text: string) => {
+        const newId = Math.random().toString();
+        setToastId(newId);
+        toast.show({
+            id: newId,
+            placement: 'bottom',
+            duration: 3000,
+            render: ({ id }) => {
+                const uniqueToastId = 'toast-' + id;
+                return (
+                    <Toast nativeID={uniqueToastId} action={type} variant="outline" className="bg-white">
+                        <ToastTitle>{title}</ToastTitle>
+                        <ToastDescription className="text-darkTextPrimary">
+                            {text}
+                        </ToastDescription>
+                    </Toast>
+                );
+            },
+        });
+    };
+
     return (
         <Modal
             isOpen={showDeleteModal}
@@ -55,11 +106,9 @@ export default function DeleteProject(
                     </Button>
                     <Button
                         action="positive"
-                        onPress={() => {
-                            setShowDeleteModal(false);
-                        }}
+                        onPress={() => handleDeleteProject(projectId)}
                     >
-                        <ButtonIcon className='text-white font-bold text-xl' as={CheckIcon} />
+                        {loading ? (<ButtonSpinner color="gray" />) : (<ButtonIcon className='text-white font-bold text-xl' as={CheckIcon} />)}
                         <ButtonText className="text-white">Delete</ButtonText>
                     </Button>
                 </ModalFooter>
