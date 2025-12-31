@@ -1,7 +1,7 @@
+import { tokenCache } from "@/utils/cache";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Linking from "expo-linking";
 import { createContext, useContext, useEffect, useState } from "react";
-import { loginWithGoogle } from "./LoginGoogle";
 
 type AuthContextType = {
     token: string | null;
@@ -29,7 +29,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const accessToken = queryParams?.access_token as string;
 
             if (accessToken) {
-                await AsyncStorage.setItem("ACCESS_TOKEN", accessToken);
+                await tokenCache?.saveToken("ACCESS_TOKEN", accessToken);
                 setToken(accessToken);
             }
         });
@@ -38,7 +38,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }, []);
 
     const login = async () => {
-        await loginWithGoogle();
+        
     };
 
     const logout = async () => {

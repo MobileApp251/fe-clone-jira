@@ -1,3 +1,4 @@
+import { tokenCache } from '@/utils/cache';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { useEffect } from 'react';
@@ -31,12 +32,12 @@ export default function Index() {
                 return;
             }
 
-            const token = await AsyncStorage.getItem('ACCESS_TOKEN');
+            const token = await tokenCache?.getToken("ACCESS_TOKEN");
 
             if (token && isTokenValid(token)) {
                 router.replace('/dashboard');
             } else {
-                await AsyncStorage.removeItem('ACCESS_TOKEN');
+                await tokenCache?.deleteToken('ACCESS_TOKEN');
                 router.replace('/login');
             }
         } catch (error) {

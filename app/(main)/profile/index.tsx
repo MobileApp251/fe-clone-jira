@@ -1,3 +1,4 @@
+import { useGoogleAuth } from '@/auth/GoogleAuthContext';
 import { getUserProfile } from '@/auth/sign-in';
 import { Box } from '@/components/ui/box';
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button';
@@ -6,7 +7,6 @@ import { ChevronsLeftIcon, Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
 import { User } from '@/utils/userType';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { LogOut, User2 } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
@@ -19,6 +19,7 @@ export default function Profile() {
         uid: "",
         username: "",
     })
+    const { signOut } = useGoogleAuth();
 
     useEffect(() => {
         handleGetProfile()
@@ -34,10 +35,13 @@ export default function Profile() {
     }
 
     const handleLogOut = async () => {
-        await AsyncStorage.removeItem("ACCESS_TOKEN");
-        await AsyncStorage.removeItem("USER_EMAIL");
-        router.replace("/login");
-    }
+        try {
+            await signOut();
+            router.replace("/login");
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
     return (
         <View className="flex-1">
@@ -58,7 +62,7 @@ export default function Profile() {
                 <Heading size="sm" className="text-bold mb-2 text-center text-darkTextPrimary">
                     {profile.email}
                 </Heading>
-                <Button variant="solid" size="md" action="positive" className='max-w-fit mt-96' onPress={handleLogOut}>
+                <Button variant="solid" size="md" action="positive" className='max-w-fit' onPress={handleLogOut}>
                     <ButtonIcon as={LogOut} className="mr-2 text-white" />
                     <ButtonText className='text-white'>Log out</ButtonText>
                 </Button>

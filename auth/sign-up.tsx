@@ -1,5 +1,5 @@
 import { API_URL } from "@/config/env";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { tokenCache } from "@/utils/cache";
 
 export async function signUp(email: string, password: string) {
     const res = await fetch(`${API_URL}/auth/sign-up`, {
@@ -15,7 +15,7 @@ export async function signUp(email: string, password: string) {
 
     const { token, user } = await res.json();
 
-    await AsyncStorage.setItem("ACCESS_TOKEN", token);
+    await tokenCache?.saveToken("ACCESS_TOKEN", token);
 
     return { token, user };
 }
