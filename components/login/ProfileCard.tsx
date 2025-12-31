@@ -1,11 +1,11 @@
-import { useAuth } from "@/auth/GoogleAuthContext";
+import { useGoogleAuth } from "@/auth/GoogleAuthContext";
 import { tokenCache } from "@/utils/cache";
 import * as jose from "jose";
 import { useEffect, useRef, useState } from "react";
 import { Button, Image, Platform, StyleSheet, Text, View } from "react-native";
 
 export default function ProfileCard() {
-  const { signOut, user } = useAuth();
+  const { signOut, user } = useGoogleAuth();
   const [accessTokenExpiration, setAccessTokenExpiration] = useState<
     string | null
   >(null);

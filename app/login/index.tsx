@@ -6,7 +6,6 @@ import { HStack } from '@/components/ui/hstack';
 import { EyeIcon, EyeOffIcon } from '@/components/ui/icon';
 import { Input, InputField, InputIcon, InputSlot } from '@/components/ui/input';
 import { Colors } from '@/constants/theme';
-import { tokenCache } from '@/utils/cache';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
@@ -21,29 +20,39 @@ import {
     View
 } from 'react-native';
 
+const isTokenValid = (token: string) => {
+    try {
+        const payloadBase64 = token.split('.')[1];
+        const payload = JSON.parse(atob(payloadBase64));
+        const now = Math.floor(Date.now() / 1000);
+
+        return payload.exp && payload.exp > now;
+    } catch {
+        return false;
+    }
+};
+
 export default function Login() {
     const router = useRouter();
 
-    const { user, isLoading, signOut, signIn } = useGoogleAuth();
+    const { user, isLoading, signIn } = useGoogleAuth();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleContinueLogin = () => {
-        router.replace('/dashboard')
-    }
-
     const handleSignUp = async () => {
-
         router.push("/signup");
-        // try {
-        //     await loginWithGoogle();
-        //     router.replace('/dashboard');
-        // } catch (err) {
-        //     console.error('Login failed', err);
-        // }
     };
+
+    const handleSignInWithGoogle = async () => {
+        try {
+            await signIn();
+            router.replace("/dashboard");
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
     const handleSignInWithEmail = async () => {
         try {
@@ -60,32 +69,12 @@ export default function Login() {
         });
     };
 
-    console.log("User:", JSON.stringify(user));
-
-    const getToken = async () => {
-        const token = await tokenCache?.getToken("accessToken");
-        console.log("Access token:", token);
-    };
-
-    const getIdToken = async () => {
-        const token = await tokenCache?.getToken("idToken");
-        console.log("ID token:", token);
-    };
-
-    // Call getToken to debug
-    getToken();
-    getIdToken();
-
-    console.log("token", user?.cookieExpiration);
 
     return (
         <KeyboardAvoidingView
             style={styles.container}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-            <TouchableOpacity className="p-4 bg-red-500 rounded" onPress={signOut}>
-                <Text className="text-white">Logout</Text>
-            </TouchableOpacity>
             <View style={styles.topBar}>
                 <Text style={styles.headerText}>CloneJira</Text>
             </View>
@@ -114,6 +103,9 @@ export default function Login() {
                     <Text className="font-bold text-3xl mb-6 text-white text-center">
                         Sign in
                     </Text>
+                    <Text className="font-bold text-3xl mb-6 text-white text-center">
+                        {user?.name}
+                    </Text>
                     <Input className="h-14 mb-4 rounded-lg bg-white border-white">
                         <InputField
                             value={email}
@@ -139,9 +131,6 @@ export default function Login() {
                         <TouchableOpacity onPress={handleSignUp} >
                             <Text className="text-white font-medium">Sign Up</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={handleContinueLogin}>
-                            <Text className="text-white font-medium">Continue without login</Text>
-                        </TouchableOpacity>
                     </HStack>
 
                     <TouchableOpacity style={styles.loginButton} onPress={handleSignInWithEmail}>
@@ -158,7 +147,7 @@ export default function Login() {
 
                     <TouchableOpacity
                         style={styles.loginButton}
-                        onPress={signIn}
+                        onPress={handleSignInWithGoogle}
                     >
                         <Image
                             source={require('@/assets/images/icons8-google-48.png')}

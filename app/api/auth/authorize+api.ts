@@ -23,10 +23,6 @@ export async function GET(request: Request) {
 
   let platform;
 
-  console.log("redirectUri:", redirectUri);
-  console.log("APP_SCHEME:", APP_SCHEME);
-  console.log("BASE_URL:", BASE_URL);
-
   if (redirectUri === APP_SCHEME) {
     platform = "mobile";
   } else if (redirectUri === BASE_URL) {
@@ -57,8 +53,6 @@ export async function GET(request: Request) {
     state: state,
     prompt: "select_account",
   });
-
-  console.log("Google auth URL:", GOOGLE_AUTH_URL + "?" + params.toString());
 
   return Response.redirect(GOOGLE_AUTH_URL + "?" + params.toString());
 }

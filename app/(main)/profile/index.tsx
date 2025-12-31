@@ -1,3 +1,4 @@
+import { useGoogleAuth } from '@/auth/GoogleAuthContext';
 import { getUserProfile } from '@/auth/sign-in';
 import { Box } from '@/components/ui/box';
 import { Button, ButtonIcon, ButtonText } from '@/components/ui/button';
@@ -6,7 +7,6 @@ import { ChevronsLeftIcon, Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
 import { User } from '@/utils/userType';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { LogOut, User2 } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
@@ -19,6 +19,7 @@ export default function Profile() {
         uid: "",
         username: "",
     })
+    const { signOut } = useGoogleAuth();
 
     useEffect(() => {
         handleGetProfile()
@@ -34,8 +35,7 @@ export default function Profile() {
     }
 
     const handleLogOut = async () => {
-        await AsyncStorage.removeItem("ACCESS_TOKEN");
-        await AsyncStorage.removeItem("USER_EMAIL");
+        signOut();
         router.replace("/login");
     }
 

@@ -113,29 +113,22 @@ export async function POST(request: Request) {
     // Set the access token in an HTTP-only cookie
     response.headers.set(
       "Set-Cookie",
-      `${COOKIE_NAME}=${accessToken}; Max-Age=${COOKIE_OPTIONS.maxAge}; Path=${
-        COOKIE_OPTIONS.path
-      }; ${COOKIE_OPTIONS.httpOnly ? "HttpOnly;" : ""} ${
-        COOKIE_OPTIONS.secure ? "Secure;" : ""
+      `${COOKIE_NAME}=${accessToken}; Max-Age=${COOKIE_OPTIONS.maxAge}; Path=${COOKIE_OPTIONS.path
+      }; ${COOKIE_OPTIONS.httpOnly ? "HttpOnly;" : ""} ${COOKIE_OPTIONS.secure ? "Secure;" : ""
       } SameSite=${COOKIE_OPTIONS.sameSite}`
     );
 
     // Set the refresh token in a separate HTTP-only cookie
     response.headers.append(
       "Set-Cookie",
-      `${REFRESH_COOKIE_NAME}=${refreshToken}; Max-Age=${
-        REFRESH_COOKIE_OPTIONS.maxAge
-      }; Path=${REFRESH_COOKIE_OPTIONS.path}; ${
-        REFRESH_COOKIE_OPTIONS.httpOnly ? "HttpOnly;" : ""
-      } ${REFRESH_COOKIE_OPTIONS.secure ? "Secure;" : ""} SameSite=${
-        REFRESH_COOKIE_OPTIONS.sameSite
+      `${REFRESH_COOKIE_NAME}=${refreshToken}; Max-Age=${REFRESH_COOKIE_OPTIONS.maxAge
+      }; Path=${REFRESH_COOKIE_OPTIONS.path}; ${REFRESH_COOKIE_OPTIONS.httpOnly ? "HttpOnly;" : ""
+      } ${REFRESH_COOKIE_OPTIONS.secure ? "Secure;" : ""} SameSite=${REFRESH_COOKIE_OPTIONS.sameSite
       }`
     );
 
     return response;
   }
-
-  console.log("Token response:", { accessToken, refreshToken, idToken: data.id_token });
   // For native platforms, return both tokens in the response body
   return Response.json({
     accessToken,

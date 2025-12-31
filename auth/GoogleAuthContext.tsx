@@ -1,6 +1,7 @@
 import { BASE_URL } from "@/constants/auth";
 import { tokenCache } from "@/utils/cache";
 import { AuthUser } from "@/utils/middleware";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   AuthError,
   AuthRequestConfig,
@@ -12,6 +13,7 @@ import * as WebBrowser from "expo-web-browser";
 import * as jose from "jose";
 import React from "react";
 import { Platform } from "react-native";
+import { GoogleSignIn } from "./sign-in";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -140,18 +142,16 @@ export const GoogleAuthProvider = ({ children }: { children: React.ReactNode }) 
     refreshToken: string;
     idToken: string;
   }) => {
-    const { accessToken: a, refreshToken: r, idToken } = tokens;
-    console.log("HEHE: ", accessToken);
+    const { accessToken: a, refreshToken: r, idToken: i } = tokens;
     setAccessToken(a);
     setRefreshToken(r);
     setIdToken(idToken);
-    
 
     await tokenCache?.saveToken("accessToken", a);
     await tokenCache?.saveToken("refreshToken", r);
-    await tokenCache?.saveToken("idToken", idToken);
-    
-
+    await tokenCache?.saveToken("idToken", i);
+    await GoogleSignIn(i);
+    await AsyncStorage.setItem("USER_EMAIL", user?.email ?? "");
     const decoded = jose.decodeJwt(a);
     setUser(decoded as AuthUser);
   };
@@ -181,9 +181,6 @@ export const GoogleAuthProvider = ({ children }: { children: React.ReactNode }) 
         });
 
         const tokens = await tokenRes.json();
-        console.log("Tokens:", tokens);
-        console.log("Access Token:", tokens.accessToken);
-        console.log("Refresh Token:", tokens.refreshToken);
         await handleNativeTokens(tokens);
       } catch (e) {
         console.error(e);
@@ -223,14 +220,12 @@ export const GoogleAuthProvider = ({ children }: { children: React.ReactNode }) 
   };
 
   const signIn = async () => {
-    console.log("signIn");
     try {
       if (!request) {
         console.log("No request");
         return;
       }
 
-      console.log("About to promptAsync", request);
       await promptAsync();
     } catch (e) {
       console.log(e);
@@ -240,6 +235,8 @@ export const GoogleAuthProvider = ({ children }: { children: React.ReactNode }) 
   const signOut = async () => {
     await tokenCache?.deleteToken("accessToken");
     await tokenCache?.deleteToken("refreshToken");
+    await tokenCache?.deleteToken("idToken");
+    await tokenCache?.deleteToken("ACCESS_TOKEN");
     setUser(null);
     setAccessToken(null);
     setRefreshToken(null);

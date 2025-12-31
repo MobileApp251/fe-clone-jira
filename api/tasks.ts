@@ -1,11 +1,11 @@
 import { API_URL } from "@/config/env";
+import { tokenCache } from "@/utils/cache";
 import { CreateTaskDTO, TaskAPIResponse, TaskData } from "@/utils/workType";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-let ACCESS_TOKEN: string | null = null;
+let ACCESS_TOKEN: string | null | undefined = null;
 
 async function initAuth() {
-    ACCESS_TOKEN = await AsyncStorage.getItem("ACCESS_TOKEN");
+    ACCESS_TOKEN = await tokenCache?.getToken("ACCESS_TOKEN");
 }
 
 export async function getMyTasks(): Promise<TaskAPIResponse[]> {
