@@ -1,9 +1,9 @@
-import { useAuth } from "@/auth/GoogleAuthContext";
+import { useGoogleAuth } from "@/auth/GoogleAuthContext";
 import * as React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 
 export default function ProtectedRequestCard() {
-  const { fetchWithAuth } = useAuth();
+  const { fetchWithAuth } = useGoogleAuth();
   const [data, setData] = React.useState<any>(null);
 
   async function fetchProtectedData() {

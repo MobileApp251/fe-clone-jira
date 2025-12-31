@@ -9,8 +9,10 @@ import { Colors } from '@/constants/theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+    ActivityIndicator,
+    AppState,
     Image,
     KeyboardAvoidingView,
     Platform,
@@ -41,6 +43,31 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
+    const [waitingForAuth, setWaitingForAuth] = useState(false);
+
+    useEffect(() => {
+        const sub = AppState.addEventListener("change", state => {
+            if (state === "active") {
+                setWaitingForAuth(true)
+            }
+        });
+        return () => sub.remove();
+    }, []);
+
+    useEffect(() => {
+        if (!isLoading && user) {
+            router.replace("/dashboard");
+        }
+    }, [user, isLoading, router]);
+
+    if (waitingForAuth || isLoading) {
+        return (
+            <Box className="flex-1 justify-center items-center">
+                <ActivityIndicator size="large" />
+            </Box>
+        );
+    }
+
     const handleSignUp = async () => {
         router.push("/signup");
     };
@@ -48,11 +75,10 @@ export default function Login() {
     const handleSignInWithGoogle = async () => {
         try {
             await signIn();
-            router.replace("/dashboard");
         } catch (err) {
             console.error(err);
         }
-    }
+    };
 
     const handleSignInWithEmail = async () => {
         try {
@@ -69,9 +95,8 @@ export default function Login() {
         });
     };
 
-
     return (
-        <KeyboardAvoidingView
+            <KeyboardAvoidingView
             style={styles.container}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
@@ -159,8 +184,7 @@ export default function Login() {
                     </TouchableOpacity>
                 </Box>
             </LinearGradient>
-        </KeyboardAvoidingView>
-    );
+        </KeyboardAvoidingView>)
 }
 
 

@@ -35,9 +35,13 @@ export default function Profile() {
     }
 
     const handleLogOut = async () => {
-        signOut();
-        router.replace("/login");
-    }
+        try {
+            await signOut();
+            router.replace("/login");
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
     return (
         <View className="flex-1">

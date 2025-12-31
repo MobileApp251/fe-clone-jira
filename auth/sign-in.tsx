@@ -48,7 +48,11 @@ async function initAuth() {
 }
 
 export async function getUserProfile(): Promise<User> {
-    await initAuth();
+    ACCESS_TOKEN = await tokenCache?.getToken("ACCESS_TOKEN");
+    USER_EMAIL = await AsyncStorage.getItem("USER_EMAIL");
+
+    console.log("getUserProfile - ACCESS_TOKEN:", ACCESS_TOKEN);
+    console.log("getUserProfile - USER_EMAIL:", USER_EMAIL);
     if (!USER_EMAIL || !ACCESS_TOKEN) {
         throw new Error("Missing auth info");
     }

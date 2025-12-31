@@ -145,15 +145,15 @@ export const GoogleAuthProvider = ({ children }: { children: React.ReactNode }) 
     const { accessToken: a, refreshToken: r, idToken: i } = tokens;
     setAccessToken(a);
     setRefreshToken(r);
-    setIdToken(idToken);
+    setIdToken(i);
 
     await tokenCache?.saveToken("accessToken", a);
     await tokenCache?.saveToken("refreshToken", r);
     await tokenCache?.saveToken("idToken", i);
     await GoogleSignIn(i);
-    await AsyncStorage.setItem("USER_EMAIL", user?.email ?? "");
     const decoded = jose.decodeJwt(a);
     setUser(decoded as AuthUser);
+    await AsyncStorage.setItem("USER_EMAIL", (decoded as AuthUser)?.email ?? "");
   };
 
   async function handleResponse() {
@@ -225,7 +225,7 @@ export const GoogleAuthProvider = ({ children }: { children: React.ReactNode }) 
         console.log("No request");
         return;
       }
-
+      setIsLoading(true)
       await promptAsync();
     } catch (e) {
       console.log(e);
@@ -240,6 +240,7 @@ export const GoogleAuthProvider = ({ children }: { children: React.ReactNode }) 
     setUser(null);
     setAccessToken(null);
     setRefreshToken(null);
+    setIsLoading(false);
   };
 
   return (

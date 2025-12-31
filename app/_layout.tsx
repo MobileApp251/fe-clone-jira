@@ -1,4 +1,3 @@
-import { AuthProvider } from '@/auth/AuthContext';
 import { GoogleAuthProvider } from '@/auth/GoogleAuthContext';
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import { ProjectsProvider } from '@/context/ProjectsContext';
@@ -12,7 +11,7 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <GoogleAuthProvider>
-        <AuthProvider>
+        {/* <AuthProvider> */}
           <GluestackUIProvider mode="dark">
             <ThemeProvider>
               <ProjectsProvider>
@@ -28,7 +27,7 @@ export default function RootLayout() {
               </ProjectsProvider>
             </ThemeProvider>
           </GluestackUIProvider>
-        </AuthProvider>
+        {/* </AuthProvider> */}
       </GoogleAuthProvider>
     </GestureHandlerRootView>
 
