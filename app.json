@@ -20,7 +20,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.mobileapp251.clonejira"
+      "package": "com.mobileapp251.clonejira",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "output": "server",
