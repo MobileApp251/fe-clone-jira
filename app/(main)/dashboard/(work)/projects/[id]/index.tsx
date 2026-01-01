@@ -18,9 +18,9 @@ import { DateType } from "react-native-ui-datepicker";
 type ToastType = "error" | "warning" | "success" | "info" | "muted" | undefined;
 
 export default function ProjectDetail() {
-    const { id } = useLocalSearchParams<{ id: string }>();
+    const { id, actionTaskId } = useLocalSearchParams<{ id: string, actionTaskId: string }>();
     const [showAddTaskModal, setShowAddTaskModal] = useState(false);
-    const { project, projectTasks, loading, updateProjectById, loadProjectById } = useProjects();
+    const { project, projectTasks, loading, updateProjectById, removeTask, loadProjectById } = useProjects();
 
     const [dueDate, setDueDate] = useState<DateType>();
     const [done, setDone] = useState(false);
@@ -28,7 +28,10 @@ export default function ProjectDetail() {
 
     useEffect(() => {
         loadProjectById(id);
-    }, [id, loadProjectById]);
+        if (actionTaskId) {
+            removeTask(actionTaskId);
+        }
+    }, [id, actionTaskId, loadProjectById]);
 
     useEffect(() => {
         if (!project) return;
@@ -55,6 +58,8 @@ export default function ProjectDetail() {
             handleToast("success", "Edit project!", `Project has been updated due date.`)
         } catch (error) {
             console.error(error);
+        } finally {
+            setUpdateDate(false);
         }
     }
 
@@ -176,6 +181,7 @@ export default function ProjectDetail() {
                                     status={item.task.status?.toUpperCase()}
                                     endDate={new Date(item.task.endAt)}
                                     inProject={true}
+                                    members={item.members}
                                     projectId={item.task.proj_id}
                                 />
                             </Pressable>)}

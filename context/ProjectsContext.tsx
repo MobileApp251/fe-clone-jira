@@ -1,6 +1,6 @@
 import { createProject, getMyProjects, getProjectById, getProjectTasks } from "@/api/projects";
 import { createTask } from "@/api/tasks";
-import { CreateProjectDTO, CreateTaskDTO, ProjectByIdAPIResponse, ProjectData, TaskAPIResponse } from "@/utils/workType";
+import { CreateProjectDTO, CreateTaskDTO, ProjectByIdAPIResponse, ProjectData, TaskAPIResponse, TaskData } from "@/utils/workType";
 import { createContext, useCallback, useContext, useState } from "react";
 
 type ProjectsContextType = {
@@ -14,7 +14,9 @@ type ProjectsContextType = {
     loadProjects: (force?: boolean) => Promise<void>;
     loadProjectById: (id: string) => Promise<void>;
     removeProject: (id: string) => void;
+    removeTask: (id: string) => void;
     updateProjectById: (projectId: string, project: ProjectData) => void;
+    updateProjectTask: (taskId: string, task: TaskData) => void;
 };
 
 const ProjectsContext = createContext<ProjectsContextType | null>(null);
@@ -63,6 +65,12 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
         );
     }, []);
 
+    const removeTask = useCallback((taskId: string) => {
+        setProjectTasks(prev =>
+            prev.filter(p => p.task.task_id !== taskId)
+        );
+    }, []);
+
     const updateProjectById = useCallback((projectId: string, updatedProject: ProjectData) => {
         setProjects((prev) =>
             prev.map((item) =>
@@ -89,6 +97,23 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
             };
         });
     }, []);
+
+    const updateProjectTask = useCallback((taskId: string, updatedTask: TaskData) => {
+        setProjectTasks(prev =>
+            prev.map(item =>
+                item.task.task_id == taskId
+                    ? {
+                        ...item,
+                        task: {
+                            ...item.task,
+                            ...updatedTask,
+                        },
+                    }
+                    : item
+            )
+        );
+    }, []);
+
 
     const loadProjects = useCallback(async (force = false) => {
         if (!force && projects.length > 0) return;
@@ -126,9 +151,11 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
         try {
             setLoading(false);
             setError(null);
-
             const data = await createTask(projectId, task);
-            setProjectTasks(prev => [...prev, data]);
+            setProjectTasks(prev => [{
+                task: data,
+                members: [],
+            }, ...prev]);
         } catch (error: any) {
             setError(error?.message ?? "LOAD_FAILED");
         } finally {
@@ -137,7 +164,7 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
     }, [])
 
     return (
-        <ProjectsContext.Provider value={{ projects, project, projectTasks, loading, error, createNewProject, removeProject, updateProjectById, loadProjects, loadProjectById, createNewTask }}>
+        <ProjectsContext.Provider value={{ projects, project, projectTasks, loading, error, createNewProject, removeProject, removeTask, updateProjectById, updateProjectTask, loadProjects, loadProjectById, createNewTask }}>
             {children}
         </ProjectsContext.Provider>
 

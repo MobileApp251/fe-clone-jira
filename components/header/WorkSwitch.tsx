@@ -36,14 +36,22 @@ const WorkSwitch = () => {
                     <Tab
                         label="My projects"
                         active={isProjects}
-                        onPress={() => router.push("/dashboard/projects")}
+                        onPress={() => {
+                            if (!isProjects) {
+                                router.push("/dashboard/projects");
+                            }
+                        }}
                     />
                 </Box>
                 <Box className="flex-1 h-12 rounded-lg overflow-hidden">
                     <Tab
                         label="My tasks"
                         active={isTasks}
-                        onPress={() => router.push("/dashboard/tasks")}
+                        onPress={() => {
+                            if (!isTasks) {
+                                router.push("/dashboard/tasks");
+                            }
+                        }}
                     />
                 </Box>
             </HStack>

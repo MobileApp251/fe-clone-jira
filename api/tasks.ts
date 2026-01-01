@@ -8,7 +8,7 @@ async function initAuth() {
     ACCESS_TOKEN = await tokenCache?.getToken("ACCESS_TOKEN");
 }
 
-export async function getMyTasks(): Promise<TaskAPIResponse[]> {
+export async function getMyTasks(): Promise<TaskData[]> {
     await initAuth();
     const res = await fetch(`${API_URL}/api/tasks`, {
         method: "GET",
@@ -28,7 +28,7 @@ export async function getMyTasks(): Promise<TaskAPIResponse[]> {
     return json;
 }
 
-export async function createTask(projectId: string, task: CreateTaskDTO): Promise<TaskAPIResponse> {
+export async function createTask(projectId: string, task: CreateTaskDTO): Promise<TaskData> {
     await initAuth();
     const res = await fetch(`${API_URL}/api/tasks/${projectId}`, {
         method: "POST",
@@ -50,7 +50,7 @@ export async function createTask(projectId: string, task: CreateTaskDTO): Promis
     return json;
 }
 
-export async function getTaskById(projectId: string, taskId: string): Promise<TaskData> {
+export async function getTaskById(projectId: string, taskId: string): Promise<TaskAPIResponse> {
     await initAuth();
     const res = await fetch(`${API_URL}/api/tasks/${projectId}/${taskId}`, {
         method: "GET",
@@ -92,7 +92,7 @@ export async function updateTask(projectId: string, taskId: string, task: Create
     return json;
 }
 
-export async function deleteTask(projectId: string, taskId: string): Promise<TaskData> {
+export async function deleteTask(projectId: string, taskId: string): Promise<string> {
     await initAuth();
     const res = await fetch(`${API_URL}/api/tasks/${projectId}/${taskId}`, {
         method: "DELETE",
@@ -108,6 +108,5 @@ export async function deleteTask(projectId: string, taskId: string): Promise<Tas
         throw new Error("Failed to fetch tasks");
     }
 
-    const json = await res.json();
-    return json;
+    return "Delete task successfully";
 }

@@ -38,6 +38,12 @@ export default function NewTaskModal({ visible, onClose, projectId }: AddNewTask
     const handleClose = () => {
         setStep(1);
         onClose();
+        setTaskName("");
+        setDescription("");
+        setStatus("open");
+        setPriority("medium");
+        setStartDate(null);
+        setEndDate(null);
     };
 
     const handleCreate = async () => {

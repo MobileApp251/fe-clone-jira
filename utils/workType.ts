@@ -70,7 +70,7 @@ export type TaskData = {
 export type CreateTaskDTO = {
   task_name: string;
   content: string;
-  priority: "high" | "medium" | "low";
+  priority: TaskPriority;
   status: string;
   startAt: string;
   endAt: string;
