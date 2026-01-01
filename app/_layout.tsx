@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ThemeProvider } from './providers/ThemeProvider';
 
 import * as Notifications from "expo-notifications";
+import { useEffect } from 'react';
 
 Notifications.setNotificationHandler({
   handleNotification: async (): Promise<Notifications.NotificationBehavior> => ({
@@ -21,6 +22,13 @@ Notifications.setNotificationHandler({
 });
 
 export default function RootLayout() {
+  useEffect(() => {
+    Notifications.setNotificationChannelAsync("default", {
+      name: "Default",
+      importance: Notifications.AndroidImportance.MAX,
+    });
+  }, []);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <GoogleAuthProvider>
