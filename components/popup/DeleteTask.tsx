@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { deleteTask } from '@/api/tasks';
 import { Modal, ModalBackdrop, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@/components/ui/modal";
 import { Box } from '../ui/box';
 import { Button, ButtonIcon, ButtonText } from '../ui/button';
@@ -11,12 +12,27 @@ type Props = {
     showDeleteModal: boolean;
     setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
     title: string | undefined;
+    projectId: string;
+    taskId: string;
+    onDeleted?: () => void;
 };
 
 
 export default function DeleteTask(
-    { showDeleteModal, setShowDeleteModal, title }: Props
+    { showDeleteModal, setShowDeleteModal, title, projectId, taskId, onDeleted }: Props
 ) {
+    const handleDeleteTask = async () => {
+        try {
+            await deleteTask(projectId, taskId);
+
+            setShowDeleteModal(false);
+
+            onDeleted && onDeleted();   // refresh danh sách
+        } catch (e) {
+            console.log("Delete failed:", e);
+        }
+    };
+    
     return (
         <Modal
             isOpen={showDeleteModal}
@@ -57,9 +73,7 @@ export default function DeleteTask(
                     </Button>
                     <Button
                         action="positive"
-                        onPress={() => {
-                            setShowDeleteModal(false);
-                        }}
+                        onPress={handleDeleteTask}
                     >
                         <ButtonIcon className='text-white font-bold text-xl' as={CheckIcon} />
                         <ButtonText className="text-white">Delete</ButtonText>

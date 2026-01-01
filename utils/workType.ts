@@ -57,7 +57,7 @@ export type TaskAPIResponse = {
 export type TaskData = {
   content: string;
   createAt: Date;
-  endAt: Date;
+  endAt: string;
   proj_id: string;
   startAt: string;
   status: TaskStatus;

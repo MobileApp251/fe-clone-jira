@@ -60,7 +60,7 @@ export default function TaskDetail() {
         } finally {
             setLoading(false);
         }
-    }, [id, projectId]);
+    }, [id, projectId, task]);
 
     useEffect(() => {
         fetchTask();
@@ -87,7 +87,14 @@ export default function TaskDetail() {
                             <Button className="rounded-md aspect-square p-3.5" variant="outline" action="negative" size="xl" onPress={() => setShowDeleteModal(true)}>
                                 <ButtonIcon className='text-red-500 font-bold text-xl' as={TrashIcon} />
                             </Button>
-                            <DeleteTask showDeleteModal={showDeleteModal} setShowDeleteModal={setShowDeleteModal} title={title}></DeleteTask>
+                            <DeleteTask 
+                                showDeleteModal={showDeleteModal} 
+                                setShowDeleteModal={setShowDeleteModal} 
+                                title={title} 
+                                projectId={projectId} 
+                                taskId={id} 
+                                onDeleted={fetchTask}
+                            ></DeleteTask>
 
                             <Button className="rounded-md aspect-square p-3.5" variant="outline" action="positive" size="xl" onPress={() => setShowEditModal(true)}>
                                 <ButtonIcon className='text-lightPrimary font-bold text-xl' as={EditIcon} />
@@ -97,7 +104,11 @@ export default function TaskDetail() {
                                 setShowEditModal={setShowEditModal}
                                 title={title} setTitle={setTitle}
                                 description={description}
-                                setDescription={setDescription}></EditTask>
+                                setDescription={setDescription}
+                                projectId={projectId}
+                                taskId={id}
+                                task={task!}
+                                fetchTask={fetchTask}></EditTask>
                         </Box>
                     </Box>
 

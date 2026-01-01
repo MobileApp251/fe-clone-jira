@@ -69,3 +69,45 @@ export async function getTaskById(projectId: string, taskId: string): Promise<Ta
     const json = await res.json();
     return json;
 }
+
+export async function updateTask(projectId: string, taskId: string, task: CreateTaskDTO): Promise<TaskData> {
+    await initAuth();
+    const res = await fetch(`${API_URL}/api/tasks/${projectId}/${taskId}`, {
+        method: "PATCH",
+        headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(task),
+    });
+
+    if (!res.ok) {
+        if (res.status === 401) {
+            throw new Error("UNAUTHORIZED");
+        }
+        throw new Error("Failed to fetch tasks");
+    }
+
+    const json = await res.json();
+    return json;
+}
+
+export async function deleteTask(projectId: string, taskId: string): Promise<TaskData> {
+    await initAuth();
+    const res = await fetch(`${API_URL}/api/tasks/${projectId}/${taskId}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`
+        },
+    });
+
+    if (!res.ok) {
+        if (res.status === 401) {
+            throw new Error("UNAUTHORIZED");
+        }
+        throw new Error("Failed to fetch tasks");
+    }
+
+    const json = await res.json();
+    return json;
+}
