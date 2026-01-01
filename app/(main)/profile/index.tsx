@@ -6,6 +6,7 @@ import { Heading } from '@/components/ui/heading';
 import { ChevronsLeftIcon, Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
+import { useNotification } from '@/context/NotificationContext';
 import { User } from '@/utils/userType';
 import { useRouter } from 'expo-router';
 import { LogOut, User2 } from 'lucide-react-native';
@@ -20,6 +21,7 @@ export default function Profile() {
         username: "",
     })
     const { signOut } = useGoogleAuth();
+    const {expoPushToken} = useNotification();
 
     useEffect(() => {
         handleGetProfile()
@@ -62,6 +64,9 @@ export default function Profile() {
                 <Heading size="sm" className="text-bold mb-2 text-center text-darkTextPrimary">
                     {profile.email}
                 </Heading>
+                <Text className="text-center text-darkTextPrimary">
+                    {expoPushToken}
+                </Text>
                 <Button variant="solid" size="md" action="positive" className='max-w-fit' onPress={handleLogOut}>
                     <ButtonIcon as={LogOut} className="mr-2 text-white" />
                     <ButtonText className='text-white'>Log out</ButtonText>
