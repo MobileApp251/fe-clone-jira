@@ -57,7 +57,7 @@ export type TaskAPIResponse = {
 export type TaskData = {
   content: string;
   createAt: Date;
-  endAt: Date;
+  endAt: string;
   proj_id: string;
   startAt: string;
   status: TaskStatus;
@@ -70,7 +70,7 @@ export type TaskData = {
 export type CreateTaskDTO = {
   task_name: string;
   content: string;
-  priority: "high" | "medium" | "low";
+  priority: TaskPriority;
   status: string;
   startAt: string;
   endAt: string;

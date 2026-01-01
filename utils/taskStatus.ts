@@ -62,8 +62,9 @@ export type TaskStatus =
     | "progress"
     | "done"
     | "reopen"
-    | "close";
+    | "close"
+    | "";
 
 
 
-export type TaskPriority = "low" | "medium" | "high";
+export type TaskPriority = "low" | "medium" | "high" | "";

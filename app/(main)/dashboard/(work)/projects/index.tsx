@@ -20,7 +20,7 @@ export default function ProjectsScreen() {
 
     useEffect(() => {
         loadProjects();
-    }, [projects]);
+    }, [loadProjects, projects]);
 
     const filteredProjects = useMemo(() => {
         if (!search.trim()) return projects;

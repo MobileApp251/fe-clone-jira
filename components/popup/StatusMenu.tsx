@@ -1,11 +1,10 @@
 import {
-    CalendarDaysIcon,
+    AlertCircleIcon,
     CheckCircleIcon,
-    ClockIcon,
-    CloseCircleIcon,
-    EyeIcon,
     Icon,
-    PlayIcon
+    PlayIcon,
+    RemoveIcon,
+    RepeatIcon
 } from '@/components/ui/icon';
 import { Menu, MenuItem, MenuItemLabel, MenuSeparator } from '@/components/ui/menu';
 import React from 'react';
@@ -16,36 +15,38 @@ import { Text } from '../ui/text';
 type Props = {
     status: string;
     setStatus: React.Dispatch<React.SetStateAction<string>>;
+    setOnUpdate: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const STATUS_OPTIONS = [
     {
-        label: "In Comming",
-        icon: CalendarDaysIcon,
+        label: "Open",
+        value: "open",
+        icon: AlertCircleIcon,
     },
     {
         label: "In Progress",
+        value: "progress",
         icon: PlayIcon,
     },
     {
-        label: "In Reviewed",
-        icon: EyeIcon,
-    },
-    {
         label: "Done",
+        value: "done",
         icon: CheckCircleIcon,
     },
     {
-        label: "Rejected",
-        icon: CloseCircleIcon,
+        label: "Reopen",
+        value: "reopen",
+        icon: RepeatIcon,
     },
     {
-        label: "Over Due",
-        icon: ClockIcon,
+        label: "Close",
+        value: "close",
+        icon: RemoveIcon,
     },
 ];
 
-export default function StatusMenu({ status, setStatus }: Props) {
+export default function StatusMenu({ status, setStatus, setOnUpdate }: Props) {
     return (
         <Menu
             placement="bottom left"
@@ -54,6 +55,7 @@ export default function StatusMenu({ status, setStatus }: Props) {
             onSelectionChange={(keys) => {
                 const value = Array.from(keys)[0] as string;
                 setStatus(value);
+                setOnUpdate(prev => !prev);
             }}
             className='p-0 border-lightPrimary bg-white'
             trigger={({ ...triggerProps }) => {
@@ -82,7 +84,10 @@ export default function StatusMenu({ status, setStatus }: Props) {
                     <MenuItem
                         className="bg-white"
                         textValue={item.label}
-                        onPress={() => setStatus(item.label)}
+                        onPress={() => {
+                            setStatus(item.value);
+                            setOnUpdate(prev => !prev);
+                        }}
                     >
                         <Icon
                             as={item.icon}

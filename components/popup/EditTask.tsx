@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-
+import { updateTask } from "@/api/tasks";
 import { Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader } from "@/components/ui/modal";
+import { TaskData } from "@/utils/workType";
+import React, { useEffect, useRef } from 'react';
 import { Button, ButtonIcon, ButtonText } from '../ui/button';
 import { FormControl } from '../ui/form-control';
 import { Heading } from '../ui/heading';
@@ -17,11 +18,15 @@ type Props = {
     setTitle: React.Dispatch<React.SetStateAction<string>>;
     description: string;
     setDescription: React.Dispatch<React.SetStateAction<string>>;
+    projectId: string;
+    taskId: string;
+    task: TaskData;
+    fetchTask: () => void;
 };
 
 
 export default function EditTask(
-    { showEditModal, setShowEditModal, title, description, setTitle, setDescription }: Props
+    { showEditModal, setShowEditModal, title, description, setTitle, setDescription, projectId, taskId, task, fetchTask }: Props
 ) {
 
     const initialTitle = useRef(title);
@@ -32,13 +37,35 @@ export default function EditTask(
             initialTitle.current = title;
             initialDescription.current = description;
         }
-    }, [showEditModal]);
+    }, [description, showEditModal, title]);
 
     const handleCancelEdit = () => {
         setTitle(initialTitle.current);
         setDescription(initialDescription.current);
         setShowEditModal(false);
     };
+
+    const handleSaveEdit = async () => {
+        try {
+            const res = await updateTask(projectId, taskId, { 
+                task_name: title, 
+                content: description, 
+                priority: task.priority, 
+                status: task.status,    
+                startAt: task.startAt, 
+                endAt: task.endAt });
+
+            if (!res) {
+                throw new Error("Update task failed");
+            }
+
+            setShowEditModal(false);
+            fetchTask();
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
 
     return (
         <Modal
@@ -98,9 +125,7 @@ export default function EditTask(
                     </Button>
                     <Button
                         action="positive"
-                        onPress={() => {
-                            setShowEditModal(false);
-                        }}
+                        onPress={handleSaveEdit}
                     >
                         <ButtonIcon className='text-white font-bold text-xl' as={CheckIcon} />
                         <ButtonText className="text-white">Save</ButtonText>

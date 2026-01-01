@@ -4,6 +4,7 @@ import {
     PlayIcon
 } from '@/components/ui/icon';
 import { Menu, MenuItem, MenuItemLabel, MenuSeparator } from '@/components/ui/menu';
+import { TaskPriority } from '@/utils/taskStatus';
 import React from 'react';
 import { Pressable } from 'react-native';
 import { Box } from '../ui/box';
@@ -11,34 +12,33 @@ import { Text } from '../ui/text';
 
 type Props = {
     priority: string;
-    setPriority: React.Dispatch<React.SetStateAction<string>>;
+    setPriority: React.Dispatch<React.SetStateAction<TaskPriority>>;
+    setOnUpdate: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PRIORITY_OPTIONS = [
     {
-        label: "low",
+        label: "Low",
+        value: "low",
         icon: CalendarDaysIcon,
     },
     {
-        label: "high",
+        label: "High",
+        value: "high",
         icon: PlayIcon,
     },
     {
-        label: "medium",
+        label: "Medium",
+        value: "medium",
         icon: EyeIcon,
     }
 ];
 
-export default function TaskPriorityMenu({ priority, setPriority }: Props) {
+export default function TaskPriorityMenu({ priority, setPriority, setOnUpdate }: Props) {
     return (
         <Menu
             placement="bottom left"
             offset={5}
-            disabledKeys={['Settings']}
-            onSelectionChange={(keys) => {
-                const value = Array.from(keys)[0] as string;
-                setPriority(value);
-            }}
             className=' p-0 border-lightPrimary bg-white'
             trigger={({ ...triggerProps }) => {
                 return (
@@ -66,7 +66,10 @@ export default function TaskPriorityMenu({ priority, setPriority }: Props) {
                     <MenuItem
                         className="bg-white"
                         textValue={item.label}
-                        onPress={() => setPriority(item.label)}
+                        onPress={() => {
+                            setPriority(item.value as TaskPriority);
+                            setOnUpdate(prev => !prev);
+                        }}
                     >
                         <MenuItemLabel size="sm" className="text-darkTextPrimary">
                             {item.label}

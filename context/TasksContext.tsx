@@ -1,9 +1,9 @@
 import { getMyTasks } from "@/api/tasks";
-import { TaskAPIResponse } from "@/utils/workType";
+import { TaskData } from "@/utils/workType";
 import { createContext, useCallback, useContext, useState } from "react";
 
 type TasksContextType = {
-    tasks: TaskAPIResponse[];
+    tasks: TaskData[];
     loading: boolean;
     error: string | null;
     loadTasks: (force?: boolean) => Promise<void>;
@@ -12,7 +12,7 @@ type TasksContextType = {
 const TasksContext = createContext<TasksContextType | null>(null);
 
 export function TasksProvider({ children }: { children: React.ReactNode }) {
-    const [tasks, setTasks] = useState<TaskAPIResponse[]>([]);
+    const [tasks, setTasks] = useState<TaskData[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 

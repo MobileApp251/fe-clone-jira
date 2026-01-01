@@ -56,7 +56,7 @@ export default function TasksScreen() {
                 <FlatList
                     className="mt-4"
                     data={filteredTasks}
-                    keyExtractor={(item) => item.task_id}
+                    keyExtractor={(item) => item.task_id + item.proj_id}
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item }) => (
                         <TaskCard
@@ -67,6 +67,8 @@ export default function TasksScreen() {
                             endDate={new Date(item.endAt)}
                             priority={item.priority}
                             projectId={item.proj_id}
+                            members={[]}
+                            onMyTask={true}
                         />
                     )}
                 />
