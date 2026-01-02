@@ -112,7 +112,7 @@ export default function ProjectDetail() {
             ) : (
                 <>
                     <Box className="flex-row items-center justify-between mb-4 px-6">
-                        <Text className="text-3xl font-semibold">{project?.project.proj_name}</Text>
+                        <Text className="text-3xl w-3/4 font-semibold">{project?.project.proj_name}</Text>
 
                         <Box className="flex-row gap-3">
                             <Box className="w-12 h-12">

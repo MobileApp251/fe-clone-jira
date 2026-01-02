@@ -128,3 +128,37 @@ export async function updateProject(projectId: string, payload: UpdateProjectDTO
     const json = await res.json();
     return json;
 }
+
+export async function addMembers(projectId: string, emails: string[]): Promise<{ email: string; success: boolean; data?: any; error?: string }[]> {
+    await initAuth();
+
+    const results: { email: string; success: boolean; data?: any; error?: string }[] = [];
+
+    for (const email of emails) {
+        try {
+            const res = await fetch(`${API_URL}/projects/add/${projectId}/${email}`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${ACCESS_TOKEN}`,
+                },
+            });
+
+            if (!res.ok) {
+                if (res.status === 401) {
+                    results.push({ email, success: false, error: "UNAUTHORIZED" });
+                    continue;
+                }
+                results.push({ email, success: false, error: `Failed to add member: ${email}` });
+                continue;
+            }
+
+            const json = await res.json();
+            results.push({ email, success: true, data: json });
+        } catch (err: any) {
+            results.push({ email, success: false, error: err.message });
+        }
+    }
+
+    return results;
+}
+

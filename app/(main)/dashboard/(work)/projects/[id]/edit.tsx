@@ -51,10 +51,13 @@ export default function EditProjectScreen() {
                 }
             }
             const res = await updateProject(project.project.proj_id, payload);
-            setOriginalName(res.proj_name);
-            setName(res.proj_name);
-            setOriginalDescription(res.description);
-            setDescription(res.description);
+            if (field === 'name') {
+                setOriginalName(res.proj_name);
+                setName(res.proj_name);
+            } else {
+                setOriginalDescription(res.description);
+                setDescription(res.description);
+            }
             updateProjectById(project.project.proj_id, res)
             handleToast("success", "Edit project!", "Project has been edited successfully.")
         } catch (error) {
