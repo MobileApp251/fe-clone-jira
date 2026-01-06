@@ -31,25 +31,25 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <GoogleAuthProvider>
-        {/* <AuthProvider> */}
-        <NotificationProvider>
-          <GluestackUIProvider mode="dark">
-            <ThemeProvider>
-              <ProjectsProvider>
-                <TasksProvider>
+      <ProjectsProvider>
+        <TasksProvider>
+          <GoogleAuthProvider>
+            {/* <AuthProvider> */}
+            <NotificationProvider>
+              <GluestackUIProvider mode="dark">
+                <ThemeProvider>
                   <Stack screenOptions={{ headerShown: false }}>
                     <Stack.Screen name="index" />
                     <Stack.Screen name="login" />
                     <Stack.Screen name="onboarding" />
                   </Stack>
-                </TasksProvider>
-              </ProjectsProvider>
-            </ThemeProvider>
-          </GluestackUIProvider>
-        </NotificationProvider>
-        {/* </AuthProvider> */}
-      </GoogleAuthProvider>
+                </ThemeProvider>
+              </GluestackUIProvider>
+            </NotificationProvider>
+            {/* </AuthProvider> */}
+          </GoogleAuthProvider>
+        </TasksProvider>
+      </ProjectsProvider>
     </GestureHandlerRootView>
 
   );
