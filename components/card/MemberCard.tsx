@@ -3,7 +3,9 @@ import { HStack } from "@/components/ui/hstack";
 import { Text } from "@/components/ui/text";
 import { Colors } from "@/constants/theme";
 import { Check, UserRound, X } from "lucide-react-native";
+import { useState } from "react";
 import { Pressable } from "react-native";
+import RemoveMember from "../popup/RemoveMember";
 
 type Props = {
     id: string;
@@ -15,6 +17,8 @@ type Props = {
 };
 
 export default function MemberCard({ name, id, onRemove, onSelected, selected = false, role = "" }: Props) {
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+
 
     return (
         <Box
@@ -78,11 +82,17 @@ export default function MemberCard({ name, id, onRemove, onSelected, selected = 
             ) : (
                 <Pressable
                     className="pr-4"
-                    onPress={() => onRemove?.(id)}
+                    onPress={() => setShowDeleteModal(true)}
                 >
                     <X size={24} color={Colors.light.primary} />
                 </Pressable>
             )}
+            <RemoveMember
+                showDeleteModal={showDeleteModal}
+                setShowDeleteModal={setShowDeleteModal}
+                userEmail={name}
+                uid={id}
+            ></RemoveMember>
         </Box>
     );
 }

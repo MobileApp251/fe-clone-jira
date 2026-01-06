@@ -27,7 +27,7 @@ type ToastType = "error" | "warning" | "success" | "info" | "muted" | undefined;
 export default function TaskDetail() {
     const router = useRouter();
 
-    const { projectTasks, updateProjectTask } = useProjects();
+    const { projectTasks, updateProjectTask, project } = useProjects();
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -227,7 +227,10 @@ export default function TaskDetail() {
                         <EditAssignee
                             showEditAssigneeModal={showEditAssigneeModal}
                             setShowEditAssigneeModal={setShowEditAssigneeModal}
-                            assigneeList={[]} />
+                            assigneeList={project.members.filter(projectMember => !members.map(taskMember => taskMember.uid).includes(projectMember.uid))}
+                            taskId={task ? task.task_id : ""}
+                            reloadTask={fetchTask}
+                            projectId={projectId} />
                         <FlatList
                             className="mt-2"
                             data={members}
@@ -236,6 +239,10 @@ export default function TaskDetail() {
                             renderItem={({ item }) => (
                                 <AssigneeCard
                                     name={item.email}
+                                    uid={item.uid}
+                                    taskId={task ? task.task_id : ""}
+                                    projectId={projectId}
+                                    setMembers={setMembers}
                                 />
                             )}
                         />

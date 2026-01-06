@@ -11,11 +11,15 @@ import { ChevronsLeft, UserPlus } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Pressable } from "react-native";
 
+type ToastType = "error" | "warning" | "success" | "info" | "muted" | undefined;
+
 export default function ProjectMembers() {
     const [openAddMember, setOpenAddMember] = useState(false);
     const [search, setSearch] = useState("")
     const [members, setMembers] = useState<ProjectMembersType[]>([]);
-    const { project } = useProjects();
+    const { project, updateMembers } = useProjects();
+
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     if (!project) {
         return (
@@ -53,9 +57,6 @@ export default function ProjectMembers() {
                         key={member.uid}
                         id={member.uid}
                         name={member.email}
-                        onRemove={(id) => {
-                            console.log("Remove member:", id);
-                        }}
                         role={member.role}
                     />
                 ))}

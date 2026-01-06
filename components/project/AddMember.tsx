@@ -25,7 +25,7 @@ export default function AddMemberModal({ visible, onClose }: Props) {
     const [members, setMembers] = useState<string[]>([]);
     const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
-    const { project } = useProjects();
+    const { project, updateMembers } = useProjects();
 
     const handleSelectMember = (uid: string) => {
         const isInList = selectedMembers.includes(uid);
@@ -64,9 +64,12 @@ export default function AddMemberModal({ visible, onClose }: Props) {
             const results:
                 { email: string; success: boolean; data?: any; error?: string }[]
                 = await addMembers(project.project.proj_id, selectedMembers);
-
+            updateMembers(project.project.proj_id);
             handleToast("success", "Add member to project!", "New members have been added successfully.")
-
+            onClose();
+            setSearch("");
+            setMembers([]);
+            setSelectedMembers([]);
             onClose();
         } catch (error) {
             console.error(error);
@@ -138,7 +141,15 @@ export default function AddMemberModal({ visible, onClose }: Props) {
                                 />
                             ))}
 
-                            <Pressable className="flex-row items-center justify-center bg-lightPrimary py-3 rounded-xl mb-3" onPress={handleAddMember}>
+                            <Pressable
+                                className={`flex-row items-center justify-center py-3 rounded-xl mb-3
+                                    ${selectedMembers.length <= 0
+                                        ? "bg-lightPrimary/40"
+                                        : "bg-lightPrimary"}
+                                `}
+                                onPress={handleAddMember}
+                                disabled={selectedMembers.length <= 0}
+                            >
                                 {loading ? (<ButtonSpinner color="gray" />) : (<Plus size={18} color="white" />)}
                                 <Text className="text-white font-semibold ml-2">
                                     Add new member

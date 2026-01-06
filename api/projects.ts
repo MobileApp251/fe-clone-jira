@@ -78,7 +78,6 @@ export async function getProjectTasks(id: string): Promise<TaskAPIResponse[]> {
             Authorization: `Bearer ${ACCESS_TOKEN}`,
         },
     });
-
     if (!res.ok) {
         if (res.status === 401) {
             throw new Error("UNAUTHORIZED");
@@ -109,6 +108,7 @@ export async function deleteProjectById(projectId: string): Promise<string> {
 }
 
 export async function updateProject(projectId: string, payload: UpdateProjectDTO): Promise<ProjectData> {
+    console.log(payload, projectId)
     await initAuth();
     const res = await fetch(`${API_URL}/projects/${projectId}`, {
         method: "PATCH",
@@ -122,7 +122,8 @@ export async function updateProject(projectId: string, payload: UpdateProjectDTO
         if (res.status === 401) {
             throw new Error("UNAUTHORIZED");
         }
-        throw new Error("Failed to fetch projects");
+        console.log(res)
+        throw new Error("Failed to update projects");
     }
 
     const json = await res.json();
@@ -131,7 +132,6 @@ export async function updateProject(projectId: string, payload: UpdateProjectDTO
 
 export async function addMembers(projectId: string, emails: string[]): Promise<{ email: string; success: boolean; data?: any; error?: string }[]> {
     await initAuth();
-
     const results: { email: string; success: boolean; data?: any; error?: string }[] = [];
 
     for (const email of emails) {
@@ -162,3 +162,24 @@ export async function addMembers(projectId: string, emails: string[]): Promise<{
     return results;
 }
 
+export async function removeMembers(projectId: string, uid: string): Promise<string> {
+    await initAuth();
+
+    const res = await fetch(`${API_URL}/projects/remove/${projectId}/${uid}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+        },
+    });
+
+    if (!res.ok) {
+        if (res.status === 401) {
+            throw new Error("UNAUTHORIZED");
+        }
+        console.log(res)
+        throw new Error("Failed to remove member from project");
+    }
+
+    const text = await res.text();
+    return text;
+}

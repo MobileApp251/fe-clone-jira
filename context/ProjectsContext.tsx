@@ -17,6 +17,7 @@ type ProjectsContextType = {
     removeTask: (id: string) => void;
     updateProjectById: (projectId: string, project: ProjectData) => void;
     updateProjectTask: (taskId: string, task: TaskData) => void;
+    updateMembers: (projectId: string) => void;
 };
 
 const ProjectsContext = createContext<ProjectsContextType | null>(null);
@@ -129,7 +130,7 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
         } finally {
             setLoading(false);
         }
-    }, [projects.length]);
+    }, [projects]);
 
     const loadProjectById = useCallback(async (id: string) => {
         try {
@@ -163,8 +164,12 @@ export function ProjectsProvider({ children }: { children: React.ReactNode }) {
         }
     }, [])
 
+    const updateMembers = useCallback((projectId: string) => {
+        loadProjectById(projectId);
+    }, []);
+
     return (
-        <ProjectsContext.Provider value={{ projects, project, projectTasks, loading, error, createNewProject, removeProject, removeTask, updateProjectById, updateProjectTask, loadProjects, loadProjectById, createNewTask }}>
+        <ProjectsContext.Provider value={{ projects, project, projectTasks, loading, error, createNewProject, removeProject, removeTask, updateProjectById, updateProjectTask, loadProjects, loadProjectById, createNewTask, updateMembers }}>
             {children}
         </ProjectsContext.Provider>
 

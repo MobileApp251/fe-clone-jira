@@ -42,7 +42,7 @@ export default function EditProjectScreen() {
             if (field === 'name') {
                 setUpdateNameLoading(true);
                 payload = {
-                    proj_name: name,
+                    proj_name: name
                 }
             } else {
                 setUpdateDescriptionLoading(true);
