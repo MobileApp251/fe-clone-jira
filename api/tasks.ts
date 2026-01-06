@@ -159,3 +159,12 @@ export async function unassignTask(uid: string, projectId: string, taskId: strin
     const text = res.text();
     return text;
 }
+
+export async function getTaskIssues(taskId: string, projectId: string) {
+  const res = await fetch(
+    `https://php-service-sd60.onrender.com/api/issues?task_id=${taskId}&proj_id=${projectId}`
+  );
+
+  if (!res.ok) throw new Error("Failed to fetch issues");
+  return res.json()
+}

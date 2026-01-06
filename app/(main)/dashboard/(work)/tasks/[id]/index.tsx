@@ -1,4 +1,4 @@
-import { getTaskById, updateTask } from "@/api/tasks";
+import { getTaskById, getTaskIssues, updateTask } from "@/api/tasks";
 import AssigneeCard from "@/components/card/AssigneeCard";
 import DatePickerField from "@/components/datepicker/DatePickerField";
 import DeleteTask from "@/components/popup/DeleteTask";
@@ -22,12 +22,18 @@ import { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
 import { DateType } from "react-native-ui-datepicker";
 
+import IssueCard from "@/components/card/IssueCard";
+
 type ToastType = "error" | "warning" | "success" | "info" | "muted" | undefined;
 
 export default function TaskDetail() {
     const router = useRouter();
 
     const { projectTasks, updateProjectTask, project } = useProjects();
+    const { id, projectId } = useLocalSearchParams<{
+        id: string;
+        projectId: string;
+    }>();
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -45,10 +51,22 @@ export default function TaskDetail() {
     const [startAt, setStartAt] = useState<DateType>();
     const [members, setMembers] = useState<ProjectMembers[]>([]);
 
-    const { id, projectId } = useLocalSearchParams<{
-        id: string;
-        projectId: string;
-    }>();
+    const [issues, setIssues] = useState<any[]>([]);
+    const [loadingIssues, setLoadingIssues] = useState(true);
+
+    const fetchIssues = useCallback(async () => {
+        try {
+            setLoadingIssues(true);
+            const data = await getTaskIssues(String(id), String(projectId));
+
+            // tùy API — tạm coi issues nằm trong data.data
+            setIssues(data?.data ?? data ?? []);
+        } catch (e) {
+            console.log("fetch issues failed", e);
+        } finally {
+            setLoadingIssues(false);
+        }
+    }, [id, projectId]);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -248,6 +266,31 @@ export default function TaskDetail() {
                         />
 
                     </VStack>
+
+                    <VStack space="xs" className="mt-4">
+                        <Text className="text-darkTextPrimary font-semibold text-lg mx-6">
+                            Issues
+                        </Text>
+
+                        {loadingIssues ? (
+                            <Box className="justify-center items-center py-4">
+                            <ActivityIndicator />
+                            </Box>
+                        ) : issues.length === 0 ? (
+                            <Text className="mx-6 text-gray-500 mt-2">
+                            No issues found.
+                            </Text>
+                        ) : (
+                            issues.map((issue: any) => (
+                            <IssueCard
+                                key={issue.id}
+                                title={`Issue #${issue.id}`}
+                                description={issue.description ?? ""}
+                            />
+                            ))
+                        )}
+                    </VStack>
+
                 </>}
         </View>
     );
