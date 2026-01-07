@@ -1,51 +1,78 @@
-# Welcome to your Expo app 👋
+# Welcome to CloneJira 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## 1. Project Overview 📖
+### 1.1. Description
+This repository contains the Frontend mobile application build with `React Native` and `Expo`. The application provides the user interface, handles user interations and comunicates with backend APIs.
+### 1.2. Tech Stack
+- Framework: `React Native (Expo)`
+- Language: `TypeScript`
+- Navigation: `Expo Router`
+- State Management: `React Context`
+- Authentication: `Google OAuth (Expo AuthSession)`
+- Push Notifications: `Expo Notifications (FCM)`
+- CI/CD: `GitHub Actions` + `Expo EAS Update`
+- Testing: `Jest`
+- Monitoring: `Sentry`
 
-## Get started
+## 2. Setup & Installation ⚙️
+### 2.1. Installation Steps
+```bash
+git clone https://github.com/MobileApp251/fe-clone-jira.git
+cd fe-clone-jira
+npm install
+```
+### 2.2. Set up Google Authentication
+The authentication flow is initiated via a frontend route served by Expo Hosting, which redirects users to `Google OAuth` for authentication.
+```bash
+npx expo export --platform web
+eas deploy --environment production
+# When everything is ready, use eas deploy --prod
+```
 
-1. Install dependencies
+### 2.3. Set up Expo Push Notification
+`Expo Push Notification` is used to send real-time notifications to users’ devices, such as task updates, reminders, and system alerts. `Firebase Cloud Messaging (FCM)` is used to deliver push notifications on Android, working behind the scenes with Expo Push Notification. The app registers the device to obtain an Expo Push Token and sends it to the backend, which is used to deliver notifications to the user’s device.
 
-   ```bash
-   npm install
-   ```
+_Detail for setup: https://docs.expo.dev/push-notifications/push-notifications-setup/_
 
-2. Start the app
+### 2.4. Run the Application
+```bash
+# Start Expo development server
+npx expo start 
+```
+or
+```bash
+# Run application on Android emulator/device
+npx expo run:android
+```
 
-   ```bash
-   npx expo start
-   ```
+## 3. CI/CD Pipeline 🌌
+### 5.1 CI/CD Overview
 
-In the output, you'll find options to open the app in a
+This frontend project uses `GitHub Actions` to automate:
+- Dependency installation
+- Running automated tests
+- Publishing OTA updates via Expo EAS Update
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 5.2 CI Workflow Location
+```bash
+.github/workflows/expo-update.yml
+```
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 4. Testing 🧪
 
-3. Publish your app
+## 5. Monitoring & Error Tracking 📊
+### 5.1. Sentry Integration
+- The application integrates `Sentry` for:
+- Runtime error tracking
+- Performance monitoring
+- Session replay
 
-   ```bash
-   npx expo login
-   eas init --id <project-id>
-   eas update --branch main -m "Message"
-   ```
+All uncaught errors and crashes are automatically reported to Sentry.
 
-## Learn more
+![Sentry](/docs/image.png)
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-
-
-   
+## 6. Security & Secrets 🔐
+- Secrets managed via `GitHub Actions Secrets`
+- `Expo EAS Secrets` used for build-time variables
+- No sensitive information is committed to the repository
+- Only push `google-services.json` to EAS to build application
