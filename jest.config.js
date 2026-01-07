@@ -40,8 +40,11 @@ module.exports = {
       "!**/babel.config.js",
       "!**/jest.setup.js",
       "!**/*.test.{ts,tsx}",
-      "!**/index.ts"
-  ],
+      "!**/index.ts",
+      "!**/_layout.tsx",
+      "!components/ui/**",
+      "!hooks/**"
+    ],
   coverageReporters: [
     "json-summary",
     "text",

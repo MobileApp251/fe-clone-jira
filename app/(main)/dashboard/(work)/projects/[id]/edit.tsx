@@ -20,8 +20,8 @@ export default function EditProjectScreen() {
 
     const [name, setName] = useState(project?.project.proj_name ?? "");
     const [description, setDescription] = useState(project?.project.description ?? "");
-    const [originalName, setOriginalName] = useState(project.project.proj_name);
-    const [originalDescription, setOriginalDescription] = useState(project.project.description);
+    const [originalName, setOriginalName] = useState(project?.project.proj_name ?? "");
+    const [originalDescription, setOriginalDescription] = useState(project?.project.description ?? "");
     const [updateNameLoading, setUpdateNameLoading] = useState(false);
     const [updateDescriptionLoading, setUpdateDescriptionLoading] = useState(false);
 

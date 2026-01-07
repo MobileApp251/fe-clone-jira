@@ -10,7 +10,7 @@ import { getProjectStatus } from "@/utils/projectStatus";
 import dayjs from "dayjs";
 import { router } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, FlatList, Pressable } from "react-native";
+import { ActivityIndicator, FlatList, Pressable, RefreshControl } from "react-native";
 
 export default function ProjectsScreen() {
     const [showFilter, setShowFilter] = useState(false);
@@ -54,7 +54,7 @@ export default function ProjectsScreen() {
 
             {loading ? (
                 <Box className="flex-1 justify-center items-center">
-                    <ActivityIndicator size="large" />
+                    <ActivityIndicator size="large" testID="activity-indicator"/>
                 </Box>
             ) : filteredProjects.length === 0 ? (
                 <Box className="flex-1 justify-center items-center">
@@ -68,6 +68,9 @@ export default function ProjectsScreen() {
                     data={filteredProjects}
                     keyExtractor={(item) => item.project.proj_id}
                     showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl refreshing={loading} onRefresh={loadProjects} />
+                    }
                     renderItem={({ item }) => (
                         <Pressable
                             onPress={() => router.push(`/dashboard/projects/${item.project.proj_id}`)}

@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 import { router, useLocalSearchParams } from "expo-router";
 import { ChevronsLeft, Plus, SquarePen, UsersRound } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Pressable, Text, TouchableOpacity } from "react-native";
+import { ActivityIndicator, FlatList, Pressable, RefreshControl, Text, TouchableOpacity } from "react-native";
 import { DateType } from "react-native-ui-datepicker";
 
 type ToastType = "error" | "warning" | "success" | "info" | "muted" | undefined;
@@ -101,13 +101,13 @@ export default function ProjectDetail() {
 
     return (
         <Box className="flex-1">
-            <Pressable className="flex-row items-center px-6" onPress={() => router.back()}>
+            <Pressable className="flex-row items-center px-6" onPress={() => router.back()} testID="btn-back">
                 <ChevronsLeft size={18} color={Colors.light.primary} />
                 <Text className="ml-1 text-lightPrimary font-medium">Back</Text>
             </Pressable>
             {loading ? (
                 <Box className="flex-1 justify-center items-center">
-                    <ActivityIndicator size="large" />
+                    <ActivityIndicator size="large" testID="loading-indicator"/>
                 </Box>
             ) : (
                 <>
@@ -120,7 +120,8 @@ export default function ProjectDetail() {
                                     className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary"
                                     onPress={() =>
                                         router.push(`/(main)/dashboard/(work)/projects/${id}/members`)
-                                    }>
+                                    } 
+                                    testID="btn-members">
                                     <UsersRound size={22} color={Colors.light.primary} />
                                 </TouchableOpacity>
                             </Box>
@@ -131,6 +132,7 @@ export default function ProjectDetail() {
                                             `/(main)/dashboard/(work)/projects/${project?.project.proj_id}/edit`
                                         )
                                     }
+                                    testID="btn-edit"
                                     className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
                                     <SquarePen size={22} color={Colors.light.primary} />
                                 </TouchableOpacity>
@@ -148,7 +150,8 @@ export default function ProjectDetail() {
                         <Box className="w-12 h-12">
                             <TouchableOpacity
                                 onPress={() => setShowAddTaskModal(true)}
-                                className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
+                                className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary"
+                                testID="btn-add-task">
                                 <Plus size={22} color={Colors.light.primary} />
                             </TouchableOpacity>
                         </Box>
@@ -167,6 +170,9 @@ export default function ProjectDetail() {
                         data={projectTasks}
                         keyExtractor={(item) => item.task.task_id}
                         showsVerticalScrollIndicator={false}
+                        refreshControl={
+                            <RefreshControl refreshing={loading} onRefresh={() => loadProjectById(project.project.proj_id)} />
+                        }
                         renderItem={({ item }) => (
                             <Pressable
                                 onPress={() =>
