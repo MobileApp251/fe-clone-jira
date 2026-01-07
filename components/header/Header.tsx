@@ -1,3 +1,4 @@
+import { getUserNotifications } from '@/api/users';
 import { getUserProfile } from '@/auth/sign-in';
 import { Center } from '@/components/ui/center';
 import { Divider } from '@/components/ui/divider';
@@ -14,7 +15,18 @@ export default function Header() {
         name: 'User',
         avatar: '',
     };
-    const notificationCount = 3;
+
+    const [notificationCount, setNotificationCount] = useState<number>(0);
+
+    useEffect(() => {
+        const fetchNoti = async () => {
+            const res = await getUserNotifications();
+            setNotificationCount(res.length);
+        }
+
+        fetchNoti();
+    }, []);
+
     const router = useRouter();
     const pathname = usePathname();
 

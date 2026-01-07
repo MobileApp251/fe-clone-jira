@@ -24,10 +24,11 @@ export async function signIn(email: string, password: string) {
 }
 
 export async function GoogleSignIn(idToken: string) {
+    const notiToken = await tokenCache?.getToken("pushToken");
     const res = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: idToken }),
+        body: JSON.stringify({ token: idToken, noti_token: notiToken }),
     });
 
     if (!res.ok) {
@@ -51,8 +52,6 @@ export async function getUserProfile(): Promise<User> {
     ACCESS_TOKEN = await tokenCache?.getToken("ACCESS_TOKEN");
     USER_EMAIL = await AsyncStorage.getItem("USER_EMAIL");
 
-    console.log("getUserProfile - ACCESS_TOKEN:", ACCESS_TOKEN);
-    console.log("getUserProfile - USER_EMAIL:", USER_EMAIL);
     if (!USER_EMAIL || !ACCESS_TOKEN) {
         throw new Error("Missing auth info");
     }

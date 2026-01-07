@@ -8,9 +8,9 @@ import { Stack } from 'expo-router';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ThemeProvider } from './providers/ThemeProvider';
 
+import * as Sentry from '@sentry/react-native';
 import * as Notifications from "expo-notifications";
 import { useEffect } from 'react';
-import * as Sentry from '@sentry/react-native';
 
 Sentry.init({
   dsn: 'https://8dfcaa52a7bb2d2958eaaef1b739a02a@o4510666818453504.ingest.us.sentry.io/4510666821074944',
@@ -51,11 +51,11 @@ export default Sentry.wrap(function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ProjectsProvider>
-        <TasksProvider>
-          <GoogleAuthProvider>
-            {/* <AuthProvider> */}
-            <NotificationProvider>
+      <NotificationProvider>
+        <ProjectsProvider>
+          <TasksProvider>
+            <GoogleAuthProvider>
+              {/* <AuthProvider> */}
               <GluestackUIProvider mode="dark">
                 <ThemeProvider>
                   <Stack screenOptions={{ headerShown: false }}>
@@ -65,11 +65,11 @@ export default Sentry.wrap(function RootLayout() {
                   </Stack>
                 </ThemeProvider>
               </GluestackUIProvider>
-            </NotificationProvider>
-            {/* </AuthProvider> */}
-          </GoogleAuthProvider>
-        </TasksProvider>
-      </ProjectsProvider>
+              {/* </AuthProvider> */}
+            </GoogleAuthProvider>
+          </TasksProvider>
+        </ProjectsProvider>
+      </NotificationProvider>
     </GestureHandlerRootView>
 
   );

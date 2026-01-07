@@ -1,20 +1,19 @@
 import { Box } from "@/components/ui/box";
-import { Button, ButtonIcon, ButtonText } from '@/components/ui/button';
 import { HStack } from "@/components/ui/hstack";
-import { ChevronsRightIcon } from '@/components/ui/icon';
 import { Text } from "@/components/ui/text";
+import { NotifyType } from "@/utils/notification";
 
 type Props = {
     title: string;
     description: string;
-    taskId: string;
+    notifyType: NotifyType;
     time: string;
 };
 
 export default function NotiCard({
     title,
     description,
-    taskId,
+    notifyType,
     time,
 }: Props) {
 
@@ -59,10 +58,7 @@ export default function NotiCard({
 
             <HStack className="justify-end items-center">
                 <Box className='flex-row justify-start'>
-                    <Button className='bg-[#F5F7FA] p-0'>
-                        <ButtonText className='text-lightPrimary font-normal text-md'>Go to task</ButtonText>
-                        <ButtonIcon className='text-lightPrimary font-normal text-md' as={ChevronsRightIcon} />
-                    </Button>
+                    {notifyType}
                 </Box>
             </HStack>
         </Box>
