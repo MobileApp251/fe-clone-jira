@@ -49,3 +49,4 @@ google-services.json
 .env
 
 clonejira-365c0-firebase-adminsdk-fbsvc-99f8eb67be.json
+.env.local
