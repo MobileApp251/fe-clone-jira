@@ -1,3 +1,4 @@
+import { tokenCache } from "@/utils/cache";
 import { registerForPushNotificationsAsync } from "@/utils/registerForPushNotificationAsync";
 import type { EventSubscription } from "expo-modules-core";
 import * as Notifications from "expo-notifications";
@@ -47,7 +48,10 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
 
     useEffect(() => {
         registerForPushNotificationsAsync().then(
-            (token) => setExpoPushToken(token),
+            async (token) => {
+                setExpoPushToken(token);
+                await tokenCache?.saveToken("pushToken", token);
+            },
             (error) => setError(error)
         );
 

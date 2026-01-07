@@ -2,10 +2,11 @@ import { API_URL } from "@/config/env";
 import { tokenCache } from "@/utils/cache";
 
 export async function signUp(email: string, password: string) {
+    const notiToken = await tokenCache?.getToken("pushToken");
     const res = await fetch(`${API_URL}/auth/sign-up`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, noti_token: notiToken }),
     });
 
     if (!res.ok) {
