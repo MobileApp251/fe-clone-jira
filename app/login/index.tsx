@@ -22,18 +22,6 @@ import {
     View
 } from 'react-native';
 
-const isTokenValid = (token: string) => {
-    try {
-        const payloadBase64 = token.split('.')[1];
-        const payload = JSON.parse(atob(payloadBase64));
-        const now = Math.floor(Date.now() / 1000);
-
-        return payload.exp && payload.exp > now;
-    } catch {
-        return false;
-    }
-};
-
 export default function Login() {
     const router = useRouter();
 
@@ -96,7 +84,7 @@ export default function Login() {
     };
 
     return (
-            <KeyboardAvoidingView
+        <KeyboardAvoidingView
             style={styles.container}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
