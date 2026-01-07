@@ -22,7 +22,7 @@ if (!(globalThis as any).__ExpoImportMetaRegistry) {
 global.setImmediate = global.setImmediate || ((fn: Function, ...args: any[]) => global.setTimeout(fn, 0, ...args));
 
 (global as any).__ExpoImportMetaRegistry = {
-  register: () => { },
+  register: () => {},
   get: () => null,
 };
 
