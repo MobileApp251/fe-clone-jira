@@ -50,7 +50,7 @@ export default function PriorityPicker({ value, onChange }: Props) {
                             >
                                 <Text className="text-darkTextPrimary">{item}</Text>
                                 {value === item && (
-                                    <Check size={18} color={Colors.light.primary} />
+                                    <Check testID="check-icon" size={18} color={Colors.light.primary} />
                                 )}
                             </Pressable>
                         ))}

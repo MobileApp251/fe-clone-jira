@@ -29,6 +29,7 @@ export default function StatusPickerField({ value, onChange }: Props) {
 
             <Modal transparent animationType="fade" visible={visible}>
                 <Pressable
+                    testID="status-overlay"
                     className="absolute inset-0 bg-black/40"
                     onPress={() => setVisible(false)}
                 />

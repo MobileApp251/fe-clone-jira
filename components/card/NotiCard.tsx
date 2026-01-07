@@ -58,7 +58,9 @@ export default function NotiCard({
 
             <HStack className="justify-end items-center">
                 <Box className='flex-row justify-start'>
-                    {notifyType}
+                    <Box className='flex-row justify-start'>
+                        <Text>{notifyType}</Text>
+                    </Box>
                 </Box>
             </HStack>
         </Box>

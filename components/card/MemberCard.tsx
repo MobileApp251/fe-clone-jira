@@ -61,6 +61,7 @@ export default function MemberCard({ name, id, onRemove, onSelected, selected = 
 
             {onSelected ? (
                 <Pressable
+                    testID="checkbox"
                     className="pr-4"
                     onPress={() => onSelected(id)}
                 >
@@ -81,6 +82,7 @@ export default function MemberCard({ name, id, onRemove, onSelected, selected = 
                 </Pressable>
             ) : (
                 <Pressable
+                    testID="delete-button"
                     className="pr-4"
                     onPress={() => setShowDeleteModal(true)}
                 >

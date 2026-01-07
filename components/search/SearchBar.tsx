@@ -43,6 +43,7 @@ export default function SearchBar({ onFilterPress, onCreatePress, page, value, o
                     {(page === "project") && (
                         <Box className="w-12 h-12" >
                             <TouchableOpacity
+                                testID="create-button"
                                 onPress={onCreatePress}
                                 className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
                                 <Plus size={22} color={Colors.light.primary} />
@@ -52,6 +53,7 @@ export default function SearchBar({ onFilterPress, onCreatePress, page, value, o
 
                     <Box className="w-12 h-12">
                         <TouchableOpacity
+                            testID="filter-button"
                             onPress={onFilterPress}
                             className="h-full w-full rounded-lg items-center justify-center border border-lightPrimary">
                             <Filter size={22} color={Colors.light.primary} />

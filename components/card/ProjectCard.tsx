@@ -31,7 +31,7 @@ export default function ProjectCard({
 }: Props) {
   const style =
     PROJECT_STATUS_STYLE[status] ??
-    PROJECT_STATUS_STYLE["Pending"];
+    PROJECT_STATUS_STYLE["IN_PROGRESS"];
 
   const StatusIcon = style.icon;
   const [showDeleteModal, setShowDeleteModal] = useState(false);

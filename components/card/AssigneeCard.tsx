@@ -57,6 +57,7 @@ export default function AssigneeCard({
                     <Heading className="text-darkTextPrimary" size="sm">{name}</Heading>
                     {onSelected ? (
                         <Pressable
+                            testID="assignee-checkbox"
                             className="pr-4 ml-auto"
                             onPress={() => onSelected(uid)}
                         >
@@ -77,6 +78,7 @@ export default function AssigneeCard({
                         </Pressable>
                     ) : (
                         <Pressable
+                            testID="assignee-delete-button"
                             className="ml-auto pr-4"
                             onPress={() => setShowDeleteModal(true)}
                         >

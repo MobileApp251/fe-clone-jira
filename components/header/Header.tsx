@@ -21,7 +21,7 @@ export default function Header() {
     useEffect(() => {
         const fetchNoti = async () => {
             const res = await getUserNotifications();
-            setNotificationCount(res.length);
+            setNotificationCount(res?.length);
         }
 
         fetchNoti();
@@ -61,6 +61,7 @@ export default function Header() {
                             />
                         ) : (
                             <TouchableOpacity
+                                testID='avatar-button'
                                 className="w-14 h-14 rounded-full items-center justify-center bg-lightPrimaryLight"
                                 onPress={() => router.push('/profile')}
                             >
@@ -77,6 +78,7 @@ export default function Header() {
 
                 <View className="relative">
                     <TouchableOpacity
+                        testID='bell-button'
                         className="w-14 h-14 rounded-full items-center justify-center bg-lightPrimaryLight"
                         onPress={() => {
                             if (pathname === "/notification") return;

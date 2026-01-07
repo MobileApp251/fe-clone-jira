@@ -22,7 +22,7 @@ if (!(globalThis as any).__ExpoImportMetaRegistry) {
 global.setImmediate = global.setImmediate || ((fn: Function, ...args: any[]) => global.setTimeout(fn, 0, ...args));
 
 (global as any).__ExpoImportMetaRegistry = {
-  register: () => {},
+  register: () => { },
   get: () => null,
 };
 
@@ -33,3 +33,15 @@ jest.mock("@gluestack-ui/core/toast/creator", () => ({
     show: jest.fn(),
   }),
 }));
+
+beforeAll(() => {
+  jest.spyOn(console, "error").mockImplementation(() => { });
+  jest.spyOn(console, "warn").mockImplementation(() => { });
+  jest.spyOn(console, "log").mockImplementation(() => { });
+});
+
+afterAll(() => {
+  (console.error as jest.Mock).mockRestore();
+  (console.warn as jest.Mock).mockRestore();
+  (console.log as jest.Mock).mockRestore();
+});
