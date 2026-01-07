@@ -33,18 +33,8 @@ module.exports = {
     '!hooks/**',
     '!utils/**',
     '!context/**',
-    '!auth/**',
-    "**/*.{ts,tsx}",
-      "!**/coverage/**",
-      "!**/node_modules/**",
-      "!**/babel.config.js",
-      "!**/jest.setup.js",
-      "!**/*.test.{ts,tsx}",
-      "!**/index.ts",
-      "!**/_layout.tsx",
-      "!components/ui/**",
-      "!hooks/**"
-    ],
+    '!auth/**'
+  ],
   coverageReporters: [
     "json-summary",
     "text",
