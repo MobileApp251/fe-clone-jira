@@ -19,7 +19,7 @@ import dayjs from "dayjs";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { UserPlus } from "lucide-react-native";
 import { useCallback, useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, RefreshControl, Text, View } from "react-native";
 import { DateType } from "react-native-ui-datepicker";
 
 type ToastType = "error" | "warning" | "success" | "info" | "muted" | undefined;
@@ -153,7 +153,7 @@ export default function TaskDetail() {
             </Box>
             {loading ?
                 <Box className="flex-1 justify-center items-center">
-                    <ActivityIndicator size="large" />
+                    <ActivityIndicator size="large" testID="loading-indicator" />
                 </Box> :
                 <>
                     <Box className="flex-row justify-between items-center mx-6 mb-4">
@@ -236,6 +236,9 @@ export default function TaskDetail() {
                             data={members}
                             keyExtractor={(item) => item.uid}
                             showsVerticalScrollIndicator={false}
+                            refreshControl={
+                                <RefreshControl refreshing={loading} onRefresh={fetchTask} />
+                            }
                             renderItem={({ item }) => (
                                 <AssigneeCard
                                     name={item.email}

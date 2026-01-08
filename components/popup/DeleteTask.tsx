@@ -127,7 +127,7 @@ export default function DeleteTask(
                         action="positive"
                         onPress={handleDeleteTask}
                     >
-                        {loading ? (<ButtonSpinner color="gray" />) : (<ButtonIcon className='text-white font-bold text-xl' as={CheckIcon} />)}
+                        {loading ? (<ButtonSpinner testID="button-spinner" color="gray" />) : (<ButtonIcon className='text-white font-bold text-xl' as={CheckIcon} />)}
                         <ButtonText className="text-white">Delete</ButtonText>
                     </Button>
                 </ModalFooter>

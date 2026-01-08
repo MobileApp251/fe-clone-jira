@@ -20,6 +20,18 @@ export default function ProjectMembers() {
     const { project, updateMembers } = useProjects();
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    
+    useEffect(() => {
+        if (project) {
+            setMembers(project.members);
+        }
+    }, [project]);
+
+    useEffect(() => {
+        if (project && project.members) {
+            setMembers(project.members.filter(member => member.email.includes(search)));
+        }
+    }, [search, project]);
 
     if (!project) {
         return (
@@ -28,16 +40,6 @@ export default function ProjectMembers() {
             </Box>
         );
     }
-
-    useEffect(() => {
-        if (project) {
-            setMembers(project.members);
-        }
-    }, [project]);
-
-    useEffect(() => {
-        setMembers(project.members.filter(member => member.email.includes(search)));
-    }, [search]);
 
     return (
         <Box className="flex-1">

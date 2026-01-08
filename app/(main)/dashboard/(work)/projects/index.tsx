@@ -17,6 +17,7 @@ export default function ProjectsScreen() {
     const [showCreateModal, setShowCreateModal] = useState(false);
     const { projects, loading, loadProjects } = useProjects();
     const [search, setSearch] = useState("");
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         loadProjects();
@@ -33,6 +34,12 @@ export default function ProjectsScreen() {
                 t.project.description?.toLowerCase().includes(q)
         );
     }, [projects, search]);
+
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await loadProjects();      
+        setRefreshing(false);
+    };
 
     return (
         <Box className="flex-1">
@@ -54,7 +61,7 @@ export default function ProjectsScreen() {
 
             {loading ? (
                 <Box className="flex-1 justify-center items-center">
-                    <ActivityIndicator size="large" />
+                    <ActivityIndicator size="large" testID="activity-indicator"/>
                 </Box>
             ) : filteredProjects.length === 0 ? (
                 <Box className="flex-1 justify-center items-center">
@@ -68,6 +75,8 @@ export default function ProjectsScreen() {
                     data={filteredProjects}
                     keyExtractor={(item) => item.project.proj_id}
                     showsVerticalScrollIndicator={false}
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
                     renderItem={({ item }) => (
                         <Pressable
                             onPress={() => router.push(`/dashboard/projects/${item.project.proj_id}`)}

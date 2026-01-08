@@ -5,7 +5,7 @@ import { Box } from "@/components/ui/box";
 import { Text } from "@/components/ui/text";
 import { useTasks } from "@/context/TasksContext";
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, FlatList } from "react-native";
+import { ActivityIndicator, FlatList, RefreshControl } from "react-native";
 
 export default function TasksScreen() {
     const [showFilter, setShowFilter] = useState(false);
@@ -58,6 +58,9 @@ export default function TasksScreen() {
                     data={filteredTasks}
                     keyExtractor={(item) => item.task_id + item.proj_id}
                     showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl refreshing={loading} onRefresh={loadTasks} />
+                    }
                     renderItem={({ item }) => (
                         <TaskCard
                             id={item.task_id}

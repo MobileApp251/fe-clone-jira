@@ -82,6 +82,7 @@ export default function StatusMenu({ status, setStatus, setOnUpdate }: Props) {
             {STATUS_OPTIONS.map((item, index) => (
                 <React.Fragment key={item.label}>
                     <MenuItem
+                        testID={`status-${item.value}`}
                         className="bg-white"
                         textValue={item.label}
                         onPress={() => {

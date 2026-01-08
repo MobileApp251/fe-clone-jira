@@ -101,6 +101,7 @@ export default function EditAssignee(
                 <ModalBody>
                     <Box className="flex-1">
                         <Input
+                            testID="search-input"
                             variant="outline"
                             size="lg"
                             className="h-12 rounded-lg border-lightBorder"
@@ -126,6 +127,7 @@ export default function EditAssignee(
                 </ModalBody>
                 <ModalFooter>
                     <Button
+                        testID='cancel-button'
                         variant="outline"
                         action="negative"
                         className="mr-3"
@@ -137,6 +139,7 @@ export default function EditAssignee(
                         <ButtonText className="text-red-500">Cancel</ButtonText>
                     </Button>
                     <Button
+                        testID='save-button'
                         action="positive"
                         onPress={() => {
                             handleSaveAssignee();

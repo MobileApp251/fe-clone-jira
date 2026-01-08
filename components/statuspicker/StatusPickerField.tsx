@@ -18,6 +18,7 @@ export default function StatusPickerField({ value, onChange }: Props) {
     return (
         <>
             <Pressable
+                testID="status-picker-trigger"
                 onPress={() => setVisible(true)}
                 className="border border-inputBorder rounded-lg px-3 py-3 flex-row items-center justify-between"
             >
@@ -29,6 +30,7 @@ export default function StatusPickerField({ value, onChange }: Props) {
 
             <Modal transparent animationType="fade" visible={visible}>
                 <Pressable
+                    testID="status-picker-backdrop"
                     className="absolute inset-0 bg-black/40"
                     onPress={() => setVisible(false)}
                 />
@@ -47,6 +49,7 @@ export default function StatusPickerField({ value, onChange }: Props) {
                                     setVisible(false);
                                 }}
                                 className="flex-row items-center justify-between py-3"
+                                testID={`status-option-${item}`}
                             >
                                 <Text className="text-darkTextPrimary">{item}</Text>
                                 {value === item && (
