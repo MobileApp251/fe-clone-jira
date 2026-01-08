@@ -2,7 +2,7 @@ import { useProjects } from '@/context/ProjectsContext';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import React from 'react';
-import ProjectMembers from './members'; // Đảm bảo đường dẫn import đúng
+import ProjectMembers from '../(main)/dashboard/(work)/projects/[id]/members'; // Đảm bảo đường dẫn import đúng
 
 // ==============================
 // 1. MOCK CÁC MODULE BÊN NGOÀI

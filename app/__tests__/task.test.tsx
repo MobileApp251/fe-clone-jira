@@ -2,7 +2,7 @@ import { useTasks } from '@/context/TasksContext';
 import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
-import TasksScreen from './index';
+import TasksScreen from '../(main)/dashboard/(work)/tasks';
 
 /* ======================================================
    MOCK CONTEXT

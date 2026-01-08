@@ -1,6 +1,6 @@
+import Dashboard from '@/app/(main)/dashboard';
 import { render } from '@testing-library/react-native';
 import * as ExpoRouter from 'expo-router';
-import Dashboard from './index';
 
 const MockRedirect = ({ href }: any) => {
   return <>{href}</>;

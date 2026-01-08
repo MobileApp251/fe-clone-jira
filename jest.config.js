@@ -33,7 +33,8 @@ module.exports = {
     '!hooks/**',
     '!utils/**',
     '!context/**',
-    '!auth/**'
+    '!auth/**',
+    '!app/api/**',
   ],
   coverageReporters: [
     "json-summary",

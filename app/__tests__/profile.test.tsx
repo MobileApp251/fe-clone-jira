@@ -3,7 +3,7 @@ import { getUserProfile } from '@/auth/sign-in';
 import { useNotification } from '@/context/NotificationContext';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import React from 'react';
-import Profile from './index'; // Đảm bảo đường dẫn import đúng
+import Profile from '../(main)/profile/index'; // Đảm bảo đường dẫn import đúng
 
 // ==============================
 // 1. MOCK CÁC MODULE BÊN NGOÀI

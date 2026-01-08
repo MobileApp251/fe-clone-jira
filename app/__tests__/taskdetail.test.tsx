@@ -1,6 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react-native';
 import React from 'react';
-import TaskDetail from './index';
 
 import { getTaskById } from '@/api/tasks';
 import { useToast } from '@/components/ui/toast';
@@ -9,6 +8,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import { TaskPriority } from '@/utils/taskStatus';
 import { ProjectMembers, TaskAPIResponse, TaskData } from '@/utils/workType';
+import TaskDetail from '../(main)/dashboard/(work)/tasks/[id]';
 
 /* =======================
    MOCK ROUTER

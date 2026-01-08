@@ -2,7 +2,7 @@ import { useGoogleAuth } from '@/auth/GoogleAuthContext';
 import { signIn as signInWithEmail } from '@/auth/sign-in';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import React from 'react';
-import Login from './index'; // Đảm bảo đường dẫn import đúng
+import Login from '../login/index'; // Đảm bảo đường dẫn import đúng
 
 // ==============================
 // 1. MOCK CÁC MODULE BÊN NGOÀI

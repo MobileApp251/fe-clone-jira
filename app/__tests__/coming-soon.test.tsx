@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import React from 'react';
-import ComingSoon from './index';
+import ComingSoon from '../coming-soon/index';
 
 // ==============================
 // 1. MOCK CÁC MODULE BÊN NGOÀI

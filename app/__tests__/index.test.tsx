@@ -1,7 +1,7 @@
+import Index from '@/app/index';
 import { tokenCache } from '@/utils/cache';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { render, waitFor } from '@testing-library/react-native';
-import Index from './index';
 
 const mockReplace = jest.fn();
 

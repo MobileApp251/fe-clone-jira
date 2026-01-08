@@ -1,7 +1,7 @@
 import { getUserNotifications } from '@/api/users';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import React from 'react';
-import Notification from './index'; // Đảm bảo đường dẫn import đúng file của bạn
+import Notification from '../(main)/notification';
 
 // ==============================
 // 1. MOCK CÁC MODULE BÊN NGOÀI

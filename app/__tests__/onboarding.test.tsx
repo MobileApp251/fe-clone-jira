@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import Onboarding from './index';
+import Onboarding from '../onboarding/index';
 
 jest.mock('expo-router', () => ({
     useRouter: jest.fn(),
