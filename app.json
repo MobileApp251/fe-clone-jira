@@ -56,10 +56,10 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "68b2258f-ae7b-4c81-bc48-7ce95be614b8"
+        "projectId": "45d05732-4541-4d3f-95e6-13be04ec443d"
       }
     },
-    "owner": "clonejira",
+    "owner": "mobileapp251",
     "runtimeVersion": {
       "policy": "appVersion"
     },
