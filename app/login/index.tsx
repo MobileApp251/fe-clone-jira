@@ -51,7 +51,7 @@ export default function Login() {
     if (waitingForAuth || isLoading) {
         return (
             <Box className="flex-1 justify-center items-center">
-                <ActivityIndicator size="large" />
+                <ActivityIndicator testID='activity-indicator' size="large" />
             </Box>
         );
     }

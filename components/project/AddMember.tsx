@@ -142,6 +142,7 @@ export default function AddMemberModal({ visible, onClose }: Props) {
                             ))}
 
                             <Pressable
+                                testID="add-member-button"
                                 className={`flex-row items-center justify-center py-3 rounded-xl mb-3
                                     ${selectedMembers.length <= 0
                                         ? "bg-lightPrimary/40"

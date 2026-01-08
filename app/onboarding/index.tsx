@@ -95,6 +95,7 @@ export default function Onboarding() {
 
       {/* FlatList hiển thị nội dung onboarding */}
       <FlatList
+        testID="onboarding-flatlist"
         ref={flatListRef}
         data={onboardingData}
         renderItem={({ item }) => (
